@@ -58,7 +58,7 @@
 
 /* These values have to stay in sync with the enum */
 /* values in bpf/tests/bpftest/trf.proto */
-#define TEST_ERROR 0
+#define TEST_ERROR -1
 #define TEST_PASS 1
 #define TEST_FAIL 2
 #define TEST_SKIP 3
