@@ -30,29 +30,29 @@ const (
 	SuiteResult_TestResult_UNKNOWN SuiteResult_TestResult_TestStatus = 0
 	// Unable to execute test, not indicative of the test itself, usually an unexpected error in the framework
 	// like out of memory conditions.
-	SuiteResult_TestResult_ERROR SuiteResult_TestResult_TestStatus = -1
-	SuiteResult_TestResult_PASS  SuiteResult_TestResult_TestStatus = 1
-	SuiteResult_TestResult_FAIL  SuiteResult_TestResult_TestStatus = 2
+	SuiteResult_TestResult_ERROR SuiteResult_TestResult_TestStatus = 100
+	SuiteResult_TestResult_PASS  SuiteResult_TestResult_TestStatus = 101
+	SuiteResult_TestResult_FAIL  SuiteResult_TestResult_TestStatus = 102
 	// The test was skipped, for example because the feature under test is disabled or unavailable with the
 	// current settings or on this platform.
-	SuiteResult_TestResult_SKIP SuiteResult_TestResult_TestStatus = 3
+	SuiteResult_TestResult_SKIP SuiteResult_TestResult_TestStatus = 103
 )
 
 // Enum value maps for SuiteResult_TestResult_TestStatus.
 var (
 	SuiteResult_TestResult_TestStatus_name = map[int32]string{
-		0:  "UNKNOWN",
-		-1: "ERROR",
-		1:  "PASS",
-		2:  "FAIL",
-		3:  "SKIP",
+		0:   "UNKNOWN",
+		100: "ERROR",
+		101: "PASS",
+		102: "FAIL",
+		103: "SKIP",
 	}
 	SuiteResult_TestResult_TestStatus_value = map[string]int32{
 		"UNKNOWN": 0,
-		"ERROR":   -1,
-		"PASS":    1,
-		"FAIL":    2,
-		"SKIP":    3,
+		"ERROR":   100,
+		"PASS":    101,
+		"FAIL":    102,
+		"SKIP":    103,
 	}
 )
 
@@ -253,22 +253,22 @@ var File_trf_proto protoreflect.FileDescriptor
 
 const file_trf_proto_rawDesc = "" +
 	"\n" +
-	"\ttrf.proto\"\xb0\x02\n" +
+	"\ttrf.proto\"\xa7\x02\n" +
 	"\vSuiteResult\x121\n" +
 	"\aresults\x18\x01 \x03(\v2\x17.SuiteResult.TestResultR\aresults\x12!\n" +
-	"\tsuite_log\x18\x02 \x03(\v2\x04.LogR\bsuiteLog\x1a\xca\x01\n" +
+	"\tsuite_log\x18\x02 \x03(\v2\x04.LogR\bsuiteLog\x1a\xc1\x01\n" +
 	"\n" +
 	"TestResult\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12:\n" +
 	"\x06status\x18\x02 \x01(\x0e2\".SuiteResult.TestResult.TestStatusR\x06status\x12\x1f\n" +
-	"\btest_log\x18\x03 \x03(\v2\x04.LogR\atestLog\"K\n" +
+	"\btest_log\x18\x03 \x03(\v2\x04.LogR\atestLog\"B\n" +
 	"\n" +
 	"TestStatus\x12\v\n" +
-	"\aUNKNOWN\x10\x00\x12\x12\n" +
-	"\x05ERROR\x10\xff\xff\xff\xff\xff\xff\xff\xff\xff\x01\x12\b\n" +
-	"\x04PASS\x10\x01\x12\b\n" +
-	"\x04FAIL\x10\x02\x12\b\n" +
-	"\x04SKIP\x10\x03\"+\n" +
+	"\aUNKNOWN\x10\x00\x12\t\n" +
+	"\x05ERROR\x10d\x12\b\n" +
+	"\x04PASS\x10e\x12\b\n" +
+	"\x04FAIL\x10f\x12\b\n" +
+	"\x04SKIP\x10g\"+\n" +
 	"\x03Log\x12\x10\n" +
 	"\x03fmt\x18\x01 \x01(\tR\x03fmt\x12\x12\n" +
 	"\x04args\x18\x02 \x03(\x06R\x04argsB\fZ\n" +

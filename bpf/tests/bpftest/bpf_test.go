@@ -360,8 +360,8 @@ func subTest(progSet programSet, resultMap *ebpf.Map, skbMdMap *ebpf.Map) func(t
 				t.Fatalf("error while running pktgen prog: %s", err)
 			}
 
-			if SuiteResult_TestResult_TestStatus(statusCode) == SuiteResult_TestResult_ERROR {
-				t.Fatalf("error while running pktgen prog: exit code TEST_ERROR (%d)", statusCode)
+			if testSetUpError(statusCode) {
+				t.Fatalf("error while running pktgen prog: status code (%d)", statusCode)
 			}
 
 			if *dumpCtx {
@@ -379,8 +379,8 @@ func subTest(progSet programSet, resultMap *ebpf.Map, skbMdMap *ebpf.Map) func(t
 				t.Fatalf("error while running setup prog: %s", err)
 			}
 
-			if SuiteResult_TestResult_TestStatus(statusCode) == SuiteResult_TestResult_ERROR {
-				t.Fatalf("error while running setup prog: exit code TEST_ERROR (%d)", statusCode)
+			if testSetUpError(statusCode) {
+				t.Fatalf("error while running setup prog: status code (%d)", statusCode)
 			}
 
 			if *dumpCtx {
@@ -601,4 +601,16 @@ func runBpfProgram(prog *ebpf.Program, data, ctx []byte) (statusCode uint32, dat
 	}
 	ret, err := prog.Run(opts)
 	return ret, opts.DataOut, ctxOut, err
+}
+
+func testSetUpError(statusCode uint32) bool {
+	if SuiteResult_TestResult_TestStatus(statusCode) == SuiteResult_TestResult_ERROR {
+		return true
+	}
+
+	if SuiteResult_TestResult_TestStatus(statusCode) == SuiteResult_TestResult_FAIL {
+		return true
+	}
+
+	return false
 }
