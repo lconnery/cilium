@@ -1,0 +1,407 @@
+apiVersion: v1
+items:
+- apiVersion: cilium.io/v2
+  kind: CiliumEnvoyConfig
+  metadata:
+    annotations:
+      cec.cilium.io/use-original-source-address: "false"
+    creationTimestamp: "2026-03-08T05:56:49Z"
+    generation: 1
+    labels:
+      gateway.networking.k8s.io/gateway-name: all-namespaces
+    name: cilium-gateway-all-namespaces
+    namespace: gateway-conformance-infra
+    ownerReferences:
+    - apiVersion: gateway.networking.k8s.io/v1
+      controller: true
+      kind: Gateway
+      name: all-namespaces
+      uid: 68f8d98a-0882-47ab-bfd2-15aede81d5c3
+    resourceVersion: "949"
+    uid: f8f660d0-02e9-4121-a59d-d14473225263
+  spec:
+    resources:
+    - '@type': type.googleapis.com/envoy.config.listener.v3.Listener
+      filterChains:
+      - filterChainMatch:
+          transportProtocol: raw_buffer
+        filters:
+        - name: envoy.filters.network.http_connection_manager
+          typedConfig:
+            '@type': type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+            commonHttpProtocolOptions:
+              maxStreamDuration: 0s
+            httpFilters:
+            - name: envoy.filters.http.grpc_web
+              typedConfig:
+                '@type': type.googleapis.com/envoy.extensions.filters.http.grpc_web.v3.GrpcWeb
+            - name: envoy.filters.http.grpc_stats
+              typedConfig:
+                '@type': type.googleapis.com/envoy.extensions.filters.http.grpc_stats.v3.FilterConfig
+                emitFilterState: true
+                enableUpstreamStats: true
+            - name: envoy.filters.http.router
+              typedConfig:
+                '@type': type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+            internalAddressConfig:
+              cidrRanges:
+              - addressPrefix: 10.0.0.0
+                prefixLen: 8
+              - addressPrefix: 172.16.0.0
+                prefixLen: 12
+              - addressPrefix: 192.168.0.0
+                prefixLen: 16
+              - addressPrefix: 127.0.0.1
+                prefixLen: 32
+            rds:
+              routeConfigName: listener-insecure
+            statPrefix: listener-insecure
+            streamIdleTimeout: 300s
+            upgradeConfigs:
+            - upgradeType: websocket
+            useRemoteAddress: true
+      listenerFilters:
+      - name: envoy.filters.listener.tls_inspector
+        typedConfig:
+          '@type': type.googleapis.com/envoy.extensions.filters.listener.tls_inspector.v3.TlsInspector
+      name: listener
+      socketOptions:
+      - description: Enable TCP keep-alive (default to enabled)
+        intValue: "1"
+        level: "1"
+        name: "9"
+      - description: TCP keep-alive idle time (in seconds) (defaults to 10s)
+        intValue: "10"
+        level: "6"
+        name: "4"
+      - description: TCP keep-alive probe intervals (in seconds) (defaults to 5s)
+        intValue: "5"
+        level: "6"
+        name: "5"
+      - description: TCP keep-alive probe max failures.
+        intValue: "10"
+        level: "6"
+        name: "6"
+    - '@type': type.googleapis.com/envoy.config.route.v3.RouteConfiguration
+      name: listener-insecure
+    services:
+    - name: cilium-gateway-all-namespaces
+      namespace: gateway-conformance-infra
+      ports:
+      - 80
+- apiVersion: cilium.io/v2
+  kind: CiliumEnvoyConfig
+  metadata:
+    annotations:
+      cec.cilium.io/use-original-source-address: "false"
+    creationTimestamp: "2026-03-08T05:56:49Z"
+    generation: 1
+    labels:
+      gateway.networking.k8s.io/gateway-name: backend-namespaces
+    name: cilium-gateway-backend-namespaces
+    namespace: gateway-conformance-infra
+    ownerReferences:
+    - apiVersion: gateway.networking.k8s.io/v1
+      controller: true
+      kind: Gateway
+      name: backend-namespaces
+      uid: 70c9bcee-b797-42cd-9b41-bb68d4ae0215
+    resourceVersion: "990"
+    uid: b04283d2-6bdc-4023-965c-663fd88a6f91
+  spec:
+    resources:
+    - '@type': type.googleapis.com/envoy.config.listener.v3.Listener
+      filterChains:
+      - filterChainMatch:
+          transportProtocol: raw_buffer
+        filters:
+        - name: envoy.filters.network.http_connection_manager
+          typedConfig:
+            '@type': type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+            commonHttpProtocolOptions:
+              maxStreamDuration: 0s
+            httpFilters:
+            - name: envoy.filters.http.grpc_web
+              typedConfig:
+                '@type': type.googleapis.com/envoy.extensions.filters.http.grpc_web.v3.GrpcWeb
+            - name: envoy.filters.http.grpc_stats
+              typedConfig:
+                '@type': type.googleapis.com/envoy.extensions.filters.http.grpc_stats.v3.FilterConfig
+                emitFilterState: true
+                enableUpstreamStats: true
+            - name: envoy.filters.http.router
+              typedConfig:
+                '@type': type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+            internalAddressConfig:
+              cidrRanges:
+              - addressPrefix: 10.0.0.0
+                prefixLen: 8
+              - addressPrefix: 172.16.0.0
+                prefixLen: 12
+              - addressPrefix: 192.168.0.0
+                prefixLen: 16
+              - addressPrefix: 127.0.0.1
+                prefixLen: 32
+            rds:
+              routeConfigName: listener-insecure
+            statPrefix: listener-insecure
+            streamIdleTimeout: 300s
+            upgradeConfigs:
+            - upgradeType: websocket
+            useRemoteAddress: true
+      listenerFilters:
+      - name: envoy.filters.listener.tls_inspector
+        typedConfig:
+          '@type': type.googleapis.com/envoy.extensions.filters.listener.tls_inspector.v3.TlsInspector
+      name: listener
+      socketOptions:
+      - description: Enable TCP keep-alive (default to enabled)
+        intValue: "1"
+        level: "1"
+        name: "9"
+      - description: TCP keep-alive idle time (in seconds) (defaults to 10s)
+        intValue: "10"
+        level: "6"
+        name: "4"
+      - description: TCP keep-alive probe intervals (in seconds) (defaults to 5s)
+        intValue: "5"
+        level: "6"
+        name: "5"
+      - description: TCP keep-alive probe max failures.
+        intValue: "10"
+        level: "6"
+        name: "6"
+    - '@type': type.googleapis.com/envoy.config.route.v3.RouteConfiguration
+      name: listener-insecure
+    services:
+    - name: cilium-gateway-backend-namespaces
+      namespace: gateway-conformance-infra
+      ports:
+      - 80
+- apiVersion: cilium.io/v2
+  kind: CiliumEnvoyConfig
+  metadata:
+    annotations:
+      cec.cilium.io/use-original-source-address: "false"
+    creationTimestamp: "2026-03-08T05:56:49Z"
+    generation: 1
+    labels:
+      gateway.networking.k8s.io/gateway-name: same-namespace
+    name: cilium-gateway-same-namespace
+    namespace: gateway-conformance-infra
+    ownerReferences:
+    - apiVersion: gateway.networking.k8s.io/v1
+      controller: true
+      kind: Gateway
+      name: same-namespace
+      uid: c7e67a6c-c32c-41ef-9143-263f775f3628
+    resourceVersion: "925"
+    uid: 86b4995c-28ae-4335-ada3-e8535af59d71
+  spec:
+    resources:
+    - '@type': type.googleapis.com/envoy.config.listener.v3.Listener
+      filterChains:
+      - filterChainMatch:
+          transportProtocol: raw_buffer
+        filters:
+        - name: envoy.filters.network.http_connection_manager
+          typedConfig:
+            '@type': type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+            commonHttpProtocolOptions:
+              maxStreamDuration: 0s
+            httpFilters:
+            - name: envoy.filters.http.grpc_web
+              typedConfig:
+                '@type': type.googleapis.com/envoy.extensions.filters.http.grpc_web.v3.GrpcWeb
+            - name: envoy.filters.http.grpc_stats
+              typedConfig:
+                '@type': type.googleapis.com/envoy.extensions.filters.http.grpc_stats.v3.FilterConfig
+                emitFilterState: true
+                enableUpstreamStats: true
+            - name: envoy.filters.http.router
+              typedConfig:
+                '@type': type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+            internalAddressConfig:
+              cidrRanges:
+              - addressPrefix: 10.0.0.0
+                prefixLen: 8
+              - addressPrefix: 172.16.0.0
+                prefixLen: 12
+              - addressPrefix: 192.168.0.0
+                prefixLen: 16
+              - addressPrefix: 127.0.0.1
+                prefixLen: 32
+            rds:
+              routeConfigName: listener-insecure
+            statPrefix: listener-insecure
+            streamIdleTimeout: 300s
+            upgradeConfigs:
+            - upgradeType: websocket
+            useRemoteAddress: true
+      listenerFilters:
+      - name: envoy.filters.listener.tls_inspector
+        typedConfig:
+          '@type': type.googleapis.com/envoy.extensions.filters.listener.tls_inspector.v3.TlsInspector
+      name: listener
+      socketOptions:
+      - description: Enable TCP keep-alive (default to enabled)
+        intValue: "1"
+        level: "1"
+        name: "9"
+      - description: TCP keep-alive idle time (in seconds) (defaults to 10s)
+        intValue: "10"
+        level: "6"
+        name: "4"
+      - description: TCP keep-alive probe intervals (in seconds) (defaults to 5s)
+        intValue: "5"
+        level: "6"
+        name: "5"
+      - description: TCP keep-alive probe max failures.
+        intValue: "10"
+        level: "6"
+        name: "6"
+    - '@type': type.googleapis.com/envoy.config.route.v3.RouteConfiguration
+      name: listener-insecure
+    services:
+    - name: cilium-gateway-same-namespace
+      namespace: gateway-conformance-infra
+      ports:
+      - 80
+- apiVersion: cilium.io/v2
+  kind: CiliumEnvoyConfig
+  metadata:
+    annotations:
+      cec.cilium.io/use-original-source-address: "false"
+    creationTimestamp: "2026-03-08T05:56:50Z"
+    generation: 1
+    labels:
+      gateway.networking.k8s.io/gateway-name: same-namespace-with-https-listener
+    name: cilium-gateway-same-namespace-with-https-listener
+    namespace: gateway-conformance-infra
+    ownerReferences:
+    - apiVersion: gateway.networking.k8s.io/v1
+      controller: true
+      kind: Gateway
+      name: same-namespace-with-https-listener
+      uid: f117c1c8-bb20-4dd9-ac39-5c7cd9277ce2
+    resourceVersion: "1115"
+    uid: 45aac4e4-11f8-4573-a078-58558ddbc5b5
+  spec:
+    resources:
+    - '@type': type.googleapis.com/envoy.config.listener.v3.Listener
+      filterChains:
+      - filterChainMatch:
+          transportProtocol: raw_buffer
+        filters:
+        - name: envoy.filters.network.http_connection_manager
+          typedConfig:
+            '@type': type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+            commonHttpProtocolOptions:
+              maxStreamDuration: 0s
+            httpFilters:
+            - name: envoy.filters.http.grpc_web
+              typedConfig:
+                '@type': type.googleapis.com/envoy.extensions.filters.http.grpc_web.v3.GrpcWeb
+            - name: envoy.filters.http.grpc_stats
+              typedConfig:
+                '@type': type.googleapis.com/envoy.extensions.filters.http.grpc_stats.v3.FilterConfig
+                emitFilterState: true
+                enableUpstreamStats: true
+            - name: envoy.filters.http.router
+              typedConfig:
+                '@type': type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+            internalAddressConfig:
+              cidrRanges:
+              - addressPrefix: 10.0.0.0
+                prefixLen: 8
+              - addressPrefix: 172.16.0.0
+                prefixLen: 12
+              - addressPrefix: 192.168.0.0
+                prefixLen: 16
+              - addressPrefix: 127.0.0.1
+                prefixLen: 32
+            rds:
+              routeConfigName: listener-insecure
+            statPrefix: listener-insecure
+            streamIdleTimeout: 300s
+            upgradeConfigs:
+            - upgradeType: websocket
+            useRemoteAddress: true
+      - filterChainMatch:
+          transportProtocol: tls
+        filters:
+        - name: envoy.filters.network.http_connection_manager
+          typedConfig:
+            '@type': type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+            commonHttpProtocolOptions:
+              maxStreamDuration: 0s
+            httpFilters:
+            - name: envoy.filters.http.grpc_web
+              typedConfig:
+                '@type': type.googleapis.com/envoy.extensions.filters.http.grpc_web.v3.GrpcWeb
+            - name: envoy.filters.http.grpc_stats
+              typedConfig:
+                '@type': type.googleapis.com/envoy.extensions.filters.http.grpc_stats.v3.FilterConfig
+                emitFilterState: true
+                enableUpstreamStats: true
+            - name: envoy.filters.http.router
+              typedConfig:
+                '@type': type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+            internalAddressConfig:
+              cidrRanges:
+              - addressPrefix: 10.0.0.0
+                prefixLen: 8
+              - addressPrefix: 172.16.0.0
+                prefixLen: 12
+              - addressPrefix: 192.168.0.0
+                prefixLen: 16
+              - addressPrefix: 127.0.0.1
+                prefixLen: 32
+            rds:
+              routeConfigName: listener-secure
+            statPrefix: listener-secure
+            streamIdleTimeout: 300s
+            upgradeConfigs:
+            - upgradeType: websocket
+            useRemoteAddress: true
+        transportSocket:
+          name: envoy.transport_sockets.tls
+          typedConfig:
+            '@type': type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.DownstreamTlsContext
+            commonTlsContext:
+              tlsCertificateSdsSecretConfigs:
+              - name: cilium-secrets/gateway-conformance-infra-tls-validity-checks-certificate
+      listenerFilters:
+      - name: envoy.filters.listener.tls_inspector
+        typedConfig:
+          '@type': type.googleapis.com/envoy.extensions.filters.listener.tls_inspector.v3.TlsInspector
+      name: listener
+      socketOptions:
+      - description: Enable TCP keep-alive (default to enabled)
+        intValue: "1"
+        level: "1"
+        name: "9"
+      - description: TCP keep-alive idle time (in seconds) (defaults to 10s)
+        intValue: "10"
+        level: "6"
+        name: "4"
+      - description: TCP keep-alive probe intervals (in seconds) (defaults to 5s)
+        intValue: "5"
+        level: "6"
+        name: "5"
+      - description: TCP keep-alive probe max failures.
+        intValue: "10"
+        level: "6"
+        name: "6"
+    - '@type': type.googleapis.com/envoy.config.route.v3.RouteConfiguration
+      name: listener-insecure
+    - '@type': type.googleapis.com/envoy.config.route.v3.RouteConfiguration
+      name: listener-secure
+    services:
+    - name: cilium-gateway-same-namespace-with-https-listener
+      namespace: gateway-conformance-infra
+      ports:
+      - 443
+kind: List
+metadata:
+  resourceVersion: ""

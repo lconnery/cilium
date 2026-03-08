@@ -1,0 +1,20 @@
+[2026-03-08 05:01:20.886][257][debug][conn_handler] [external/envoy/source/common/listener_manager/active_stream_listener_base.cc:124] [Tags: "ConnectionId":"859"] adding to cleanup list
+[2026-03-08 05:01:20.886][257][trace][main] [external/envoy/source/common/event/dispatcher_impl.cc:249] item added to deferred deletion list (size=1)
+[2026-03-08 05:01:20.886][257][trace][main] [external/envoy/source/common/event/dispatcher_impl.cc:249] item added to deferred deletion list (size=2)
+[2026-03-08 05:01:20.886][257][trace][main] [external/envoy/source/common/event/dispatcher_impl.cc:123] clearing deferred deletion list (size=2)
+[2026-03-08 05:01:20.886][257][debug][connection] [external/envoy/source/common/network/connection_impl.cc:152] [Tags: "ConnectionId":"859"] Not closing conn, socket is not open
+[2026-03-08 05:01:22.083][14][debug][main] [external/envoy/source/server/server.cc:246] flushing stats
+[2026-03-08 05:01:27.087][14][debug][main] [external/envoy/source/server/server.cc:246] flushing stats
+[2026-03-08 05:01:32.092][14][debug][main] [external/envoy/source/server/server.cc:246] flushing stats
+[2026-03-08 05:01:37.095][14][debug][main] [external/envoy/source/server/server.cc:246] flushing stats
+[2026-03-08 05:01:42.100][14][debug][main] [external/envoy/source/server/server.cc:246] flushing stats
+[2026-03-08 05:01:34.965][247][debug][connection] [external/envoy/source/common/network/connection_impl.cc:317] [Tags: "ConnectionId":"932"] closing socket: 1
+[2026-03-08 05:01:34.965][247][trace][connection] [external/envoy/source/common/network/connection_impl.cc:513] [Tags: "ConnectionId":"932"] raising connection event 1
+[2026-03-08 05:01:34.965][247][trace][conn_handler] [external/envoy/source/common/listener_manager/active_stream_listener_base.cc:114] [Tags: "ConnectionId":"932"] tcp connection on event 1
+[2026-03-08 05:01:34.965][247][debug][conn_handler] [external/envoy/source/common/listener_manager/active_stream_listener_base.cc:124] [Tags: "ConnectionId":"932"] adding to cleanup list
+[2026-03-08 05:01:34.965][247][trace][main] [external/envoy/source/common/event/dispatcher_impl.cc:249] item added to deferred deletion list (size=1)
+[2026-03-08 05:01:34.965][247][trace][main] [external/envoy/source/common/event/dispatcher_impl.cc:249] item added to deferred deletion list (size=2)
+[2026-03-08 05:01:34.965][247][trace][main] [external/envoy/source/common/event/dispatcher_impl.cc:123] clearing deferred deletion list (size=2)
+[2026-03-08 05:01:34.965][247][debug][connection] [external/envoy/source/common/network/connection_impl.cc:152] [Tags: "ConnectionId":"932"] Not closing conn, socket is not open
+[2026-03-08 05:01:38.631][14][debug][main] [external/envoy/source/server/server.cc:246] flushing stats
+[2026-03-08 05:01:43.636][14][debug][main] [external/envoy/source/server/server.cc:246] flushing stats

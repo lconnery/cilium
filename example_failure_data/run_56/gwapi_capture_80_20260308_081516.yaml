@@ -1,0 +1,959 @@
+apiVersion: v1
+items:
+- apiVersion: gateway.networking.k8s.io/v1
+  kind: Gateway
+  metadata:
+    creationTimestamp: "2026-03-08T08:15:05Z"
+    generation: 1
+    name: all-namespaces
+    namespace: gateway-conformance-infra
+    resourceVersion: "926"
+    uid: 83de1b73-c403-42e4-866d-e528d9338e40
+  spec:
+    gatewayClassName: cilium
+    listeners:
+    - allowedRoutes:
+        namespaces:
+          from: All
+      name: http
+      port: 80
+      protocol: HTTP
+  status:
+    addresses:
+    - type: IPAddress
+      value: 192.168.8.241
+    conditions:
+    - lastTransitionTime: "2026-03-08T08:15:05Z"
+      message: Gateway successfully scheduled
+      observedGeneration: 1
+      reason: Accepted
+      status: "True"
+      type: Accepted
+    - lastTransitionTime: "2026-03-08T08:15:05Z"
+      message: Gateway Programmed
+      observedGeneration: 1
+      reason: Programmed
+      status: "True"
+      type: Programmed
+    listeners:
+    - attachedRoutes: 0
+      conditions:
+      - lastTransitionTime: "2026-03-08T08:15:05Z"
+        message: Resolved Refs
+        observedGeneration: 1
+        reason: ResolvedRefs
+        status: "True"
+        type: ResolvedRefs
+      - lastTransitionTime: "2026-03-08T08:15:05Z"
+        message: Listener Accepted
+        observedGeneration: 1
+        reason: Accepted
+        status: "True"
+        type: Accepted
+      - lastTransitionTime: "2026-03-08T08:15:05Z"
+        message: Listener Programmed
+        observedGeneration: 1
+        reason: Programmed
+        status: "True"
+        type: Programmed
+      name: http
+      supportedKinds:
+      - group: gateway.networking.k8s.io
+        kind: HTTPRoute
+      - group: gateway.networking.k8s.io
+        kind: GRPCRoute
+- apiVersion: gateway.networking.k8s.io/v1
+  kind: Gateway
+  metadata:
+    creationTimestamp: "2026-03-08T08:15:05Z"
+    generation: 1
+    name: backend-namespaces
+    namespace: gateway-conformance-infra
+    resourceVersion: "965"
+    uid: 1252be86-a0ef-4576-b0a9-b16a8b44001d
+  spec:
+    gatewayClassName: cilium
+    listeners:
+    - allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              gateway-conformance: backend
+      name: http
+      port: 80
+      protocol: HTTP
+  status:
+    addresses:
+    - type: IPAddress
+      value: 192.168.8.242
+    conditions:
+    - lastTransitionTime: "2026-03-08T08:15:05Z"
+      message: Gateway successfully scheduled
+      observedGeneration: 1
+      reason: Accepted
+      status: "True"
+      type: Accepted
+    - lastTransitionTime: "2026-03-08T08:15:06Z"
+      message: Gateway Programmed
+      observedGeneration: 1
+      reason: Programmed
+      status: "True"
+      type: Programmed
+    listeners:
+    - attachedRoutes: 0
+      conditions:
+      - lastTransitionTime: "2026-03-08T08:15:05Z"
+        message: Resolved Refs
+        observedGeneration: 1
+        reason: ResolvedRefs
+        status: "True"
+        type: ResolvedRefs
+      - lastTransitionTime: "2026-03-08T08:15:05Z"
+        message: Listener Accepted
+        observedGeneration: 1
+        reason: Accepted
+        status: "True"
+        type: Accepted
+      - lastTransitionTime: "2026-03-08T08:15:06Z"
+        message: Listener Programmed
+        observedGeneration: 1
+        reason: Programmed
+        status: "True"
+        type: Programmed
+      name: http
+      supportedKinds:
+      - group: gateway.networking.k8s.io
+        kind: HTTPRoute
+      - group: gateway.networking.k8s.io
+        kind: GRPCRoute
+- apiVersion: gateway.networking.k8s.io/v1
+  kind: Gateway
+  metadata:
+    creationTimestamp: "2026-03-08T08:15:05Z"
+    generation: 1
+    name: same-namespace
+    namespace: gateway-conformance-infra
+    resourceVersion: "896"
+    uid: e7574be4-2b9a-4873-8f53-d70a6c9f5c89
+  spec:
+    gatewayClassName: cilium
+    listeners:
+    - allowedRoutes:
+        namespaces:
+          from: Same
+      name: http
+      port: 80
+      protocol: HTTP
+  status:
+    addresses:
+    - type: IPAddress
+      value: 192.168.8.240
+    conditions:
+    - lastTransitionTime: "2026-03-08T08:15:05Z"
+      message: Gateway successfully scheduled
+      observedGeneration: 1
+      reason: Accepted
+      status: "True"
+      type: Accepted
+    - lastTransitionTime: "2026-03-08T08:15:05Z"
+      message: Gateway Programmed
+      observedGeneration: 1
+      reason: Programmed
+      status: "True"
+      type: Programmed
+    listeners:
+    - attachedRoutes: 0
+      conditions:
+      - lastTransitionTime: "2026-03-08T08:15:05Z"
+        message: Resolved Refs
+        observedGeneration: 1
+        reason: ResolvedRefs
+        status: "True"
+        type: ResolvedRefs
+      - lastTransitionTime: "2026-03-08T08:15:05Z"
+        message: Listener Accepted
+        observedGeneration: 1
+        reason: Accepted
+        status: "True"
+        type: Accepted
+      - lastTransitionTime: "2026-03-08T08:15:05Z"
+        message: Listener Programmed
+        observedGeneration: 1
+        reason: Programmed
+        status: "True"
+        type: Programmed
+      name: http
+      supportedKinds:
+      - group: gateway.networking.k8s.io
+        kind: HTTPRoute
+      - group: gateway.networking.k8s.io
+        kind: GRPCRoute
+- apiVersion: gateway.networking.k8s.io/v1
+  kind: Gateway
+  metadata:
+    creationTimestamp: "2026-03-08T08:15:05Z"
+    generation: 1
+    name: same-namespace-with-https-listener
+    namespace: gateway-conformance-infra
+    resourceVersion: "1111"
+    uid: 7ec9a83a-3bd2-4c3a-b172-9ef2f996f236
+  spec:
+    gatewayClassName: cilium
+    listeners:
+    - allowedRoutes:
+        namespaces:
+          from: Same
+      name: https
+      port: 443
+      protocol: HTTPS
+      tls:
+        certificateRefs:
+        - group: ""
+          kind: Secret
+          name: tls-validity-checks-certificate
+          namespace: gateway-conformance-infra
+        mode: Terminate
+    - allowedRoutes:
+        namespaces:
+          from: Same
+      hostname: second-example.org
+      name: https-with-hostname
+      port: 443
+      protocol: HTTPS
+      tls:
+        certificateRefs:
+        - group: ""
+          kind: Secret
+          name: tls-validity-checks-certificate
+          namespace: gateway-conformance-infra
+        mode: Terminate
+  status:
+    addresses:
+    - type: IPAddress
+      value: 192.168.8.243
+    conditions:
+    - lastTransitionTime: "2026-03-08T08:15:06Z"
+      message: Gateway successfully scheduled
+      observedGeneration: 1
+      reason: Accepted
+      status: "True"
+      type: Accepted
+    - lastTransitionTime: "2026-03-08T08:15:06Z"
+      message: Gateway Programmed
+      observedGeneration: 1
+      reason: Programmed
+      status: "True"
+      type: Programmed
+    listeners:
+    - attachedRoutes: 0
+      conditions:
+      - lastTransitionTime: "2026-03-08T08:15:06Z"
+        message: Resolved Refs
+        observedGeneration: 1
+        reason: ResolvedRefs
+        status: "True"
+        type: ResolvedRefs
+      - lastTransitionTime: "2026-03-08T08:15:06Z"
+        message: Listener Accepted
+        observedGeneration: 1
+        reason: Accepted
+        status: "True"
+        type: Accepted
+      - lastTransitionTime: "2026-03-08T08:15:06Z"
+        message: Listener Programmed
+        observedGeneration: 1
+        reason: Programmed
+        status: "True"
+        type: Programmed
+      name: https
+      supportedKinds:
+      - group: gateway.networking.k8s.io
+        kind: HTTPRoute
+      - group: gateway.networking.k8s.io
+        kind: GRPCRoute
+    - attachedRoutes: 0
+      conditions:
+      - lastTransitionTime: "2026-03-08T08:15:06Z"
+        message: Resolved Refs
+        observedGeneration: 1
+        reason: ResolvedRefs
+        status: "True"
+        type: ResolvedRefs
+      - lastTransitionTime: "2026-03-08T08:15:06Z"
+        message: Listener Accepted
+        observedGeneration: 1
+        reason: Accepted
+        status: "True"
+        type: Accepted
+      - lastTransitionTime: "2026-03-08T08:15:06Z"
+        message: Listener Programmed
+        observedGeneration: 1
+        reason: Programmed
+        status: "True"
+        type: Programmed
+      name: https-with-hostname
+      supportedKinds:
+      - group: gateway.networking.k8s.io
+        kind: HTTPRoute
+      - group: gateway.networking.k8s.io
+        kind: GRPCRoute
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: "2026-03-08T08:13:51Z"
+    labels:
+      component: apiserver
+      provider: kubernetes
+    name: kubernetes
+    namespace: default
+    resourceVersion: "204"
+    uid: 68e0cb43-495e-43d5-b0b9-e94b4c637216
+  spec:
+    clusterIP: 10.245.0.1
+    clusterIPs:
+    - 10.245.0.1
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: 6443
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: "2026-03-08T08:15:06Z"
+    name: app-backend-v1
+    namespace: gateway-conformance-app-backend
+    resourceVersion: "1006"
+    uid: 459e5f94-ec93-4cfd-aa44-1654eaa39498
+  spec:
+    clusterIP: 10.245.217.65
+    clusterIPs:
+    - 10.245.217.65
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: 3000
+    selector:
+      app: app-backend-v1
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: "2026-03-08T08:15:06Z"
+    name: app-backend-v2
+    namespace: gateway-conformance-app-backend
+    resourceVersion: "1023"
+    uid: e4aa5fc3-8773-463c-b03f-2e701dbeadf5
+  spec:
+    clusterIP: 10.245.181.115
+    clusterIPs:
+    - 10.245.181.115
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: 3000
+    selector:
+      app: app-backend-v2
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: "2026-03-08T08:15:06Z"
+    name: tls-backend
+    namespace: gateway-conformance-app-backend
+    resourceVersion: "994"
+    uid: 05ab2b06-aadb-4893-8878-a01021448367
+  spec:
+    clusterIP: 10.245.142.238
+    clusterIPs:
+    - 10.245.142.238
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - port: 443
+      protocol: TCP
+      targetPort: 8443
+    selector:
+      app: tls-backend
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: "2026-03-08T08:15:05Z"
+    labels:
+      gateway.networking.k8s.io/gateway-name: all-namespaces
+      io.cilium.gateway/owning-gateway: all-namespaces
+    name: cilium-gateway-all-namespaces
+    namespace: gateway-conformance-infra
+    ownerReferences:
+    - apiVersion: gateway.networking.k8s.io/v1
+      controller: true
+      kind: Gateway
+      name: all-namespaces
+      uid: 83de1b73-c403-42e4-866d-e528d9338e40
+    resourceVersion: "915"
+    uid: fbeef9fe-3f79-4b1c-8f19-3672b1528b4e
+  spec:
+    allocateLoadBalancerNodePorts: true
+    clusterIP: 10.245.174.148
+    clusterIPs:
+    - 10.245.174.148
+    externalTrafficPolicy: Cluster
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: port-80
+      nodePort: 31333
+      port: 80
+      protocol: TCP
+      targetPort: 80
+    sessionAffinity: None
+    type: LoadBalancer
+  status:
+    conditions:
+    - lastTransitionTime: "2026-03-08T08:15:05Z"
+      message: ""
+      reason: satisfied
+      status: "True"
+      type: cilium.io/IPAMRequestSatisfied
+    loadBalancer:
+      ingress:
+      - ip: 192.168.8.241
+        ipMode: VIP
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: "2026-03-08T08:15:06Z"
+    labels:
+      gateway.networking.k8s.io/gateway-name: backend-namespaces
+      io.cilium.gateway/owning-gateway: backend-namespaces
+    name: cilium-gateway-backend-namespaces
+    namespace: gateway-conformance-infra
+    ownerReferences:
+    - apiVersion: gateway.networking.k8s.io/v1
+      controller: true
+      kind: Gateway
+      name: backend-namespaces
+      uid: 1252be86-a0ef-4576-b0a9-b16a8b44001d
+    resourceVersion: "955"
+    uid: 33336780-ed9d-4966-b5a3-3614776ba66f
+  spec:
+    allocateLoadBalancerNodePorts: true
+    clusterIP: 10.245.223.243
+    clusterIPs:
+    - 10.245.223.243
+    externalTrafficPolicy: Cluster
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: port-80
+      nodePort: 30537
+      port: 80
+      protocol: TCP
+      targetPort: 80
+    sessionAffinity: None
+    type: LoadBalancer
+  status:
+    conditions:
+    - lastTransitionTime: "2026-03-08T08:15:06Z"
+      message: ""
+      reason: satisfied
+      status: "True"
+      type: cilium.io/IPAMRequestSatisfied
+    loadBalancer:
+      ingress:
+      - ip: 192.168.8.242
+        ipMode: VIP
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: "2026-03-08T08:15:05Z"
+    labels:
+      gateway.networking.k8s.io/gateway-name: same-namespace
+      io.cilium.gateway/owning-gateway: same-namespace
+    name: cilium-gateway-same-namespace
+    namespace: gateway-conformance-infra
+    ownerReferences:
+    - apiVersion: gateway.networking.k8s.io/v1
+      controller: true
+      kind: Gateway
+      name: same-namespace
+      uid: e7574be4-2b9a-4873-8f53-d70a6c9f5c89
+    resourceVersion: "892"
+    uid: 970a6c54-62b8-4dff-9a0c-8322d052864d
+  spec:
+    allocateLoadBalancerNodePorts: true
+    clusterIP: 10.245.19.190
+    clusterIPs:
+    - 10.245.19.190
+    externalTrafficPolicy: Cluster
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: port-80
+      nodePort: 31017
+      port: 80
+      protocol: TCP
+      targetPort: 80
+    sessionAffinity: None
+    type: LoadBalancer
+  status:
+    conditions:
+    - lastTransitionTime: "2026-03-08T08:15:05Z"
+      message: ""
+      reason: satisfied
+      status: "True"
+      type: cilium.io/IPAMRequestSatisfied
+    loadBalancer:
+      ingress:
+      - ip: 192.168.8.240
+        ipMode: VIP
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: "2026-03-08T08:15:06Z"
+    labels:
+      gateway.networking.k8s.io/gateway-name: same-namespace-with-https-listener
+      io.cilium.gateway/owning-gateway: same-namespace-with-https-listener
+    name: cilium-gateway-same-namespace-with-https-listener
+    namespace: gateway-conformance-infra
+    ownerReferences:
+    - apiVersion: gateway.networking.k8s.io/v1
+      controller: true
+      kind: Gateway
+      name: same-namespace-with-https-listener
+      uid: 7ec9a83a-3bd2-4c3a-b172-9ef2f996f236
+    resourceVersion: "1106"
+    uid: 5f31c0f3-1291-4ec7-b88b-c18b3723d127
+  spec:
+    allocateLoadBalancerNodePorts: true
+    clusterIP: 10.245.251.227
+    clusterIPs:
+    - 10.245.251.227
+    externalTrafficPolicy: Cluster
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: port-443
+      nodePort: 31918
+      port: 443
+      protocol: TCP
+      targetPort: 443
+    sessionAffinity: None
+    type: LoadBalancer
+  status:
+    conditions:
+    - lastTransitionTime: "2026-03-08T08:15:06Z"
+      message: ""
+      reason: satisfied
+      status: "True"
+      type: cilium.io/IPAMRequestSatisfied
+    loadBalancer:
+      ingress:
+      - ip: 192.168.8.243
+        ipMode: VIP
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: "2026-03-08T08:15:06Z"
+    labels:
+      app: udp
+    name: coredns
+    namespace: gateway-conformance-infra
+    resourceVersion: "1070"
+    uid: 21333e48-54b6-44f1-a745-b35126acb47f
+  spec:
+    clusterIP: 10.245.68.54
+    clusterIPs:
+    - 10.245.68.54
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: udp-dns
+      port: 53
+      protocol: UDP
+      targetPort: 53
+    selector:
+      app: udp
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: "2026-03-08T08:15:06Z"
+    name: grpc-infra-backend-v1
+    namespace: gateway-conformance-infra
+    resourceVersion: "1047"
+    uid: 31d33ee9-637c-41d5-b7db-9be4328c88c3
+  spec:
+    clusterIP: 10.245.54.189
+    clusterIPs:
+    - 10.245.54.189
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - appProtocol: kubernetes.io/h2c
+      port: 8080
+      protocol: TCP
+      targetPort: 3000
+    selector:
+      app: grpc-infra-backend-v1
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: "2026-03-08T08:15:06Z"
+    name: grpc-infra-backend-v2
+    namespace: gateway-conformance-infra
+    resourceVersion: "1054"
+    uid: c7978801-a749-429d-bd87-f299f6737f3a
+  spec:
+    clusterIP: 10.245.254.155
+    clusterIPs:
+    - 10.245.254.155
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - appProtocol: kubernetes.io/h2c
+      port: 8080
+      protocol: TCP
+      targetPort: 3000
+    selector:
+      app: grpc-infra-backend-v2
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: "2026-03-08T08:15:06Z"
+    name: grpc-infra-backend-v3
+    namespace: gateway-conformance-infra
+    resourceVersion: "1064"
+    uid: 0847252f-a649-4e8f-8232-67ac56f33431
+  spec:
+    clusterIP: 10.245.56.135
+    clusterIPs:
+    - 10.245.56.135
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - appProtocol: kubernetes.io/h2c
+      port: 8080
+      protocol: TCP
+      targetPort: 3000
+    selector:
+      app: grpc-infra-backend-v3
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: "2026-03-08T08:15:05Z"
+    name: infra-backend-v1
+    namespace: gateway-conformance-infra
+    resourceVersion: "898"
+    uid: f4e6df70-a299-4b68-b089-73ccc918a389
+  spec:
+    clusterIP: 10.245.69.91
+    clusterIPs:
+    - 10.245.69.91
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: first-port
+      port: 8080
+      protocol: TCP
+      targetPort: 3000
+    - appProtocol: kubernetes.io/h2c
+      name: second-port
+      port: 8081
+      protocol: TCP
+      targetPort: 3001
+    - appProtocol: kubernetes.io/ws
+      name: third-port
+      port: 8082
+      protocol: TCP
+      targetPort: 3000
+    selector:
+      app: infra-backend-v1
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: "2026-03-08T08:15:05Z"
+    name: infra-backend-v2
+    namespace: gateway-conformance-infra
+    resourceVersion: "910"
+    uid: 9bbbd548-ce73-449b-88b7-8cdfe35dd5bd
+  spec:
+    clusterIP: 10.245.24.55
+    clusterIPs:
+    - 10.245.24.55
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: 3000
+    selector:
+      app: infra-backend-v2
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: "2026-03-08T08:15:05Z"
+    name: infra-backend-v3
+    namespace: gateway-conformance-infra
+    resourceVersion: "935"
+    uid: 3f30a705-ff9d-4b9e-b73d-85b64f1a769f
+  spec:
+    clusterIP: 10.245.166.112
+    clusterIPs:
+    - 10.245.166.112
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: 3000
+    selector:
+      app: infra-backend-v3
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: "2026-03-08T08:15:06Z"
+    name: tls-backend
+    namespace: gateway-conformance-infra
+    resourceVersion: "961"
+    uid: 27546ba3-5043-4cd0-b7cd-5117cd9cbc0d
+  spec:
+    clusterIP: 10.245.12.150
+    clusterIPs:
+    - 10.245.12.150
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - port: 443
+      protocol: TCP
+      targetPort: 8443
+    selector:
+      app: tls-backend
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: "2026-03-08T08:15:06Z"
+    name: web-backend
+    namespace: gateway-conformance-web-backend
+    resourceVersion: "1041"
+    uid: de1cb968-877f-466c-9990-fc1ccd4cf47f
+  spec:
+    clusterIP: 10.245.56.153
+    clusterIPs:
+    - 10.245.56.153
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: 3000
+    selector:
+      app: web-backend
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: cilium
+      meta.helm.sh/release-namespace: kube-system
+      prometheus.io/port: "9964"
+      prometheus.io/scrape: "true"
+    creationTimestamp: "2026-03-08T08:14:06Z"
+    labels:
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: cilium-envoy
+      app.kubernetes.io/part-of: cilium
+      io.cilium/app: proxy
+      k8s-app: cilium-envoy
+    name: cilium-envoy
+    namespace: kube-system
+    resourceVersion: "486"
+    uid: 099cc5cf-c8a4-493d-a26e-4b2cfbb166ad
+  spec:
+    clusterIP: None
+    clusterIPs:
+    - None
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: envoy-metrics
+      port: 9964
+      protocol: TCP
+      targetPort: 9964
+    selector:
+      k8s-app: cilium-envoy
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: cilium
+      meta.helm.sh/release-namespace: kube-system
+    creationTimestamp: "2026-03-08T08:14:06Z"
+    labels:
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: hubble-peer
+      app.kubernetes.io/part-of: cilium
+      k8s-app: cilium
+    name: hubble-peer
+    namespace: kube-system
+    resourceVersion: "490"
+    uid: 75ae8eee-c1c1-4f8d-bfc4-bb6bfa8b013f
+  spec:
+    clusterIP: 10.245.179.21
+    clusterIPs:
+    - 10.245.179.21
+    internalTrafficPolicy: Local
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: peer-service
+      port: 443
+      protocol: TCP
+      targetPort: 4244
+    selector:
+      k8s-app: cilium
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      prometheus.io/port: "9153"
+      prometheus.io/scrape: "true"
+    creationTimestamp: "2026-03-08T08:13:52Z"
+    labels:
+      k8s-app: kube-dns
+      kubernetes.io/cluster-service: "true"
+      kubernetes.io/name: CoreDNS
+    name: kube-dns
+    namespace: kube-system
+    resourceVersion: "232"
+    uid: 1cee6fd0-0839-47f3-8e96-bfea7e0062a5
+  spec:
+    clusterIP: 10.245.0.10
+    clusterIPs:
+    - 10.245.0.10
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: dns
+      port: 53
+      protocol: UDP
+      targetPort: 53
+    - name: dns-tcp
+      port: 53
+      protocol: TCP
+      targetPort: 53
+    - name: metrics
+      port: 9153
+      protocol: TCP
+      targetPort: 9153
+    selector:
+      k8s-app: kube-dns
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+kind: List
+metadata:
+  resourceVersion: ""

@@ -1,0 +1,1795 @@
+Creating cluster "chart-testing" ...
+ • Ensuring node image (quay.io/cilium/kindest-node:v1.35.0) 🖼  ...
+ ✓ Ensuring node image (quay.io/cilium/kindest-node:v1.35.0) 🖼
+ • Preparing nodes 📦 📦   ...
+ ✓ Preparing nodes 📦 📦 
+ • Writing configuration 📜  ...
+ ✓ Writing configuration 📜
+ • Starting control-plane 🕹️  ...
+ ✓ Starting control-plane 🕹️
+ • Installing StorageClass 💾  ...
+ ✓ Installing StorageClass 💾
+ • Joining worker nodes 🚜  ...
+ ✓ Joining worker nodes 🚜
+Set kubectl context to "kind-chart-testing"
+You can now use your cluster with:
+
+kubectl cluster-info --context kind-chart-testing
+
+Have a nice day! 👋
+customresourcedefinition.apiextensions.k8s.io/gatewayclasses.gateway.networking.k8s.io serverside-applied
+customresourcedefinition.apiextensions.k8s.io/gateways.gateway.networking.k8s.io serverside-applied
+customresourcedefinition.apiextensions.k8s.io/httproutes.gateway.networking.k8s.io serverside-applied
+customresourcedefinition.apiextensions.k8s.io/referencegrants.gateway.networking.k8s.io serverside-applied
+customresourcedefinition.apiextensions.k8s.io/grpcroutes.gateway.networking.k8s.io serverside-applied
+customresourcedefinition.apiextensions.k8s.io/backendtlspolicies.gateway.networking.k8s.io serverside-applied
+customresourcedefinition.apiextensions.k8s.io/tlsroutes.gateway.networking.k8s.io serverside-applied
+customresourcedefinition.apiextensions.k8s.io/gatewayclasses.gateway.networking.k8s.io condition met
+customresourcedefinition.apiextensions.k8s.io/gateways.gateway.networking.k8s.io condition met
+customresourcedefinition.apiextensions.k8s.io/httproutes.gateway.networking.k8s.io condition met
+customresourcedefinition.apiextensions.k8s.io/tlsroutes.gateway.networking.k8s.io condition met
+customresourcedefinition.apiextensions.k8s.io/grpcroutes.gateway.networking.k8s.io condition met
+customresourcedefinition.apiextensions.k8s.io/referencegrants.gateway.networking.k8s.io condition met
+customresourcedefinition.apiextensions.k8s.io/backendtlspolicies.gateway.networking.k8s.io condition met
+🔮 Auto-detected Kubernetes kind: kind
+ℹ️  Using Cilium version 1.20.0
+🔮 Auto-detected cluster name: kind-chart-testing
+🔮 Auto-detected kube-proxy has been installed
+[33m    /¯¯\
+[36m /¯¯[33m\__/[32m¯¯\[0m    Cilium:             [31m1 errors[0m, [33m2 warnings[0m
+[36m \__[31m/¯¯\[32m__/[0m    Operator:           [31m1 errors[0m, [33m2 warnings[0m
+[32m /¯¯[31m\__/[35m¯¯\[0m    Envoy DaemonSet:    [31m1 errors[0m, [33m2 warnings[0m
+[32m \__[34m/¯¯\[35m__/[0m    Hubble Relay:       [36mdisabled[0m
+[34m[34m[34m    \__/[0m       ClusterMesh:        [36mdisabled[0m
+
+DaemonSet              cilium                   Desired: 2, Unavailable: [31m2/2[0m
+DaemonSet              cilium-envoy             Desired: 2, Unavailable: [31m2/2[0m
+Deployment             cilium-operator          Desired: 1, Unavailable: [31m1/1[0m
+Containers:            cilium                   Pending: [32m2[0m
+                       cilium-envoy             Pending: [32m2[0m
+                       cilium-operator          Pending: [32m1[0m
+                       clustermesh-apiserver    
+                       hubble-relay             
+Cluster Pods:          0/3 managed by Cilium
+Helm chart version:    1.20.0-dev
+Image versions         cilium             quay.io/cilium/cilium-ci:latest: 2
+                       cilium-envoy       quay.io/cilium/cilium-envoy:v1.36.5-1771332981-9e7e35f1d1f516c348c8b835dafde5c30fef9847@sha256:aad0f49e84436d1857894d109e84d9f04fa31e9cc0e56e439fa7572a017a0baf: 2
+                       cilium-operator    quay.io/cilium/operator-generic-ci:latest: 1
+Errors:                cilium             cilium                              2 pods of DaemonSet cilium are not ready
+                       cilium-envoy       cilium-envoy                        2 pods of DaemonSet cilium-envoy are not ready
+                       cilium-operator    cilium-operator                     1 pods of Deployment cilium-operator are not ready
+Warnings:              cilium             cilium-78b8l                        pod is pending
+                       cilium             cilium-hln54                        pod is pending
+                       cilium-envoy       cilium-envoy-nrp6z                  pod is pending
+                       cilium-envoy       cilium-envoy-pp6v2                  pod is pending
+                       cilium-operator    cilium-operator-85cfd5c96b-mtdch    pod is pending
+                       cilium-operator    cilium-operator-85cfd5c96b-mtdch    pod is pending
+[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[33m    /¯¯\
+[36m /¯¯[33m\__/[32m¯¯\[0m    Cilium:             [31m1 errors[0m, [33m2 warnings[0m
+[36m \__[31m/¯¯\[32m__/[0m    Operator:           [31m1 errors[0m, [33m2 warnings[0m
+[32m /¯¯[31m\__/[35m¯¯\[0m    Envoy DaemonSet:    [31m1 errors[0m, [33m2 warnings[0m
+[32m \__[34m/¯¯\[35m__/[0m    Hubble Relay:       [36mdisabled[0m
+[34m[34m[34m    \__/[0m       ClusterMesh:        [36mdisabled[0m
+
+DaemonSet              cilium                   Desired: 2, Unavailable: [31m2/2[0m
+DaemonSet              cilium-envoy             Desired: 2, Unavailable: [31m2/2[0m
+Deployment             cilium-operator          Desired: 1, Unavailable: [31m1/1[0m
+Containers:            cilium                   Pending: [32m2[0m
+                       cilium-envoy             Pending: [32m2[0m
+                       cilium-operator          Pending: [32m1[0m
+                       clustermesh-apiserver    
+                       hubble-relay             
+Cluster Pods:          0/3 managed by Cilium
+Helm chart version:    1.20.0-dev
+Image versions         cilium             quay.io/cilium/cilium-ci:latest: 2
+                       cilium-envoy       quay.io/cilium/cilium-envoy:v1.36.5-1771332981-9e7e35f1d1f516c348c8b835dafde5c30fef9847@sha256:aad0f49e84436d1857894d109e84d9f04fa31e9cc0e56e439fa7572a017a0baf: 2
+                       cilium-operator    quay.io/cilium/operator-generic-ci:latest: 1
+Errors:                cilium             cilium                              2 pods of DaemonSet cilium are not ready
+                       cilium-envoy       cilium-envoy                        2 pods of DaemonSet cilium-envoy are not ready
+                       cilium-operator    cilium-operator                     1 pods of Deployment cilium-operator are not ready
+Warnings:              cilium             cilium-78b8l                        pod is pending
+                       cilium             cilium-hln54                        pod is pending
+                       cilium-envoy       cilium-envoy-nrp6z                  pod is pending
+                       cilium-envoy       cilium-envoy-pp6v2                  pod is pending
+                       cilium-operator    cilium-operator-85cfd5c96b-mtdch    pod is pending
+                       cilium-operator    cilium-operator-85cfd5c96b-mtdch    pod is pending
+[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[33m    /¯¯\
+[36m /¯¯[33m\__/[32m¯¯\[0m    Cilium:             [31m1 errors[0m, [33m2 warnings[0m
+[36m \__[31m/¯¯\[32m__/[0m    Operator:           [31m1 errors[0m, [33m2 warnings[0m
+[32m /¯¯[31m\__/[35m¯¯\[0m    Envoy DaemonSet:    [31m1 errors[0m, [33m2 warnings[0m
+[32m \__[34m/¯¯\[35m__/[0m    Hubble Relay:       [36mdisabled[0m
+[34m[34m[34m    \__/[0m       ClusterMesh:        [36mdisabled[0m
+
+DaemonSet              cilium                   Desired: 2, Unavailable: [31m2/2[0m
+DaemonSet              cilium-envoy             Desired: 2, Unavailable: [31m2/2[0m
+Deployment             cilium-operator          Desired: 1, Unavailable: [31m1/1[0m
+Containers:            cilium                   Pending: [32m2[0m
+                       cilium-envoy             Pending: [32m2[0m
+                       cilium-operator          Pending: [32m1[0m
+                       clustermesh-apiserver    
+                       hubble-relay             
+Cluster Pods:          0/3 managed by Cilium
+Helm chart version:    1.20.0-dev
+Image versions         cilium             quay.io/cilium/cilium-ci:latest: 2
+                       cilium-envoy       quay.io/cilium/cilium-envoy:v1.36.5-1771332981-9e7e35f1d1f516c348c8b835dafde5c30fef9847@sha256:aad0f49e84436d1857894d109e84d9f04fa31e9cc0e56e439fa7572a017a0baf: 2
+                       cilium-operator    quay.io/cilium/operator-generic-ci:latest: 1
+Errors:                cilium             cilium                              2 pods of DaemonSet cilium are not ready
+                       cilium-envoy       cilium-envoy                        2 pods of DaemonSet cilium-envoy are not ready
+                       cilium-operator    cilium-operator                     1 pods of Deployment cilium-operator are not ready
+Warnings:              cilium             cilium-78b8l                        pod is pending
+                       cilium             cilium-hln54                        pod is pending
+                       cilium-envoy       cilium-envoy-nrp6z                  pod is pending
+                       cilium-envoy       cilium-envoy-pp6v2                  pod is pending
+                       cilium-operator    cilium-operator-85cfd5c96b-mtdch    pod is pending
+                       cilium-operator    cilium-operator-85cfd5c96b-mtdch    pod is pending
+[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[33m    /¯¯\
+[36m /¯¯[33m\__/[32m¯¯\[0m    Cilium:             [31m1 errors[0m, [33m2 warnings[0m
+[36m \__[31m/¯¯\[32m__/[0m    Operator:           [31m1 errors[0m, [33m2 warnings[0m
+[32m /¯¯[31m\__/[35m¯¯\[0m    Envoy DaemonSet:    [31m1 errors[0m, [33m2 warnings[0m
+[32m \__[34m/¯¯\[35m__/[0m    Hubble Relay:       [36mdisabled[0m
+[34m[34m[34m    \__/[0m       ClusterMesh:        [36mdisabled[0m
+
+DaemonSet              cilium                   Desired: 2, Unavailable: [31m2/2[0m
+DaemonSet              cilium-envoy             Desired: 2, Unavailable: [31m2/2[0m
+Deployment             cilium-operator          Desired: 1, Unavailable: [31m1/1[0m
+Containers:            cilium                   Pending: [32m2[0m
+                       cilium-envoy             Pending: [32m2[0m
+                       cilium-operator          Pending: [32m1[0m
+                       clustermesh-apiserver    
+                       hubble-relay             
+Cluster Pods:          0/3 managed by Cilium
+Helm chart version:    1.20.0-dev
+Image versions         cilium             quay.io/cilium/cilium-ci:latest: 2
+                       cilium-envoy       quay.io/cilium/cilium-envoy:v1.36.5-1771332981-9e7e35f1d1f516c348c8b835dafde5c30fef9847@sha256:aad0f49e84436d1857894d109e84d9f04fa31e9cc0e56e439fa7572a017a0baf: 2
+                       cilium-operator    quay.io/cilium/operator-generic-ci:latest: 1
+Errors:                cilium             cilium                              2 pods of DaemonSet cilium are not ready
+                       cilium-envoy       cilium-envoy                        2 pods of DaemonSet cilium-envoy are not ready
+                       cilium-operator    cilium-operator                     1 pods of Deployment cilium-operator are not ready
+Warnings:              cilium             cilium-78b8l                        pod is pending
+                       cilium             cilium-hln54                        pod is pending
+                       cilium-envoy       cilium-envoy-nrp6z                  pod is pending
+                       cilium-envoy       cilium-envoy-pp6v2                  pod is pending
+                       cilium-operator    cilium-operator-85cfd5c96b-mtdch    pod is pending
+                       cilium-operator    cilium-operator-85cfd5c96b-mtdch    pod is pending
+[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[33m    /¯¯\
+[36m /¯¯[33m\__/[32m¯¯\[0m    Cilium:             [31m1 errors[0m, [33m2 warnings[0m
+[36m \__[31m/¯¯\[32m__/[0m    Operator:           [31m1 errors[0m, [33m2 warnings[0m
+[32m /¯¯[31m\__/[35m¯¯\[0m    Envoy DaemonSet:    [31m1 errors[0m, [33m2 warnings[0m
+[32m \__[34m/¯¯\[35m__/[0m    Hubble Relay:       [36mdisabled[0m
+[34m[34m[34m    \__/[0m       ClusterMesh:        [36mdisabled[0m
+
+DaemonSet              cilium                   Desired: 2, Unavailable: [31m2/2[0m
+DaemonSet              cilium-envoy             Desired: 2, Unavailable: [31m2/2[0m
+Deployment             cilium-operator          Desired: 1, Unavailable: [31m1/1[0m
+Containers:            cilium                   Pending: [32m2[0m
+                       cilium-envoy             Pending: [32m2[0m
+                       cilium-operator          Pending: [32m1[0m
+                       clustermesh-apiserver    
+                       hubble-relay             
+Cluster Pods:          0/3 managed by Cilium
+Helm chart version:    1.20.0-dev
+Image versions         cilium             quay.io/cilium/cilium-ci:latest: 2
+                       cilium-envoy       quay.io/cilium/cilium-envoy:v1.36.5-1771332981-9e7e35f1d1f516c348c8b835dafde5c30fef9847@sha256:aad0f49e84436d1857894d109e84d9f04fa31e9cc0e56e439fa7572a017a0baf: 2
+                       cilium-operator    quay.io/cilium/operator-generic-ci:latest: 1
+Errors:                cilium             cilium                              2 pods of DaemonSet cilium are not ready
+                       cilium-envoy       cilium-envoy                        2 pods of DaemonSet cilium-envoy are not ready
+                       cilium-operator    cilium-operator                     1 pods of Deployment cilium-operator are not ready
+Warnings:              cilium             cilium-78b8l                        pod is pending
+                       cilium             cilium-hln54                        pod is pending
+                       cilium-envoy       cilium-envoy-nrp6z                  pod is pending
+                       cilium-envoy       cilium-envoy-pp6v2                  pod is pending
+                       cilium-operator    cilium-operator-85cfd5c96b-mtdch    pod is pending
+                       cilium-operator    cilium-operator-85cfd5c96b-mtdch    pod is pending
+[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[33m    /¯¯\
+[36m /¯¯[33m\__/[32m¯¯\[0m    Cilium:             [31m1 errors[0m, [33m2 warnings[0m
+[36m \__[31m/¯¯\[32m__/[0m    Operator:           [31m1 errors[0m, [33m2 warnings[0m
+[32m /¯¯[31m\__/[35m¯¯\[0m    Envoy DaemonSet:    [31m1 errors[0m, [33m2 warnings[0m
+[32m \__[34m/¯¯\[35m__/[0m    Hubble Relay:       [36mdisabled[0m
+[34m[34m[34m    \__/[0m       ClusterMesh:        [36mdisabled[0m
+
+DaemonSet              cilium                   Desired: 2, Unavailable: [31m2/2[0m
+DaemonSet              cilium-envoy             Desired: 2, Unavailable: [31m2/2[0m
+Deployment             cilium-operator          Desired: 1, Unavailable: [31m1/1[0m
+Containers:            cilium                   Pending: [32m2[0m
+                       cilium-envoy             Pending: [32m2[0m
+                       cilium-operator          Pending: [32m1[0m
+                       clustermesh-apiserver    
+                       hubble-relay             
+Cluster Pods:          0/3 managed by Cilium
+Helm chart version:    1.20.0-dev
+Image versions         cilium             quay.io/cilium/cilium-ci:latest: 2
+                       cilium-envoy       quay.io/cilium/cilium-envoy:v1.36.5-1771332981-9e7e35f1d1f516c348c8b835dafde5c30fef9847@sha256:aad0f49e84436d1857894d109e84d9f04fa31e9cc0e56e439fa7572a017a0baf: 2
+                       cilium-operator    quay.io/cilium/operator-generic-ci:latest: 1
+Errors:                cilium             cilium                              2 pods of DaemonSet cilium are not ready
+                       cilium-envoy       cilium-envoy                        2 pods of DaemonSet cilium-envoy are not ready
+                       cilium-operator    cilium-operator                     1 pods of Deployment cilium-operator are not ready
+Warnings:              cilium             cilium-78b8l                        pod is pending
+                       cilium             cilium-hln54                        pod is pending
+                       cilium-envoy       cilium-envoy-nrp6z                  pod is pending
+                       cilium-envoy       cilium-envoy-pp6v2                  pod is pending
+                       cilium-operator    cilium-operator-85cfd5c96b-mtdch    pod is pending
+                       cilium-operator    cilium-operator-85cfd5c96b-mtdch    pod is pending
+[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[33m    /¯¯\
+[36m /¯¯[33m\__/[32m¯¯\[0m    Cilium:             [31m1 errors[0m, [33m2 warnings[0m
+[36m \__[31m/¯¯\[32m__/[0m    Operator:           [31m1 errors[0m, [33m2 warnings[0m
+[32m /¯¯[31m\__/[35m¯¯\[0m    Envoy DaemonSet:    [31m1 errors[0m, [33m2 warnings[0m
+[32m \__[34m/¯¯\[35m__/[0m    Hubble Relay:       [36mdisabled[0m
+[34m[34m[34m    \__/[0m       ClusterMesh:        [36mdisabled[0m
+
+DaemonSet              cilium                   Desired: 2, Unavailable: [31m2/2[0m
+DaemonSet              cilium-envoy             Desired: 2, Unavailable: [31m2/2[0m
+Deployment             cilium-operator          Desired: 1, Unavailable: [31m1/1[0m
+Containers:            cilium                   Pending: [32m2[0m
+                       cilium-envoy             Pending: [32m2[0m
+                       cilium-operator          Pending: [32m1[0m
+                       clustermesh-apiserver    
+                       hubble-relay             
+Cluster Pods:          0/3 managed by Cilium
+Helm chart version:    1.20.0-dev
+Image versions         cilium             quay.io/cilium/cilium-ci:latest: 2
+                       cilium-envoy       quay.io/cilium/cilium-envoy:v1.36.5-1771332981-9e7e35f1d1f516c348c8b835dafde5c30fef9847@sha256:aad0f49e84436d1857894d109e84d9f04fa31e9cc0e56e439fa7572a017a0baf: 2
+                       cilium-operator    quay.io/cilium/operator-generic-ci:latest: 1
+Errors:                cilium             cilium                              2 pods of DaemonSet cilium are not ready
+                       cilium-envoy       cilium-envoy                        2 pods of DaemonSet cilium-envoy are not ready
+                       cilium-operator    cilium-operator                     1 pods of Deployment cilium-operator are not ready
+Warnings:              cilium             cilium-78b8l                        pod is pending
+                       cilium             cilium-hln54                        pod is pending
+                       cilium-envoy       cilium-envoy-nrp6z                  pod is pending
+                       cilium-envoy       cilium-envoy-pp6v2                  pod is pending
+                       cilium-operator    cilium-operator-85cfd5c96b-mtdch    pod is pending
+                       cilium-operator    cilium-operator-85cfd5c96b-mtdch    pod is pending
+[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[33m    /¯¯\
+[36m /¯¯[33m\__/[32m¯¯\[0m    Cilium:             [31m1 errors[0m, [33m2 warnings[0m
+[36m \__[31m/¯¯\[32m__/[0m    Operator:           [31m1 errors[0m, [33m2 warnings[0m
+[32m /¯¯[31m\__/[35m¯¯\[0m    Envoy DaemonSet:    [31m1 errors[0m, [33m2 warnings[0m
+[32m \__[34m/¯¯\[35m__/[0m    Hubble Relay:       [36mdisabled[0m
+[34m[34m[34m    \__/[0m       ClusterMesh:        [36mdisabled[0m
+
+DaemonSet              cilium                   Desired: 2, Unavailable: [31m2/2[0m
+DaemonSet              cilium-envoy             Desired: 2, Unavailable: [31m2/2[0m
+Deployment             cilium-operator          Desired: 1, Unavailable: [31m1/1[0m
+Containers:            cilium                   Pending: [32m2[0m
+                       cilium-envoy             Pending: [32m2[0m
+                       cilium-operator          Pending: [32m1[0m
+                       clustermesh-apiserver    
+                       hubble-relay             
+Cluster Pods:          0/3 managed by Cilium
+Helm chart version:    1.20.0-dev
+Image versions         cilium             quay.io/cilium/cilium-ci:latest: 2
+                       cilium-envoy       quay.io/cilium/cilium-envoy:v1.36.5-1771332981-9e7e35f1d1f516c348c8b835dafde5c30fef9847@sha256:aad0f49e84436d1857894d109e84d9f04fa31e9cc0e56e439fa7572a017a0baf: 2
+                       cilium-operator    quay.io/cilium/operator-generic-ci:latest: 1
+Errors:                cilium             cilium                              2 pods of DaemonSet cilium are not ready
+                       cilium-envoy       cilium-envoy                        2 pods of DaemonSet cilium-envoy are not ready
+                       cilium-operator    cilium-operator                     1 pods of Deployment cilium-operator are not ready
+Warnings:              cilium             cilium-78b8l                        pod is pending
+                       cilium             cilium-hln54                        pod is pending
+                       cilium-envoy       cilium-envoy-nrp6z                  pod is pending
+                       cilium-envoy       cilium-envoy-pp6v2                  pod is pending
+                       cilium-operator    cilium-operator-85cfd5c96b-mtdch    pod is pending
+                       cilium-operator    cilium-operator-85cfd5c96b-mtdch    pod is pending
+[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[33m    /¯¯\
+[36m /¯¯[33m\__/[32m¯¯\[0m    Cilium:             [31m1 errors[0m, [33m2 warnings[0m
+[36m \__[31m/¯¯\[32m__/[0m    Operator:           [31m1 errors[0m, [33m2 warnings[0m
+[32m /¯¯[31m\__/[35m¯¯\[0m    Envoy DaemonSet:    [31m1 errors[0m, [33m2 warnings[0m
+[32m \__[34m/¯¯\[35m__/[0m    Hubble Relay:       [36mdisabled[0m
+[34m[34m[34m    \__/[0m       ClusterMesh:        [36mdisabled[0m
+
+DaemonSet              cilium                   Desired: 2, Unavailable: [31m2/2[0m
+DaemonSet              cilium-envoy             Desired: 2, Unavailable: [31m2/2[0m
+Deployment             cilium-operator          Desired: 1, Unavailable: [31m1/1[0m
+Containers:            cilium                   Pending: [32m2[0m
+                       cilium-envoy             Pending: [32m2[0m
+                       cilium-operator          Pending: [32m1[0m
+                       clustermesh-apiserver    
+                       hubble-relay             
+Cluster Pods:          0/3 managed by Cilium
+Helm chart version:    1.20.0-dev
+Image versions         cilium             quay.io/cilium/cilium-ci:latest: 2
+                       cilium-envoy       quay.io/cilium/cilium-envoy:v1.36.5-1771332981-9e7e35f1d1f516c348c8b835dafde5c30fef9847@sha256:aad0f49e84436d1857894d109e84d9f04fa31e9cc0e56e439fa7572a017a0baf: 2
+                       cilium-operator    quay.io/cilium/operator-generic-ci:latest: 1
+Errors:                cilium             cilium                              2 pods of DaemonSet cilium are not ready
+                       cilium-envoy       cilium-envoy                        2 pods of DaemonSet cilium-envoy are not ready
+                       cilium-operator    cilium-operator                     1 pods of Deployment cilium-operator are not ready
+Warnings:              cilium             cilium-78b8l                        pod is pending
+                       cilium             cilium-hln54                        pod is pending
+                       cilium-envoy       cilium-envoy-nrp6z                  pod is pending
+                       cilium-envoy       cilium-envoy-pp6v2                  pod is pending
+                       cilium-operator    cilium-operator-85cfd5c96b-mtdch    pod is pending
+                       cilium-operator    cilium-operator-85cfd5c96b-mtdch    pod is pending
+[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[33m    /¯¯\
+[36m /¯¯[33m\__/[32m¯¯\[0m    Cilium:             [31m1 errors[0m, [33m2 warnings[0m
+[36m \__[31m/¯¯\[32m__/[0m    Operator:           [31m1 errors[0m, [33m2 warnings[0m
+[32m /¯¯[31m\__/[35m¯¯\[0m    Envoy DaemonSet:    [31m1 errors[0m, [33m2 warnings[0m
+[32m \__[34m/¯¯\[35m__/[0m    Hubble Relay:       [36mdisabled[0m
+[34m[34m[34m    \__/[0m       ClusterMesh:        [36mdisabled[0m
+
+DaemonSet              cilium                   Desired: 2, Unavailable: [31m2/2[0m
+DaemonSet              cilium-envoy             Desired: 2, Unavailable: [31m2/2[0m
+Deployment             cilium-operator          Desired: 1, Unavailable: [31m1/1[0m
+Containers:            cilium                   Pending: [32m2[0m
+                       cilium-envoy             Pending: [32m2[0m
+                       cilium-operator          Pending: [32m1[0m
+                       clustermesh-apiserver    
+                       hubble-relay             
+Cluster Pods:          0/3 managed by Cilium
+Helm chart version:    1.20.0-dev
+Image versions         cilium             quay.io/cilium/cilium-ci:latest: 2
+                       cilium-envoy       quay.io/cilium/cilium-envoy:v1.36.5-1771332981-9e7e35f1d1f516c348c8b835dafde5c30fef9847@sha256:aad0f49e84436d1857894d109e84d9f04fa31e9cc0e56e439fa7572a017a0baf: 2
+                       cilium-operator    quay.io/cilium/operator-generic-ci:latest: 1
+Errors:                cilium             cilium                              2 pods of DaemonSet cilium are not ready
+                       cilium-envoy       cilium-envoy                        2 pods of DaemonSet cilium-envoy are not ready
+                       cilium-operator    cilium-operator                     1 pods of Deployment cilium-operator are not ready
+Warnings:              cilium             cilium-78b8l                        pod is pending
+                       cilium             cilium-hln54                        pod is pending
+                       cilium-envoy       cilium-envoy-nrp6z                  pod is pending
+                       cilium-envoy       cilium-envoy-pp6v2                  pod is pending
+                       cilium-operator    cilium-operator-85cfd5c96b-mtdch    pod is pending
+                       cilium-operator    cilium-operator-85cfd5c96b-mtdch    pod is pending
+[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[33m    /¯¯\
+[36m /¯¯[33m\__/[32m¯¯\[0m    Cilium:             [31m1 errors[0m, [33m2 warnings[0m
+[36m \__[31m/¯¯\[32m__/[0m    Operator:           [31m1 errors[0m, [33m2 warnings[0m
+[32m /¯¯[31m\__/[35m¯¯\[0m    Envoy DaemonSet:    [31m1 errors[0m, [33m2 warnings[0m
+[32m \__[34m/¯¯\[35m__/[0m    Hubble Relay:       [36mdisabled[0m
+[34m[34m[34m    \__/[0m       ClusterMesh:        [36mdisabled[0m
+
+DaemonSet              cilium                   Desired: 2, Unavailable: [31m2/2[0m
+DaemonSet              cilium-envoy             Desired: 2, Unavailable: [31m2/2[0m
+Deployment             cilium-operator          Desired: 1, Unavailable: [31m1/1[0m
+Containers:            cilium                   Pending: [32m2[0m
+                       cilium-envoy             Pending: [32m2[0m
+                       cilium-operator          Pending: [32m1[0m
+                       clustermesh-apiserver    
+                       hubble-relay             
+Cluster Pods:          0/3 managed by Cilium
+Helm chart version:    1.20.0-dev
+Image versions         cilium             quay.io/cilium/cilium-ci:latest: 2
+                       cilium-envoy       quay.io/cilium/cilium-envoy:v1.36.5-1771332981-9e7e35f1d1f516c348c8b835dafde5c30fef9847@sha256:aad0f49e84436d1857894d109e84d9f04fa31e9cc0e56e439fa7572a017a0baf: 2
+                       cilium-operator    quay.io/cilium/operator-generic-ci:latest: 1
+Errors:                cilium             cilium                              2 pods of DaemonSet cilium are not ready
+                       cilium-envoy       cilium-envoy                        2 pods of DaemonSet cilium-envoy are not ready
+                       cilium-operator    cilium-operator                     1 pods of Deployment cilium-operator are not ready
+Warnings:              cilium             cilium-78b8l                        pod is pending
+                       cilium             cilium-hln54                        pod is pending
+                       cilium-envoy       cilium-envoy-nrp6z                  pod is pending
+                       cilium-envoy       cilium-envoy-pp6v2                  pod is pending
+                       cilium-operator    cilium-operator-85cfd5c96b-mtdch    pod is pending
+                       cilium-operator    cilium-operator-85cfd5c96b-mtdch    pod is pending
+[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[33m    /¯¯\
+[36m /¯¯[33m\__/[32m¯¯\[0m    Cilium:             [31m1 errors[0m, [33m2 warnings[0m
+[36m \__[31m/¯¯\[32m__/[0m    Operator:           [31m1 errors[0m, [33m2 warnings[0m
+[32m /¯¯[31m\__/[35m¯¯\[0m    Envoy DaemonSet:    [31m1 errors[0m, [33m2 warnings[0m
+[32m \__[34m/¯¯\[35m__/[0m    Hubble Relay:       [36mdisabled[0m
+[34m[34m[34m    \__/[0m       ClusterMesh:        [36mdisabled[0m
+
+DaemonSet              cilium                   Desired: 2, Unavailable: [31m2/2[0m
+DaemonSet              cilium-envoy             Desired: 2, Unavailable: [31m2/2[0m
+Deployment             cilium-operator          Desired: 1, Unavailable: [31m1/1[0m
+Containers:            cilium                   Pending: [32m2[0m
+                       cilium-envoy             Pending: [32m2[0m
+                       cilium-operator          Pending: [32m1[0m
+                       clustermesh-apiserver    
+                       hubble-relay             
+Cluster Pods:          0/3 managed by Cilium
+Helm chart version:    1.20.0-dev
+Image versions         cilium             quay.io/cilium/cilium-ci:latest: 2
+                       cilium-envoy       quay.io/cilium/cilium-envoy:v1.36.5-1771332981-9e7e35f1d1f516c348c8b835dafde5c30fef9847@sha256:aad0f49e84436d1857894d109e84d9f04fa31e9cc0e56e439fa7572a017a0baf: 2
+                       cilium-operator    quay.io/cilium/operator-generic-ci:latest: 1
+Errors:                cilium             cilium                              2 pods of DaemonSet cilium are not ready
+                       cilium-envoy       cilium-envoy                        2 pods of DaemonSet cilium-envoy are not ready
+                       cilium-operator    cilium-operator                     1 pods of Deployment cilium-operator are not ready
+Warnings:              cilium             cilium-78b8l                        pod is pending
+                       cilium             cilium-hln54                        pod is pending
+                       cilium-envoy       cilium-envoy-nrp6z                  pod is pending
+                       cilium-envoy       cilium-envoy-pp6v2                  pod is pending
+                       cilium-operator    cilium-operator-85cfd5c96b-mtdch    pod is pending
+                       cilium-operator    cilium-operator-85cfd5c96b-mtdch    pod is pending
+[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[33m    /¯¯\
+[36m /¯¯[33m\__/[32m¯¯\[0m    Cilium:             [31m1 errors[0m, [33m2 warnings[0m
+[36m \__[31m/¯¯\[32m__/[0m    Operator:           [31m1 errors[0m, [33m2 warnings[0m
+[32m /¯¯[31m\__/[35m¯¯\[0m    Envoy DaemonSet:    [31m1 errors[0m
+[32m \__[34m/¯¯\[35m__/[0m    Hubble Relay:       [36mdisabled[0m
+[34m[34m[34m    \__/[0m       ClusterMesh:        [36mdisabled[0m
+
+DaemonSet              cilium                   Desired: 2, Unavailable: [31m2/2[0m
+DaemonSet              cilium-envoy             Desired: 2, Unavailable: [31m2/2[0m
+Deployment             cilium-operator          Desired: 1, Unavailable: [31m1/1[0m
+Containers:            cilium                   Pending: [32m2[0m
+                       cilium-envoy             Running: [32m2[0m
+                       cilium-operator          Pending: [32m1[0m
+                       clustermesh-apiserver    
+                       hubble-relay             
+Cluster Pods:          0/3 managed by Cilium
+Helm chart version:    1.20.0-dev
+Image versions         cilium             quay.io/cilium/cilium-ci:latest: 2
+                       cilium-envoy       quay.io/cilium/cilium-envoy:v1.36.5-1771332981-9e7e35f1d1f516c348c8b835dafde5c30fef9847@sha256:aad0f49e84436d1857894d109e84d9f04fa31e9cc0e56e439fa7572a017a0baf: 2
+                       cilium-operator    quay.io/cilium/operator-generic-ci:latest: 1
+Errors:                cilium             cilium                              2 pods of DaemonSet cilium are not ready
+                       cilium-envoy       cilium-envoy                        2 pods of DaemonSet cilium-envoy are not ready
+                       cilium-operator    cilium-operator                     1 pods of Deployment cilium-operator are not ready
+Warnings:              cilium             cilium-78b8l                        pod is pending
+                       cilium             cilium-hln54                        pod is pending
+                       cilium-operator    cilium-operator-85cfd5c96b-mtdch    pod is pending
+                       cilium-operator    cilium-operator-85cfd5c96b-mtdch    pod is pending
+[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[33m    /¯¯\
+[36m /¯¯[33m\__/[32m¯¯\[0m    Cilium:             [31m1 errors[0m, [33m2 warnings[0m
+[36m \__[31m/¯¯\[32m__/[0m    Operator:           [32mOK[0m
+[32m /¯¯[31m\__/[35m¯¯\[0m    Envoy DaemonSet:    [31m1 errors[0m
+[32m \__[34m/¯¯\[35m__/[0m    Hubble Relay:       [36mdisabled[0m
+[34m[34m[34m    \__/[0m       ClusterMesh:        [36mdisabled[0m
+
+DaemonSet              cilium                   Desired: 2, Unavailable: [31m2/2[0m
+DaemonSet              cilium-envoy             Desired: 2, Unavailable: [31m2/2[0m
+Deployment             cilium-operator          Desired: 1, Ready: [32m1/1[0m, Available: [32m1/1[0m
+Containers:            cilium                   Pending: [32m2[0m
+                       cilium-envoy             Running: [32m2[0m
+                       cilium-operator          Running: [32m1[0m
+                       clustermesh-apiserver    
+                       hubble-relay             
+Cluster Pods:          0/3 managed by Cilium
+Helm chart version:    1.20.0-dev
+Image versions         cilium             quay.io/cilium/cilium-ci:latest: 2
+                       cilium-envoy       quay.io/cilium/cilium-envoy:v1.36.5-1771332981-9e7e35f1d1f516c348c8b835dafde5c30fef9847@sha256:aad0f49e84436d1857894d109e84d9f04fa31e9cc0e56e439fa7572a017a0baf: 2
+                       cilium-operator    quay.io/cilium/operator-generic-ci:latest: 1
+Errors:                cilium             cilium          2 pods of DaemonSet cilium are not ready
+                       cilium-envoy       cilium-envoy    2 pods of DaemonSet cilium-envoy are not ready
+Warnings:              cilium             cilium-78b8l    pod is pending
+                       cilium             cilium-hln54    pod is pending
+[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[33m    /¯¯\
+[36m /¯¯[33m\__/[32m¯¯\[0m    Cilium:             [31m3 errors[0m, [33m1 warnings[0m
+[36m \__[31m/¯¯\[32m__/[0m    Operator:           [32mOK[0m
+[32m /¯¯[31m\__/[35m¯¯\[0m    Envoy DaemonSet:    [31m1 errors[0m
+[32m \__[34m/¯¯\[35m__/[0m    Hubble Relay:       [36mdisabled[0m
+[34m[34m[34m    \__/[0m       ClusterMesh:        [36mdisabled[0m
+
+DaemonSet              cilium                   Desired: 2, Unavailable: [31m2/2[0m
+DaemonSet              cilium-envoy             Desired: 2, Unavailable: [31m2/2[0m
+Deployment             cilium-operator          Desired: 1, Ready: [32m1/1[0m, Available: [32m1/1[0m
+Containers:            cilium                   Pending: [32m1[0m, Running: [32m1[0m
+                       cilium-envoy             Running: [32m2[0m
+                       cilium-operator          Running: [32m1[0m
+                       clustermesh-apiserver    
+                       hubble-relay             
+Cluster Pods:          0/3 managed by Cilium
+Helm chart version:    1.20.0-dev
+Image versions         cilium             quay.io/cilium/cilium-ci:latest: 2
+                       cilium-envoy       quay.io/cilium/cilium-envoy:v1.36.5-1771332981-9e7e35f1d1f516c348c8b835dafde5c30fef9847@sha256:aad0f49e84436d1857894d109e84d9f04fa31e9cc0e56e439fa7572a017a0baf: 2
+                       cilium-operator    quay.io/cilium/operator-generic-ci:latest: 1
+Errors:                cilium             cilium          2 pods of DaemonSet cilium are not ready
+                       cilium             cilium-hln54    unable to retrieve cilium status: command failed (pod=kube-system/cilium-hln54, container=cilium-agent): command terminated with exit code 1: "Get \"http://localhost/v1/healthz\": dial unix /var/run/cilium/cilium.sock: connect: no such file or directory\nIs the agent running?\n"
+                       cilium             cilium-hln54    unable to retrieve cilium endpoint information: command failed (pod=kube-system/cilium-hln54, container=cilium-agent): command terminated with exit code 1: "Error: cannot get endpoint list: Get \"http://localhost/v1/endpoint\": dial unix /var/run/cilium/cilium.sock: connect: no such file or directory\nIs the agent running?\n\n"
+                       cilium-envoy       cilium-envoy    2 pods of DaemonSet cilium-envoy are not ready
+Warnings:              cilium             cilium-78b8l    pod is pending
+[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[33m    /¯¯\
+[36m /¯¯[33m\__/[32m¯¯\[0m    Cilium:             [31m5 errors[0m
+[36m \__[31m/¯¯\[32m__/[0m    Operator:           [32mOK[0m
+[32m /¯¯[31m\__/[35m¯¯\[0m    Envoy DaemonSet:    [31m1 errors[0m
+[32m \__[34m/¯¯\[35m__/[0m    Hubble Relay:       [36mdisabled[0m
+[34m[34m[34m    \__/[0m       ClusterMesh:        [36mdisabled[0m
+
+DaemonSet              cilium                   Desired: 2, Unavailable: [31m2/2[0m
+DaemonSet              cilium-envoy             Desired: 2, Unavailable: [31m2/2[0m
+Deployment             cilium-operator          Desired: 1, Ready: [32m1/1[0m, Available: [32m1/1[0m
+Containers:            cilium                   Running: [32m2[0m
+                       cilium-envoy             Running: [32m2[0m
+                       cilium-operator          Running: [32m1[0m
+                       clustermesh-apiserver    
+                       hubble-relay             
+Cluster Pods:          0/3 managed by Cilium
+Helm chart version:    1.20.0-dev
+Image versions         cilium             quay.io/cilium/cilium-ci:latest: 2
+                       cilium-envoy       quay.io/cilium/cilium-envoy:v1.36.5-1771332981-9e7e35f1d1f516c348c8b835dafde5c30fef9847@sha256:aad0f49e84436d1857894d109e84d9f04fa31e9cc0e56e439fa7572a017a0baf: 2
+                       cilium-operator    quay.io/cilium/operator-generic-ci:latest: 1
+Errors:                cilium             cilium          2 pods of DaemonSet cilium are not ready
+                       cilium             cilium-78b8l    unable to retrieve cilium status: command failed (pod=kube-system/cilium-78b8l, container=cilium-agent): command terminated with exit code 1: "Get \"http://localhost/v1/healthz\": dial unix /var/run/cilium/cilium.sock: connect: no such file or directory\nIs the agent running?\n"
+                       cilium             cilium-78b8l    unable to retrieve cilium endpoint information: command failed (pod=kube-system/cilium-78b8l, container=cilium-agent): command terminated with exit code 1: "Error: cannot get endpoint list: Get \"http://localhost/v1/endpoint\": dial unix /var/run/cilium/cilium.sock: connect: no such file or directory\nIs the agent running?\n\n"
+                       cilium             cilium-hln54    unable to retrieve cilium status: command failed (pod=kube-system/cilium-hln54, container=cilium-agent): command terminated with exit code 1: "Get \"http://localhost/v1/healthz\": dial unix /var/run/cilium/cilium.sock: connect: no such file or directory\nIs the agent running?\n"
+                       cilium             cilium-hln54    unable to retrieve cilium endpoint information: command failed (pod=kube-system/cilium-hln54, container=cilium-agent): command terminated with exit code 1: "Error: cannot get endpoint list: Get \"http://localhost/v1/endpoint\": dial unix /var/run/cilium/cilium.sock: connect: no such file or directory\nIs the agent running?\n\n"
+                       cilium-envoy       cilium-envoy    2 pods of DaemonSet cilium-envoy are not ready
+[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[33m    /¯¯\
+[36m /¯¯[33m\__/[32m¯¯\[0m    Cilium:             [31m5 errors[0m
+[36m \__[31m/¯¯\[32m__/[0m    Operator:           [32mOK[0m
+[32m /¯¯[31m\__/[35m¯¯\[0m    Envoy DaemonSet:    [31m1 errors[0m
+[32m \__[34m/¯¯\[35m__/[0m    Hubble Relay:       [36mdisabled[0m
+[34m[34m[34m    \__/[0m       ClusterMesh:        [36mdisabled[0m
+
+DaemonSet              cilium                   Desired: 2, Unavailable: [31m2/2[0m
+DaemonSet              cilium-envoy             Desired: 2, Unavailable: [31m2/2[0m
+Deployment             cilium-operator          Desired: 1, Ready: [32m1/1[0m, Available: [32m1/1[0m
+Containers:            cilium                   Running: [32m2[0m
+                       cilium-envoy             Running: [32m2[0m
+                       cilium-operator          Running: [32m1[0m
+                       clustermesh-apiserver    
+                       hubble-relay             
+Cluster Pods:          0/3 managed by Cilium
+Helm chart version:    1.20.0-dev
+Image versions         cilium             quay.io/cilium/cilium-ci:latest: 2
+                       cilium-envoy       quay.io/cilium/cilium-envoy:v1.36.5-1771332981-9e7e35f1d1f516c348c8b835dafde5c30fef9847@sha256:aad0f49e84436d1857894d109e84d9f04fa31e9cc0e56e439fa7572a017a0baf: 2
+                       cilium-operator    quay.io/cilium/operator-generic-ci:latest: 1
+Errors:                cilium             cilium          2 pods of DaemonSet cilium are not ready
+                       cilium             cilium-78b8l    unable to retrieve cilium status: command failed (pod=kube-system/cilium-78b8l, container=cilium-agent): command terminated with exit code 1: "Get \"http://localhost/v1/healthz\": dial unix /var/run/cilium/cilium.sock: connect: no such file or directory\nIs the agent running?\n"
+                       cilium             cilium-78b8l    unable to retrieve cilium endpoint information: command failed (pod=kube-system/cilium-78b8l, container=cilium-agent): command terminated with exit code 1: "Error: cannot get endpoint list: Get \"http://localhost/v1/endpoint\": dial unix /var/run/cilium/cilium.sock: connect: no such file or directory\nIs the agent running?\n\n"
+                       cilium             cilium-hln54    unable to retrieve cilium status: command failed (pod=kube-system/cilium-hln54, container=cilium-agent): command terminated with exit code 1: "Get \"http://localhost/v1/healthz\": dial unix /var/run/cilium/cilium.sock: connect: no such file or directory\nIs the agent running?\n"
+                       cilium             cilium-hln54    unable to retrieve cilium endpoint information: command failed (pod=kube-system/cilium-hln54, container=cilium-agent): command terminated with exit code 1: "Error: cannot get endpoint list: Get \"http://localhost/v1/endpoint\": dial unix /var/run/cilium/cilium.sock: connect: no such file or directory\nIs the agent running?\n\n"
+                       cilium-envoy       cilium-envoy    2 pods of DaemonSet cilium-envoy are not ready
+[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[33m    /¯¯\
+[36m /¯¯[33m\__/[32m¯¯\[0m    Cilium:             [31m5 errors[0m
+[36m \__[31m/¯¯\[32m__/[0m    Operator:           [32mOK[0m
+[32m /¯¯[31m\__/[35m¯¯\[0m    Envoy DaemonSet:    [31m1 errors[0m
+[32m \__[34m/¯¯\[35m__/[0m    Hubble Relay:       [36mdisabled[0m
+[34m[34m[34m    \__/[0m       ClusterMesh:        [36mdisabled[0m
+
+DaemonSet              cilium                   Desired: 2, Unavailable: [31m2/2[0m
+DaemonSet              cilium-envoy             Desired: 2, Unavailable: [31m2/2[0m
+Deployment             cilium-operator          Desired: 1, Ready: [32m1/1[0m, Available: [32m1/1[0m
+Containers:            cilium                   Running: [32m2[0m
+                       cilium-envoy             Running: [32m2[0m
+                       cilium-operator          Running: [32m1[0m
+                       clustermesh-apiserver    
+                       hubble-relay             
+Cluster Pods:          0/3 managed by Cilium
+Helm chart version:    1.20.0-dev
+Image versions         cilium             quay.io/cilium/cilium-ci:latest: 2
+                       cilium-envoy       quay.io/cilium/cilium-envoy:v1.36.5-1771332981-9e7e35f1d1f516c348c8b835dafde5c30fef9847@sha256:aad0f49e84436d1857894d109e84d9f04fa31e9cc0e56e439fa7572a017a0baf: 2
+                       cilium-operator    quay.io/cilium/operator-generic-ci:latest: 1
+Errors:                cilium             cilium          2 pods of DaemonSet cilium are not ready
+                       cilium             cilium-78b8l    unable to retrieve cilium status: command failed (pod=kube-system/cilium-78b8l, container=cilium-agent): command terminated with exit code 1: "Get \"http://localhost/v1/healthz\": dial unix /var/run/cilium/cilium.sock: connect: no such file or directory\nIs the agent running?\n"
+                       cilium             cilium-78b8l    unable to retrieve cilium endpoint information: command failed (pod=kube-system/cilium-78b8l, container=cilium-agent): command terminated with exit code 1: "Error: cannot get endpoint list: Get \"http://localhost/v1/endpoint\": dial unix /var/run/cilium/cilium.sock: connect: no such file or directory\nIs the agent running?\n\n"
+                       cilium             cilium-hln54    unable to retrieve cilium status: command failed (pod=kube-system/cilium-hln54, container=cilium-agent): command terminated with exit code 1: "Get \"http://localhost/v1/healthz\": dial unix /var/run/cilium/cilium.sock: connect: no such file or directory\nIs the agent running?\n"
+                       cilium             cilium-hln54    unable to retrieve cilium endpoint information: command failed (pod=kube-system/cilium-hln54, container=cilium-agent): command terminated with exit code 1: "Error: cannot get endpoint list: Get \"http://localhost/v1/endpoint\": dial unix /var/run/cilium/cilium.sock: connect: no such file or directory\nIs the agent running?\n\n"
+                       cilium-envoy       cilium-envoy    2 pods of DaemonSet cilium-envoy are not ready
+[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[33m    /¯¯\
+[36m /¯¯[33m\__/[32m¯¯\[0m    Cilium:             [31m5 errors[0m
+[36m \__[31m/¯¯\[32m__/[0m    Operator:           [32mOK[0m
+[32m /¯¯[31m\__/[35m¯¯\[0m    Envoy DaemonSet:    [31m1 errors[0m
+[32m \__[34m/¯¯\[35m__/[0m    Hubble Relay:       [36mdisabled[0m
+[34m[34m[34m    \__/[0m       ClusterMesh:        [36mdisabled[0m
+
+DaemonSet              cilium                   Desired: 2, Unavailable: [31m2/2[0m
+DaemonSet              cilium-envoy             Desired: 2, Unavailable: [31m2/2[0m
+Deployment             cilium-operator          Desired: 1, Ready: [32m1/1[0m, Available: [32m1/1[0m
+Containers:            cilium                   Running: [32m2[0m
+                       cilium-envoy             Running: [32m2[0m
+                       cilium-operator          Running: [32m1[0m
+                       clustermesh-apiserver    
+                       hubble-relay             
+Cluster Pods:          0/3 managed by Cilium
+Helm chart version:    1.20.0-dev
+Image versions         cilium             quay.io/cilium/cilium-ci:latest: 2
+                       cilium-envoy       quay.io/cilium/cilium-envoy:v1.36.5-1771332981-9e7e35f1d1f516c348c8b835dafde5c30fef9847@sha256:aad0f49e84436d1857894d109e84d9f04fa31e9cc0e56e439fa7572a017a0baf: 2
+                       cilium-operator    quay.io/cilium/operator-generic-ci:latest: 1
+Errors:                cilium             cilium          2 pods of DaemonSet cilium are not ready
+                       cilium             cilium-78b8l    unable to retrieve cilium status: command failed (pod=kube-system/cilium-78b8l, container=cilium-agent): command terminated with exit code 1: "Get \"http://localhost/v1/healthz\": dial unix /var/run/cilium/cilium.sock: connect: no such file or directory\nIs the agent running?\n"
+                       cilium             cilium-78b8l    unable to retrieve cilium endpoint information: command failed (pod=kube-system/cilium-78b8l, container=cilium-agent): command terminated with exit code 1: "Error: cannot get endpoint list: Get \"http://localhost/v1/endpoint\": dial unix /var/run/cilium/cilium.sock: connect: no such file or directory\nIs the agent running?\n\n"
+                       cilium             cilium-hln54    unable to retrieve cilium status: command failed (pod=kube-system/cilium-hln54, container=cilium-agent): command terminated with exit code 1: "Get \"http://localhost/v1/healthz\": dial unix /var/run/cilium/cilium.sock: connect: no such file or directory\nIs the agent running?\n"
+                       cilium             cilium-hln54    unable to retrieve cilium endpoint information: command failed (pod=kube-system/cilium-hln54, container=cilium-agent): command terminated with exit code 1: "Error: cannot get endpoint list: Get \"http://localhost/v1/endpoint\": dial unix /var/run/cilium/cilium.sock: connect: no such file or directory\nIs the agent running?\n\n"
+                       cilium-envoy       cilium-envoy    2 pods of DaemonSet cilium-envoy are not ready
+[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[33m    /¯¯\
+[36m /¯¯[33m\__/[32m¯¯\[0m    Cilium:             [31m2 errors[0m, [33m2 warnings[0m
+[36m \__[31m/¯¯\[32m__/[0m    Operator:           [32mOK[0m
+[32m /¯¯[31m\__/[35m¯¯\[0m    Envoy DaemonSet:    [31m1 errors[0m
+[32m \__[34m/¯¯\[35m__/[0m    Hubble Relay:       [36mdisabled[0m
+[34m[34m[34m    \__/[0m       ClusterMesh:        [36mdisabled[0m
+
+DaemonSet              cilium                   Desired: 2, Unavailable: [31m2/2[0m
+DaemonSet              cilium-envoy             Desired: 2, Unavailable: [31m2/2[0m
+Deployment             cilium-operator          Desired: 1, Ready: [32m1/1[0m, Available: [32m1/1[0m
+Containers:            cilium                   Running: [32m2[0m
+                       cilium-envoy             Running: [32m2[0m
+                       cilium-operator          Running: [32m1[0m
+                       clustermesh-apiserver    
+                       hubble-relay             
+Cluster Pods:          3/3 managed by Cilium
+Helm chart version:    1.20.0-dev
+Image versions         cilium             quay.io/cilium/cilium-ci:latest: 2
+                       cilium-envoy       quay.io/cilium/cilium-envoy:v1.36.5-1771332981-9e7e35f1d1f516c348c8b835dafde5c30fef9847@sha256:aad0f49e84436d1857894d109e84d9f04fa31e9cc0e56e439fa7572a017a0baf: 2
+                       cilium-operator    quay.io/cilium/operator-generic-ci:latest: 1
+Errors:                cilium             cilium          2 pods of DaemonSet cilium are not ready
+                       cilium             cilium-hln54    unable to retrieve cilium status: command failed (pod=kube-system/cilium-hln54, container=cilium-agent): command terminated with exit code 1: "Get \"http://localhost/v1/healthz\": dial unix /var/run/cilium/cilium.sock: connect: no such file or directory\nIs the agent running?\n"
+                       cilium-envoy       cilium-envoy    2 pods of DaemonSet cilium-envoy are not ready
+Warnings:              cilium             cilium-78b8l    Hubble: Hubble starting
+                       cilium             cilium-78b8l    6 endpoints are not ready
+[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[33m    /¯¯\
+[36m /¯¯[33m\__/[32m¯¯\[0m    Cilium:             [33m4 warnings[0m
+[36m \__[31m/¯¯\[32m__/[0m    Operator:           [32mOK[0m
+[32m /¯¯[31m\__/[35m¯¯\[0m    Envoy DaemonSet:    [31m1 errors[0m
+[32m \__[34m/¯¯\[35m__/[0m    Hubble Relay:       [36mdisabled[0m
+[34m[34m[34m    \__/[0m       ClusterMesh:        [36mdisabled[0m
+
+DaemonSet              cilium                   Desired: 2, Ready: [32m2/2[0m, Available: [32m2/2[0m
+DaemonSet              cilium-envoy             Desired: 2, Unavailable: [31m2/2[0m
+Deployment             cilium-operator          Desired: 1, Ready: [32m1/1[0m, Available: [32m1/1[0m
+Containers:            cilium                   Running: [32m2[0m
+                       cilium-envoy             Running: [32m2[0m
+                       cilium-operator          Running: [32m1[0m
+                       clustermesh-apiserver    
+                       hubble-relay             
+Cluster Pods:          3/3 managed by Cilium
+Helm chart version:    1.20.0-dev
+Image versions         cilium             quay.io/cilium/cilium-ci:latest: 2
+                       cilium-envoy       quay.io/cilium/cilium-envoy:v1.36.5-1771332981-9e7e35f1d1f516c348c8b835dafde5c30fef9847@sha256:aad0f49e84436d1857894d109e84d9f04fa31e9cc0e56e439fa7572a017a0baf: 2
+                       cilium-operator    quay.io/cilium/operator-generic-ci:latest: 1
+Errors:                cilium-envoy       cilium-envoy    2 pods of DaemonSet cilium-envoy are not ready
+Warnings:              cilium             cilium-78b8l    Hubble: Hubble starting
+                       cilium             cilium-78b8l    5 endpoints are not ready
+                       cilium             cilium-hln54    Hubble: Hubble starting
+                       cilium             cilium-hln54    3 endpoints are not ready
+[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[33m    /¯¯\
+[36m /¯¯[33m\__/[32m¯¯\[0m    Cilium:             [33m2 warnings[0m
+[36m \__[31m/¯¯\[32m__/[0m    Operator:           [32mOK[0m
+[32m /¯¯[31m\__/[35m¯¯\[0m    Envoy DaemonSet:    [31m1 errors[0m
+[32m \__[34m/¯¯\[35m__/[0m    Hubble Relay:       [36mdisabled[0m
+[34m[34m[34m    \__/[0m       ClusterMesh:        [36mdisabled[0m
+
+DaemonSet              cilium                   Desired: 2, Ready: [32m2/2[0m, Available: [32m2/2[0m
+DaemonSet              cilium-envoy             Desired: 2, Ready: [33m1/2[0m, Available: [33m1/2[0m, Unavailable: [31m1/2[0m
+Deployment             cilium-operator          Desired: 1, Ready: [32m1/1[0m, Available: [32m1/1[0m
+Containers:            cilium                   Running: [32m2[0m
+                       cilium-envoy             Running: [32m2[0m
+                       cilium-operator          Running: [32m1[0m
+                       clustermesh-apiserver    
+                       hubble-relay             
+Cluster Pods:          3/3 managed by Cilium
+Helm chart version:    1.20.0-dev
+Image versions         cilium             quay.io/cilium/cilium-ci:latest: 2
+                       cilium-envoy       quay.io/cilium/cilium-envoy:v1.36.5-1771332981-9e7e35f1d1f516c348c8b835dafde5c30fef9847@sha256:aad0f49e84436d1857894d109e84d9f04fa31e9cc0e56e439fa7572a017a0baf: 2
+                       cilium-operator    quay.io/cilium/operator-generic-ci:latest: 1
+Errors:                cilium-envoy       cilium-envoy    1 pods of DaemonSet cilium-envoy are not ready
+Warnings:              cilium             cilium-hln54    Hubble: Hubble starting
+                       cilium             cilium-hln54    2 endpoints are not ready
+[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[33m    /¯¯\
+[36m /¯¯[33m\__/[32m¯¯\[0m    Cilium:             [33m1 warnings[0m
+[36m \__[31m/¯¯\[32m__/[0m    Operator:           [32mOK[0m
+[32m /¯¯[31m\__/[35m¯¯\[0m    Envoy DaemonSet:    [31m1 errors[0m
+[32m \__[34m/¯¯\[35m__/[0m    Hubble Relay:       [36mdisabled[0m
+[34m[34m[34m    \__/[0m       ClusterMesh:        [36mdisabled[0m
+
+DaemonSet              cilium                   Desired: 2, Ready: [32m2/2[0m, Available: [32m2/2[0m
+DaemonSet              cilium-envoy             Desired: 2, Ready: [33m1/2[0m, Available: [33m1/2[0m, Unavailable: [31m1/2[0m
+Deployment             cilium-operator          Desired: 1, Ready: [32m1/1[0m, Available: [32m1/1[0m
+Containers:            cilium                   Running: [32m2[0m
+                       cilium-envoy             Running: [32m2[0m
+                       cilium-operator          Running: [32m1[0m
+                       clustermesh-apiserver    
+                       hubble-relay             
+Cluster Pods:          3/3 managed by Cilium
+Helm chart version:    1.20.0-dev
+Image versions         cilium             quay.io/cilium/cilium-ci:latest: 2
+                       cilium-envoy       quay.io/cilium/cilium-envoy:v1.36.5-1771332981-9e7e35f1d1f516c348c8b835dafde5c30fef9847@sha256:aad0f49e84436d1857894d109e84d9f04fa31e9cc0e56e439fa7572a017a0baf: 2
+                       cilium-operator    quay.io/cilium/operator-generic-ci:latest: 1
+Errors:                cilium-envoy       cilium-envoy    1 pods of DaemonSet cilium-envoy are not ready
+Warnings:              cilium             cilium-78b8l    5 endpoints are not ready
+[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[33m    /¯¯\
+[36m /¯¯[33m\__/[32m¯¯\[0m    Cilium:             [33m2 warnings[0m
+[36m \__[31m/¯¯\[32m__/[0m    Operator:           [32mOK[0m
+[32m /¯¯[31m\__/[35m¯¯\[0m    Envoy DaemonSet:    [31m1 errors[0m
+[32m \__[34m/¯¯\[35m__/[0m    Hubble Relay:       [36mdisabled[0m
+[34m[34m[34m    \__/[0m       ClusterMesh:        [36mdisabled[0m
+
+DaemonSet              cilium                   Desired: 2, Ready: [32m2/2[0m, Available: [32m2/2[0m
+DaemonSet              cilium-envoy             Desired: 2, Ready: [33m1/2[0m, Available: [33m1/2[0m, Unavailable: [31m1/2[0m
+Deployment             cilium-operator          Desired: 1, Ready: [32m1/1[0m, Available: [32m1/1[0m
+Containers:            cilium                   Running: [32m2[0m
+                       cilium-envoy             Running: [32m2[0m
+                       cilium-operator          Running: [32m1[0m
+                       clustermesh-apiserver    
+                       hubble-relay             
+Cluster Pods:          3/3 managed by Cilium
+Helm chart version:    1.20.0-dev
+Image versions         cilium             quay.io/cilium/cilium-ci:latest: 2
+                       cilium-envoy       quay.io/cilium/cilium-envoy:v1.36.5-1771332981-9e7e35f1d1f516c348c8b835dafde5c30fef9847@sha256:aad0f49e84436d1857894d109e84d9f04fa31e9cc0e56e439fa7572a017a0baf: 2
+                       cilium-operator    quay.io/cilium/operator-generic-ci:latest: 1
+Errors:                cilium-envoy       cilium-envoy    1 pods of DaemonSet cilium-envoy are not ready
+Warnings:              cilium             cilium-78b8l    1 endpoints are not ready
+                       cilium             cilium-hln54    2 endpoints are not ready
+[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[A[2K[33m    /¯¯\
+[36m /¯¯[33m\__/[32m¯¯\[0m    Cilium:             [32mOK[0m
+[36m \__[31m/¯¯\[32m__/[0m    Operator:           [32mOK[0m
+[32m /¯¯[31m\__/[35m¯¯\[0m    Envoy DaemonSet:    [32mOK[0m
+[32m \__[34m/¯¯\[35m__/[0m    Hubble Relay:       [36mdisabled[0m
+[34m[34m[34m    \__/[0m       ClusterMesh:        [36mdisabled[0m
+
+DaemonSet              cilium                   Desired: 2, Ready: [32m2/2[0m, Available: [32m2/2[0m
+DaemonSet              cilium-envoy             Desired: 2, Ready: [32m2/2[0m, Available: [32m2/2[0m
+Deployment             cilium-operator          Desired: 1, Ready: [32m1/1[0m, Available: [32m1/1[0m
+Containers:            cilium                   Running: [32m2[0m
+                       cilium-envoy             Running: [32m2[0m
+                       cilium-operator          Running: [32m1[0m
+                       clustermesh-apiserver    
+                       hubble-relay             
+Cluster Pods:          3/3 managed by Cilium
+Helm chart version:    1.20.0-dev
+Image versions         cilium             quay.io/cilium/cilium-ci:latest: 2
+                       cilium-envoy       quay.io/cilium/cilium-envoy:v1.36.5-1771332981-9e7e35f1d1f516c348c8b835dafde5c30fef9847@sha256:aad0f49e84436d1857894d109e84d9f04fa31e9cc0e56e439fa7572a017a0baf: 2
+                       cilium-operator    quay.io/cilium/operator-generic-ci:latest: 1
+Kind CIDR is: 192.168.8.0/24
+LoadBalancer CIDR is: 192.168.8.240/28
+ciliumloadbalancerippool.cilium.io/pool created
+ciliuml2announcementpolicy.cilium.io/l2policy created
+GATEWAY_API_CONFORMANCE_TESTS=1 \
+CGO_ENABLED=0 go test -mod=vendor -vet=all -tags=osusergo -mod=vendor -vet=all -tags=osusergo -p 4 -v ./operator/pkg/gateway-api \
+	--gateway-class cilium --debug --all-features --allow-crds-mismatch --cleanup-base-resources=false --exempt-features "HTTPRouteParentRefPort,MeshConsumerRoute" -test.skip "" \
+	-test.run TestConformance/BackendTLSPolicyInvalidCACertificateRef \
+	-test.timeout=29m \
+	--gateway-class cilium \
+	--all-features \
+	--allow-crds-mismatch\
+	--cleanup-base-resources=false \
+| cat
+=== RUN   TestConformance
+    conformance.go:129: Running conformance tests with:
+    conformance.go:147:   GatewayClass: cilium
+    conformance.go:148:   Cleanup Resources: false
+    conformance.go:149:   Debug: true
+    conformance.go:150:   Enable All Features: true
+    conformance.go:151:   Supported Features: []
+    conformance.go:152:   ExemptFeatures: [MeshConsumerRoute HTTPRouteParentRefPort]
+    conformance.go:153:   ConformanceProfiles: []
+    suite.go:364: 2026-03-08T05:56:49.872262324Z: Test Setup: Ensuring GatewayClass has been accepted
+    suite.go:370: 2026-03-08T05:56:49.877044554Z: Test Setup: Applying base manifests
+    apply.go:275: 2026-03-08T05:56:49.882636514Z: Creating gateway-conformance-infra Namespace
+    apply.go:275: 2026-03-08T05:56:49.888960354Z: Creating same-namespace Gateway
+    apply.go:275: 2026-03-08T05:56:49.897761583Z: Creating same-namespace-with-https-listener Gateway
+    apply.go:275: 2026-03-08T05:56:49.904501464Z: Creating all-namespaces Gateway
+    apply.go:275: 2026-03-08T05:56:49.912474673Z: Creating backend-namespaces Gateway
+    apply.go:275: 2026-03-08T05:56:49.918796933Z: Creating infra-backend-v1 Service
+    apply.go:275: 2026-03-08T05:56:49.929625003Z: Creating infra-backend-v1 Deployment
+    apply.go:275: 2026-03-08T05:56:49.938026672Z: Creating infra-backend-v2 Service
+    apply.go:275: 2026-03-08T05:56:49.949048982Z: Creating infra-backend-v2 Deployment
+    apply.go:275: 2026-03-08T05:56:49.961717552Z: Creating infra-backend-v3 Service
+    apply.go:275: 2026-03-08T05:56:49.980724431Z: Creating infra-backend-v3 Deployment
+    apply.go:275: 2026-03-08T05:56:49.992162321Z: Creating tls-backend Service
+    apply.go:275: 2026-03-08T05:56:50.01497586Z: Creating tls-backend Deployment
+    apply.go:275: 2026-03-08T05:56:50.02608534Z: Creating gateway-conformance-app-backend Namespace
+    apply.go:275: 2026-03-08T05:56:50.03668116Z: Creating tls-backend Service
+    apply.go:275: 2026-03-08T05:56:50.04971321Z: Creating tls-backend Deployment
+    apply.go:275: 2026-03-08T05:56:50.058769899Z: Creating app-backend-v1 Service
+    apply.go:275: 2026-03-08T05:56:50.072191089Z: Creating app-backend-v1 Deployment
+    apply.go:275: 2026-03-08T05:56:50.081903879Z: Creating app-backend-v2 Service
+    apply.go:275: 2026-03-08T05:56:50.094138089Z: Creating app-backend-v2 Deployment
+    apply.go:275: 2026-03-08T05:56:50.101329218Z: Creating gateway-conformance-web-backend Namespace
+    apply.go:275: 2026-03-08T05:56:50.106919058Z: Creating web-backend Service
+    apply.go:275: 2026-03-08T05:56:50.117988328Z: Creating web-backend Deployment
+    apply.go:275: 2026-03-08T05:56:50.124039828Z: Creating grpc-infra-backend-v1 Service
+    apply.go:275: 2026-03-08T05:56:50.134264438Z: Creating grpc-infra-backend-v1 Deployment
+    apply.go:275: 2026-03-08T05:56:50.141788848Z: Creating grpc-infra-backend-v2 Service
+    apply.go:275: 2026-03-08T05:56:50.152634347Z: Creating grpc-infra-backend-v2 Deployment
+    apply.go:275: 2026-03-08T05:56:50.181908647Z: Creating grpc-infra-backend-v3 Service
+    apply.go:275: 2026-03-08T05:56:50.199751876Z: Creating grpc-infra-backend-v3 Deployment
+    apply.go:275: 2026-03-08T05:56:50.208169126Z: Creating coredns Service
+    apply.go:275: 2026-03-08T05:56:50.220828786Z: Creating coredns Deployment
+    apply.go:275: 2026-03-08T05:56:50.231879425Z: Creating coredns ConfigMap
+    suite.go:373: 2026-03-08T05:56:50.236922775Z: Test Setup: Applying programmatic resources
+    apply.go:226: 2026-03-08T05:56:50.322567053Z: Creating certificate 
+    apply.go:226: 2026-03-08T05:56:50.348982942Z: Creating tls-validity-checks-certificate 
+    apply.go:226: 2026-03-08T05:56:50.385685431Z: Creating tls-passthrough-checks-certificate 
+    apply.go:226: 2026-03-08T05:56:50.44420785Z: Creating tls-passthrough-checks-certificate 
+    apply.go:226: 2026-03-08T05:56:50.490102399Z: Creating tls-checks-ca-certificate 
+    apply.go:226: 2026-03-08T05:56:50.607566106Z: Creating tls-checks-certificate 
+    apply.go:226: 2026-03-08T05:56:50.643416235Z: Creating mismatch-ca-certificate 
+    suite.go:391: 2026-03-08T05:56:50.648907075Z: Test Setup: Ensuring Gateways and Pods from base manifests are ready
+    helpers.go:240: 2026-03-08T05:56:50.657165844Z: Ready condition set to False, expected True
+    helpers.go:240: 2026-03-08T05:56:50.657282015Z: Ready was not in conditions list
+    helpers.go:243: 2026-03-08T05:56:50.657304104Z: Pod gateway-conformance-infra/grpc-infra-backend-v1-7588bf8988-6zv48 not ready yet
+    helpers.go:240: 2026-03-08T05:56:51.65983996Z: Ready condition set to False, expected True
+    helpers.go:240: 2026-03-08T05:56:51.65989573Z: Ready was not in conditions list
+    helpers.go:243: 2026-03-08T05:56:51.65990899Z: Pod gateway-conformance-infra/coredns-5998cfc87f-cz5mq not ready yet
+    helpers.go:240: 2026-03-08T05:56:52.658921005Z: Ready condition set to False, expected True
+    helpers.go:240: 2026-03-08T05:56:52.658965175Z: Ready was not in conditions list
+    helpers.go:243: 2026-03-08T05:56:52.658978385Z: Pod gateway-conformance-infra/coredns-5998cfc87f-cz5mq not ready yet
+    helpers.go:240: 2026-03-08T05:56:53.65828328Z: Ready condition set to False, expected True
+    helpers.go:240: 2026-03-08T05:56:53.65834371Z: Ready was not in conditions list
+    helpers.go:243: 2026-03-08T05:56:53.65835832Z: Pod gateway-conformance-infra/coredns-5998cfc87f-cz5mq not ready yet
+    helpers.go:240: 2026-03-08T05:56:54.657511595Z: Ready condition set to False, expected True
+    helpers.go:240: 2026-03-08T05:56:54.657565325Z: Ready was not in conditions list
+    helpers.go:243: 2026-03-08T05:56:54.657578895Z: Pod gateway-conformance-infra/coredns-5998cfc87f-cz5mq not ready yet
+    helpers.go:240: 2026-03-08T05:56:55.65796335Z: Ready condition set to False, expected True
+    helpers.go:240: 2026-03-08T05:56:55.65801949Z: Ready was not in conditions list
+    helpers.go:243: 2026-03-08T05:56:55.65803485Z: Pod gateway-conformance-infra/coredns-5998cfc87f-cz5mq not ready yet
+    helpers.go:240: 2026-03-08T05:56:56.657422545Z: Ready condition set to False, expected True
+    helpers.go:240: 2026-03-08T05:56:56.657485935Z: Ready was not in conditions list
+    helpers.go:243: 2026-03-08T05:56:56.657500295Z: Pod gateway-conformance-infra/coredns-5998cfc87f-cz5mq not ready yet
+    helpers.go:240: 2026-03-08T05:56:57.6582317Z: Ready condition set to False, expected True
+    helpers.go:240: 2026-03-08T05:56:57.65828942Z: Ready was not in conditions list
+    helpers.go:243: 2026-03-08T05:56:57.65830276Z: Pod gateway-conformance-infra/coredns-5998cfc87f-cz5mq not ready yet
+    helpers.go:240: 2026-03-08T05:56:58.657134376Z: Ready condition set to False, expected True
+    helpers.go:240: 2026-03-08T05:56:58.657209756Z: Ready was not in conditions list
+    helpers.go:243: 2026-03-08T05:56:58.657224125Z: Pod gateway-conformance-infra/coredns-5998cfc87f-cz5mq not ready yet
+    helpers.go:240: 2026-03-08T05:56:59.657318571Z: Ready condition set to False, expected True
+    helpers.go:240: 2026-03-08T05:56:59.657368801Z: Ready was not in conditions list
+    helpers.go:243: 2026-03-08T05:56:59.657382331Z: Pod gateway-conformance-infra/coredns-5998cfc87f-cz5mq not ready yet
+    helpers.go:240: 2026-03-08T05:57:00.657164556Z: Ready condition set to False, expected True
+    helpers.go:240: 2026-03-08T05:57:00.657206446Z: Ready was not in conditions list
+    helpers.go:243: 2026-03-08T05:57:00.657219126Z: Pod gateway-conformance-infra/coredns-5998cfc87f-cz5mq not ready yet
+    helpers.go:240: 2026-03-08T05:57:01.659069391Z: Ready condition set to False, expected True
+    helpers.go:240: 2026-03-08T05:57:01.659115491Z: Ready was not in conditions list
+    helpers.go:243: 2026-03-08T05:57:01.659129881Z: Pod gateway-conformance-infra/grpc-infra-backend-v3-598f46b4bd-7v9xd not ready yet
+    helpers.go:240: 2026-03-08T05:57:02.658404506Z: Ready condition set to False, expected True
+    helpers.go:240: 2026-03-08T05:57:02.658453826Z: Ready was not in conditions list
+    helpers.go:243: 2026-03-08T05:57:02.658466306Z: Pod gateway-conformance-infra/grpc-infra-backend-v3-598f46b4bd-7v9xd not ready yet
+    helpers.go:248: 2026-03-08T05:57:03.672674761Z: Gateways and Pods in gateway-conformance-infra, gateway-conformance-app-backend, gateway-conformance-web-backend namespaces ready
+    suite.go:401: 2026-03-08T05:57:03.672764851Z: Test Setup: Applying base manifests
+    apply.go:275: 2026-03-08T05:57:03.675959521Z: Creating gateway-conformance-mesh Namespace
+    apply.go:275: 2026-03-08T05:57:03.686032281Z: Creating echo-v1 Deployment
+    apply.go:275: 2026-03-08T05:57:03.692839911Z: Creating echo-v1 Service
+    apply.go:275: 2026-03-08T05:57:03.70556574Z: Creating echo-v2 Deployment
+    apply.go:275: 2026-03-08T05:57:03.7174302Z: Creating echo-v2 Service
+    apply.go:275: 2026-03-08T05:57:03.73400748Z: Creating echo Service
+    apply.go:275: 2026-03-08T05:57:03.74497166Z: Creating gateway-conformance-mesh-consumer Namespace
+    apply.go:275: 2026-03-08T05:57:03.753189009Z: Creating echo-v1 Deployment
+    suite.go:403: 2026-03-08T05:57:03.757837439Z: Test Setup: Ensuring Gateways and Pods from mesh manifests are ready
+    helpers.go:311: 2026-03-08T05:57:03.76080555Z: Ready condition set to False, expected True
+    helpers.go:311: 2026-03-08T05:57:03.76086761Z: Ready was not in conditions list
+    helpers.go:314: 2026-03-08T05:57:03.760887139Z: Pod gateway-conformance-mesh/echo-v1-55b79d6b7c-7qpsl not ready yet
+    helpers.go:311: 2026-03-08T05:57:04.762347825Z: Ready condition set to False, expected True
+    helpers.go:311: 2026-03-08T05:57:04.762436955Z: Ready was not in conditions list
+    helpers.go:314: 2026-03-08T05:57:04.762464075Z: Pod gateway-conformance-mesh/echo-v1-55b79d6b7c-7qpsl not ready yet
+    helpers.go:311: 2026-03-08T05:57:05.76224314Z: Ready condition set to False, expected True
+    helpers.go:311: 2026-03-08T05:57:05.76230075Z: Ready was not in conditions list
+    helpers.go:314: 2026-03-08T05:57:05.76232166Z: Pod gateway-conformance-mesh/echo-v1-55b79d6b7c-7qpsl not ready yet
+    helpers.go:311: 2026-03-08T05:57:06.762408265Z: Ready condition set to False, expected True
+    helpers.go:311: 2026-03-08T05:57:06.762467015Z: Ready was not in conditions list
+    helpers.go:314: 2026-03-08T05:57:06.762487055Z: Pod gateway-conformance-mesh/echo-v1-55b79d6b7c-7qpsl not ready yet
+    helpers.go:311: 2026-03-08T05:57:07.762394131Z: Ready condition set to False, expected True
+    helpers.go:311: 2026-03-08T05:57:07.762448881Z: Ready was not in conditions list
+    helpers.go:314: 2026-03-08T05:57:07.762472751Z: Pod gateway-conformance-mesh/echo-v1-55b79d6b7c-7qpsl not ready yet
+    helpers.go:311: 2026-03-08T05:57:08.762651976Z: Ready condition set to False, expected True
+    helpers.go:311: 2026-03-08T05:57:08.762710227Z: Ready was not in conditions list
+    helpers.go:314: 2026-03-08T05:57:08.762727496Z: Pod gateway-conformance-mesh/echo-v1-55b79d6b7c-7qpsl not ready yet
+    helpers.go:311: 2026-03-08T05:57:09.762572312Z: Ready condition set to False, expected True
+    helpers.go:311: 2026-03-08T05:57:09.762635732Z: Ready was not in conditions list
+    helpers.go:314: 2026-03-08T05:57:09.762649682Z: Pod gateway-conformance-mesh/echo-v1-55b79d6b7c-7qpsl not ready yet
+    helpers.go:311: 2026-03-08T05:57:10.762378007Z: Ready condition set to False, expected True
+    helpers.go:311: 2026-03-08T05:57:10.762464267Z: Ready was not in conditions list
+    helpers.go:314: 2026-03-08T05:57:10.762479987Z: Pod gateway-conformance-mesh/echo-v1-55b79d6b7c-7qpsl not ready yet
+    helpers.go:311: 2026-03-08T05:57:11.762691283Z: Ready condition set to False, expected True
+    helpers.go:311: 2026-03-08T05:57:11.762759193Z: Ready was not in conditions list
+    helpers.go:314: 2026-03-08T05:57:11.762780563Z: Pod gateway-conformance-mesh/echo-v1-55b79d6b7c-7qpsl not ready yet
+    helpers.go:311: 2026-03-08T05:57:12.763064118Z: Ready condition set to False, expected True
+    helpers.go:311: 2026-03-08T05:57:12.763121448Z: Ready was not in conditions list
+    helpers.go:314: 2026-03-08T05:57:12.763137058Z: Pod gateway-conformance-mesh/echo-v1-55b79d6b7c-7qpsl not ready yet
+    helpers.go:319: 2026-03-08T05:57:13.770084164Z: Pods in gateway-conformance-mesh, gateway-conformance-mesh-consumer, gateway-conformance-app-backend, gateway-conformance-web-backend namespaces ready
+=== RUN   TestConformance/BackendTLSPolicyInvalidCACertificateRef
+    conformance.go:70: 2026-03-08T05:57:13.770734594Z: Applying tests/backendtlspolicy-invalid-ca-certificate-ref.yaml
+    apply.go:275: 2026-03-08T05:57:13.777669064Z: Creating backendtlspolicy-invalid-ca-certificate-ref HTTPRoute
+    apply.go:275: 2026-03-08T05:57:13.787480053Z: Creating backendtlspolicy-nonexistent-ca-certificate-ref-test Service
+    apply.go:275: 2026-03-08T05:57:13.801401963Z: Creating backendtlspolicy-malformed-ca-certificate-ref-test Service
+    apply.go:275: 2026-03-08T05:57:13.838389612Z: Creating nonexistent-ca-certificate-ref BackendTLSPolicy
+    apply.go:275: 2026-03-08T05:57:13.851853322Z: Creating malformed-ca-certificate-ref BackendTLSPolicy
+    apply.go:275: 2026-03-08T05:57:13.859886102Z: Creating malformed-ca-certificate ConfigMap
+    conformance.go:75: 2026-03-08T05:57:13.864148811Z: Running BackendTLSPolicyInvalidCACertificateRef, relying on the following features: Gateway-standard, HTTPRoute-standard, BackendTLSPolicy-standard
+    helpers.go:248: 2026-03-08T05:57:13.962806709Z: Gateways and Pods in gateway-conformance-infra namespaces ready
+    helpers.go:627: 2026-03-08T05:57:13.968359859Z: Conditions matched expectations
+    helpers.go:627: 2026-03-08T05:57:13.968413319Z: Route gateway-conformance-infra/backendtlspolicy-invalid-ca-certificate-ref Parents matched expectations
+=== RUN   TestConformance/BackendTLSPolicyInvalidCACertificateRef/BackendTLSPolicy_nonexistent-ca-certificate-ref
+=== RUN   TestConformance/BackendTLSPolicyInvalidCACertificateRef/BackendTLSPolicy_nonexistent-ca-certificate-ref/BackendTLSPolicy_with_a_single_invalid_CACertificateRef_has_a_Accepted_Condition_with_status_False_and_Reason_NoValidCACertificate
+=== RUN   TestConformance/BackendTLSPolicyInvalidCACertificateRef/BackendTLSPolicy_nonexistent-ca-certificate-ref/BackendTLSPolicy_with_a_single_invalid_CACertificateRef_has_a_ResolvedRefs_Condition_with_status_False_and_Reason_InvalidCACertificateRef
+=== RUN   TestConformance/BackendTLSPolicyInvalidCACertificateRef/BackendTLSPolicy_nonexistent-ca-certificate-ref/HTTP_Request_to_backend_targeted_by_an_invalid_BackendTLSPolicy_receive_a_5xx
+    backendtlspolicy-invalid-ca-certificate-ref.go:81: 2026-03-08T05:57:13.977004909Z: Making GET request to host abc.example.com via http://192.168.8.240/backendtlspolicy-nonexistent-ca-certificate-ref
+    roundtripper.go:234: 2026-03-08T05:57:13.977261559Z: Sending Request:
+        < GET /backendtlspolicy-nonexistent-ca-certificate-ref HTTP/1.1
+        < Host: abc.example.com
+        < User-Agent: Go-http-client/1.1
+        < X-Echo-Set-Header: 
+        < Accept-Encoding: gzip
+        < 
+        < 
+        
+        
+    roundtripper.go:262: 2026-03-08T05:57:13.981917808Z: Received Response:
+        < HTTP/1.1 400 Bad Request
+        < Connection: close
+        < Transfer-Encoding: chunked
+        < Date: Sun, 08 Mar 2026 05:57:13 GMT
+        < Server: envoy
+        < X-Envoy-Upstream-Service-Time: 0
+        < 
+        < 30
+        < Client sent an HTTP request to an HTTPS server.
+        < 
+        < 0
+        < 
+        < 
+        
+        
+    http.go:276: 2026-03-08T05:57:13.982042348Z: Response expectation failed for request: {URL: {Scheme:http Opaque: User: Host:192.168.8.240 Path:/backendtlspolicy-nonexistent-ca-certificate-ref RawPath: OmitHost:false ForceQuery:false RawQuery: Fragment: RawFragment:}, Host: abc.example.com, Protocol: HTTP, Method: GET, Headers: map[X-Echo-Set-Header:[]], UnfollowRedirect: false, Server: , CertPem: <truncated>, KeyPem: <truncated>}  not ready yet: expected status code to be one of [500 502 503], got 400. CRes: &{400 -1 HTTP/1.1 map[Date:[Sun, 08 Mar 2026 05:57:13 GMT] Server:[envoy] X-Envoy-Upstream-Service-Time:[0]] <nil> []} (after 1.94µs)
+    roundtripper.go:234: 2026-03-08T05:57:14.982566224Z: Sending Request:
+        < GET /backendtlspolicy-nonexistent-ca-certificate-ref HTTP/1.1
+        < Host: abc.example.com
+        < User-Agent: Go-http-client/1.1
+        < X-Echo-Set-Header: 
+        < Accept-Encoding: gzip
+        < 
+        < 
+        
+        
+    roundtripper.go:262: 2026-03-08T05:57:14.987976034Z: Received Response:
+        < HTTP/1.1 400 Bad Request
+        < Connection: close
+        < Transfer-Encoding: chunked
+        < Date: Sun, 08 Mar 2026 05:57:14 GMT
+        < Server: envoy
+        < X-Envoy-Upstream-Service-Time: 0
+        < 
+        < 30
+        < Client sent an HTTP request to an HTTPS server.
+        < 
+        < 0
+        < 
+        < 
+        
+        
+    http.go:276: 2026-03-08T05:57:14.988110544Z: Response expectation failed for request: {URL: {Scheme:http Opaque: User: Host:192.168.8.240 Path:/backendtlspolicy-nonexistent-ca-certificate-ref RawPath: OmitHost:false ForceQuery:false RawQuery: Fragment: RawFragment:}, Host: abc.example.com, Protocol: HTTP, Method: GET, Headers: map[X-Echo-Set-Header:[]], UnfollowRedirect: false, Server: , CertPem: <truncated>, KeyPem: <truncated>}  not ready yet: expected status code to be one of [500 502 503], got 400. CRes: &{400 -1 HTTP/1.1 map[Date:[Sun, 08 Mar 2026 05:57:14 GMT] Server:[envoy] X-Envoy-Upstream-Service-Time:[0]] <nil> []} (after 1.005171985s)
+    roundtripper.go:234: 2026-03-08T05:57:15.98872131Z: Sending Request:
+        < GET /backendtlspolicy-nonexistent-ca-certificate-ref HTTP/1.1
+        < Host: abc.example.com
+        < User-Agent: Go-http-client/1.1
+        < X-Echo-Set-Header: 
+        < Accept-Encoding: gzip
+        < 
+        < 
+        
+        
+    roundtripper.go:262: 2026-03-08T05:57:15.99336297Z: Received Response:
+        < HTTP/1.1 400 Bad Request
+        < Connection: close
+        < Transfer-Encoding: chunked
+        < Date: Sun, 08 Mar 2026 05:57:15 GMT
+        < Server: envoy
+        < X-Envoy-Upstream-Service-Time: 0
+        < 
+        < 30
+        < Client sent an HTTP request to an HTTPS server.
+        < 
+        < 0
+        < 
+        < 
+        
+        
+    http.go:276: 2026-03-08T05:57:15.99356285Z: Response expectation failed for request: {URL: {Scheme:http Opaque: User: Host:192.168.8.240 Path:/backendtlspolicy-nonexistent-ca-certificate-ref RawPath: OmitHost:false ForceQuery:false RawQuery: Fragment: RawFragment:}, Host: abc.example.com, Protocol: HTTP, Method: GET, Headers: map[X-Echo-Set-Header:[]], UnfollowRedirect: false, Server: , CertPem: <truncated>, KeyPem: <truncated>}  not ready yet: expected status code to be one of [500 502 503], got 400. CRes: &{400 -1 HTTP/1.1 map[Date:[Sun, 08 Mar 2026 05:57:15 GMT] Server:[envoy] X-Envoy-Upstream-Service-Time:[0]] <nil> []} (after 2.01140263s)
+    roundtripper.go:234: 2026-03-08T05:57:16.994072725Z: Sending Request:
+        < GET /backendtlspolicy-nonexistent-ca-certificate-ref HTTP/1.1
+        < Host: abc.example.com
+        < User-Agent: Go-http-client/1.1
+        < X-Echo-Set-Header: 
+        < Accept-Encoding: gzip
+        < 
+        < 
+        
+        
+    roundtripper.go:262: 2026-03-08T05:57:16.998612595Z: Received Response:
+        < HTTP/1.1 400 Bad Request
+        < Connection: close
+        < Transfer-Encoding: chunked
+        < Date: Sun, 08 Mar 2026 05:57:16 GMT
+        < Server: envoy
+        < X-Envoy-Upstream-Service-Time: 0
+        < 
+        < 30
+        < Client sent an HTTP request to an HTTPS server.
+        < 
+        < 0
+        < 
+        < 
+        
+        
+    http.go:276: 2026-03-08T05:57:16.998731085Z: Response expectation failed for request: {URL: {Scheme:http Opaque: User: Host:192.168.8.240 Path:/backendtlspolicy-nonexistent-ca-certificate-ref RawPath: OmitHost:false ForceQuery:false RawQuery: Fragment: RawFragment:}, Host: abc.example.com, Protocol: HTTP, Method: GET, Headers: map[X-Echo-Set-Header:[]], UnfollowRedirect: false, Server: , CertPem: <truncated>, KeyPem: <truncated>}  not ready yet: expected status code to be one of [500 502 503], got 400. CRes: &{400 -1 HTTP/1.1 map[Date:[Sun, 08 Mar 2026 05:57:16 GMT] Server:[envoy] X-Envoy-Upstream-Service-Time:[0]] <nil> []} (after 3.016716676s)
+    roundtripper.go:234: 2026-03-08T05:57:17.999167501Z: Sending Request:
+        < GET /backendtlspolicy-nonexistent-ca-certificate-ref HTTP/1.1
+        < Host: abc.example.com
+        < User-Agent: Go-http-client/1.1
+        < X-Echo-Set-Header: 
+        < Accept-Encoding: gzip
+        < 
+        < 
+        
+        
+    roundtripper.go:262: 2026-03-08T05:57:18.00639574Z: Received Response:
+        < HTTP/1.1 400 Bad Request
+        < Connection: close
+        < Transfer-Encoding: chunked
+        < Date: Sun, 08 Mar 2026 05:57:17 GMT
+        < Server: envoy
+        < X-Envoy-Upstream-Service-Time: 0
+        < 
+        < 30
+        < Client sent an HTTP request to an HTTPS server.
+        < 
+        < 0
+        < 
+        < 
+        
+        
+    http.go:276: 2026-03-08T05:57:18.00659193Z: Response expectation failed for request: {URL: {Scheme:http Opaque: User: Host:192.168.8.240 Path:/backendtlspolicy-nonexistent-ca-certificate-ref RawPath: OmitHost:false ForceQuery:false RawQuery: Fragment: RawFragment:}, Host: abc.example.com, Protocol: HTTP, Method: GET, Headers: map[X-Echo-Set-Header:[]], UnfollowRedirect: false, Server: , CertPem: <truncated>, KeyPem: <truncated>}  not ready yet: expected status code to be one of [500 502 503], got 400. CRes: &{400 -1 HTTP/1.1 map[Date:[Sun, 08 Mar 2026 05:57:17 GMT] Server:[envoy] X-Envoy-Upstream-Service-Time:[0]] <nil> []} (after 4.021843202s)
+    roundtripper.go:234: 2026-03-08T05:57:19.007479406Z: Sending Request:
+        < GET /backendtlspolicy-nonexistent-ca-certificate-ref HTTP/1.1
+        < Host: abc.example.com
+        < User-Agent: Go-http-client/1.1
+        < X-Echo-Set-Header: 
+        < Accept-Encoding: gzip
+        < 
+        < 
+        
+        
+    roundtripper.go:262: 2026-03-08T05:57:19.015079116Z: Received Response:
+        < HTTP/1.1 400 Bad Request
+        < Connection: close
+        < Transfer-Encoding: chunked
+        < Date: Sun, 08 Mar 2026 05:57:18 GMT
+        < Server: envoy
+        < X-Envoy-Upstream-Service-Time: 0
+        < 
+        < 30
+        < Client sent an HTTP request to an HTTPS server.
+        < 
+        < 0
+        < 
+        < 
+        
+        
+    http.go:276: 2026-03-08T05:57:19.015294106Z: Response expectation failed for request: {URL: {Scheme:http Opaque: User: Host:192.168.8.240 Path:/backendtlspolicy-nonexistent-ca-certificate-ref RawPath: OmitHost:false ForceQuery:false RawQuery: Fragment: RawFragment:}, Host: abc.example.com, Protocol: HTTP, Method: GET, Headers: map[X-Echo-Set-Header:[]], UnfollowRedirect: false, Server: , CertPem: <truncated>, KeyPem: <truncated>}  not ready yet: expected status code to be one of [500 502 503], got 400. CRes: &{400 -1 HTTP/1.1 map[Date:[Sun, 08 Mar 2026 05:57:18 GMT] Server:[envoy] X-Envoy-Upstream-Service-Time:[0]] <nil> []} (after 5.030074457s)
+    roundtripper.go:234: 2026-03-08T05:57:20.015825802Z: Sending Request:
+        < GET /backendtlspolicy-nonexistent-ca-certificate-ref HTTP/1.1
+        < Host: abc.example.com
+        < User-Agent: Go-http-client/1.1
+        < X-Echo-Set-Header: 
+        < Accept-Encoding: gzip
+        < 
+        < 
+        
+        
+    roundtripper.go:262: 2026-03-08T05:57:20.020685041Z: Received Response:
+        < HTTP/1.1 400 Bad Request
+        < Connection: close
+        < Transfer-Encoding: chunked
+        < Date: Sun, 08 Mar 2026 05:57:19 GMT
+        < Server: envoy
+        < X-Envoy-Upstream-Service-Time: 0
+        < 
+        < 30
+        < Client sent an HTTP request to an HTTPS server.
+        < 
+        < 0
+        < 
+        < 
+        
+        
+    http.go:276: 2026-03-08T05:57:20.020825741Z: Response expectation failed for request: {URL: {Scheme:http Opaque: User: Host:192.168.8.240 Path:/backendtlspolicy-nonexistent-ca-certificate-ref RawPath: OmitHost:false ForceQuery:false RawQuery: Fragment: RawFragment:}, Host: abc.example.com, Protocol: HTTP, Method: GET, Headers: map[X-Echo-Set-Header:[]], UnfollowRedirect: false, Server: , CertPem: <truncated>, KeyPem: <truncated>}  not ready yet: expected status code to be one of [500 502 503], got 400. CRes: &{400 -1 HTTP/1.1 map[Date:[Sun, 08 Mar 2026 05:57:19 GMT] Server:[envoy] X-Envoy-Upstream-Service-Time:[0]] <nil> []} (after 6.038453923s)
+    roundtripper.go:234: 2026-03-08T05:57:21.021242117Z: Sending Request:
+        < GET /backendtlspolicy-nonexistent-ca-certificate-ref HTTP/1.1
+        < Host: abc.example.com
+        < User-Agent: Go-http-client/1.1
+        < X-Echo-Set-Header: 
+        < Accept-Encoding: gzip
+        < 
+        < 
+        
+        
+    roundtripper.go:262: 2026-03-08T05:57:21.025621237Z: Received Response:
+        < HTTP/1.1 400 Bad Request
+        < Connection: close
+        < Transfer-Encoding: chunked
+        < Date: Sun, 08 Mar 2026 05:57:20 GMT
+        < Server: envoy
+        < X-Envoy-Upstream-Service-Time: 0
+        < 
+        < 30
+        < Client sent an HTTP request to an HTTPS server.
+        < 
+        < 0
+        < 
+        < 
+        
+        
+    http.go:276: 2026-03-08T05:57:21.025760807Z: Response expectation failed for request: {URL: {Scheme:http Opaque: User: Host:192.168.8.240 Path:/backendtlspolicy-nonexistent-ca-certificate-ref RawPath: OmitHost:false ForceQuery:false RawQuery: Fragment: RawFragment:}, Host: abc.example.com, Protocol: HTTP, Method: GET, Headers: map[X-Echo-Set-Header:[]], UnfollowRedirect: false, Server: , CertPem: <truncated>, KeyPem: <truncated>}  not ready yet: expected status code to be one of [500 502 503], got 400. CRes: &{400 -1 HTTP/1.1 map[Date:[Sun, 08 Mar 2026 05:57:20 GMT] Server:[envoy] X-Envoy-Upstream-Service-Time:[0]] <nil> []} (after 7.043935398s)
+    roundtripper.go:234: 2026-03-08T05:57:22.026213643Z: Sending Request:
+        < GET /backendtlspolicy-nonexistent-ca-certificate-ref HTTP/1.1
+        < Host: abc.example.com
+        < User-Agent: Go-http-client/1.1
+        < X-Echo-Set-Header: 
+        < Accept-Encoding: gzip
+        < 
+        < 
+        
+        
+    roundtripper.go:262: 2026-03-08T05:57:22.032528673Z: Received Response:
+        < HTTP/1.1 400 Bad Request
+        < Connection: close
+        < Transfer-Encoding: chunked
+        < Date: Sun, 08 Mar 2026 05:57:21 GMT
+        < Server: envoy
+        < X-Envoy-Upstream-Service-Time: 0
+        < 
+        < 30
+        < Client sent an HTTP request to an HTTPS server.
+        < 
+        < 0
+        < 
+        < 
+        
+        
+    http.go:276: 2026-03-08T05:57:22.032673183Z: Response expectation failed for request: {URL: {Scheme:http Opaque: User: Host:192.168.8.240 Path:/backendtlspolicy-nonexistent-ca-certificate-ref RawPath: OmitHost:false ForceQuery:false RawQuery: Fragment: RawFragment:}, Host: abc.example.com, Protocol: HTTP, Method: GET, Headers: map[X-Echo-Set-Header:[]], UnfollowRedirect: false, Server: , CertPem: <truncated>, KeyPem: <truncated>}  not ready yet: expected status code to be one of [500 502 503], got 400. CRes: &{400 -1 HTTP/1.1 map[Date:[Sun, 08 Mar 2026 05:57:21 GMT] Server:[envoy] X-Envoy-Upstream-Service-Time:[0]] <nil> []} (after 8.048898744s)
+    roundtripper.go:234: 2026-03-08T05:57:23.033267719Z: Sending Request:
+        < GET /backendtlspolicy-nonexistent-ca-certificate-ref HTTP/1.1
+        < Host: abc.example.com
+        < User-Agent: Go-http-client/1.1
+        < X-Echo-Set-Header: 
+        < Accept-Encoding: gzip
+        < 
+        < 
+        
+        
+    roundtripper.go:262: 2026-03-08T05:57:23.038574888Z: Received Response:
+        < HTTP/1.1 400 Bad Request
+        < Connection: close
+        < Transfer-Encoding: chunked
+        < Date: Sun, 08 Mar 2026 05:57:22 GMT
+        < Server: envoy
+        < X-Envoy-Upstream-Service-Time: 0
+        < 
+        < 30
+        < Client sent an HTTP request to an HTTPS server.
+        < 
+        < 0
+        < 
+        < 
+        
+        
+    http.go:276: 2026-03-08T05:57:23.038698539Z: Response expectation failed for request: {URL: {Scheme:http Opaque: User: Host:192.168.8.240 Path:/backendtlspolicy-nonexistent-ca-certificate-ref RawPath: OmitHost:false ForceQuery:false RawQuery: Fragment: RawFragment:}, Host: abc.example.com, Protocol: HTTP, Method: GET, Headers: map[X-Echo-Set-Header:[]], UnfollowRedirect: false, Server: , CertPem: <truncated>, KeyPem: <truncated>}  not ready yet: expected status code to be one of [500 502 503], got 400. CRes: &{400 -1 HTTP/1.1 map[Date:[Sun, 08 Mar 2026 05:57:22 GMT] Server:[envoy] X-Envoy-Upstream-Service-Time:[0]] <nil> []} (after 9.05591336s)
+    roundtripper.go:234: 2026-03-08T05:57:24.039162944Z: Sending Request:
+        < GET /backendtlspolicy-nonexistent-ca-certificate-ref HTTP/1.1
+        < Host: abc.example.com
+        < User-Agent: Go-http-client/1.1
+        < X-Echo-Set-Header: 
+        < Accept-Encoding: gzip
+        < 
+        < 
+        
+        
+    roundtripper.go:262: 2026-03-08T05:57:24.044223644Z: Received Response:
+        < HTTP/1.1 400 Bad Request
+        < Connection: close
+        < Transfer-Encoding: chunked
+        < Date: Sun, 08 Mar 2026 05:57:23 GMT
+        < Server: envoy
+        < X-Envoy-Upstream-Service-Time: 0
+        < 
+        < 30
+        < Client sent an HTTP request to an HTTPS server.
+        < 
+        < 0
+        < 
+        < 
+        
+        
+    http.go:276: 2026-03-08T05:57:24.044369824Z: Response expectation failed for request: {URL: {Scheme:http Opaque: User: Host:192.168.8.240 Path:/backendtlspolicy-nonexistent-ca-certificate-ref RawPath: OmitHost:false ForceQuery:false RawQuery: Fragment: RawFragment:}, Host: abc.example.com, Protocol: HTTP, Method: GET, Headers: map[X-Echo-Set-Header:[]], UnfollowRedirect: false, Server: , CertPem: <truncated>, KeyPem: <truncated>}  not ready yet: expected status code to be one of [500 502 503], got 400. CRes: &{400 -1 HTTP/1.1 map[Date:[Sun, 08 Mar 2026 05:57:23 GMT] Server:[envoy] X-Envoy-Upstream-Service-Time:[0]] <nil> []} (after 10.061818805s)
+    roundtripper.go:234: 2026-03-08T05:57:25.04481954Z: Sending Request:
+        < GET /backendtlspolicy-nonexistent-ca-certificate-ref HTTP/1.1
+        < Host: abc.example.com
+        < User-Agent: Go-http-client/1.1
+        < X-Echo-Set-Header: 
+        < Accept-Encoding: gzip
+        < 
+        < 
+        
+        
+    roundtripper.go:262: 2026-03-08T05:57:25.04932278Z: Received Response:
+        < HTTP/1.1 400 Bad Request
+        < Connection: close
+        < Transfer-Encoding: chunked
+        < Date: Sun, 08 Mar 2026 05:57:24 GMT
+        < Server: envoy
+        < X-Envoy-Upstream-Service-Time: 0
+        < 
+        < 30
+        < Client sent an HTTP request to an HTTPS server.
+        < 
+        < 0
+        < 
+        < 
+        
+        
+    http.go:276: 2026-03-08T05:57:25.04945891Z: Response expectation failed for request: {URL: {Scheme:http Opaque: User: Host:192.168.8.240 Path:/backendtlspolicy-nonexistent-ca-certificate-ref RawPath: OmitHost:false ForceQuery:false RawQuery: Fragment: RawFragment:}, Host: abc.example.com, Protocol: HTTP, Method: GET, Headers: map[X-Echo-Set-Header:[]], UnfollowRedirect: false, Server: , CertPem: <truncated>, KeyPem: <truncated>}  not ready yet: expected status code to be one of [500 502 503], got 400. CRes: &{400 -1 HTTP/1.1 map[Date:[Sun, 08 Mar 2026 05:57:24 GMT] Server:[envoy] X-Envoy-Upstream-Service-Time:[0]] <nil> []} (after 11.067490781s)
+    roundtripper.go:234: 2026-03-08T05:57:26.049818006Z: Sending Request:
+        < GET /backendtlspolicy-nonexistent-ca-certificate-ref HTTP/1.1
+        < Host: abc.example.com
+        < User-Agent: Go-http-client/1.1
+        < X-Echo-Set-Header: 
+        < Accept-Encoding: gzip
+        < 
+        < 
+        
+        
+    roundtripper.go:262: 2026-03-08T05:57:26.053800526Z: Received Response:
+        < HTTP/1.1 400 Bad Request
+        < Connection: close
+        < Transfer-Encoding: chunked
+        < Date: Sun, 08 Mar 2026 05:57:25 GMT
+        < Server: envoy
+        < X-Envoy-Upstream-Service-Time: 0
+        < 
+        < 30
+        < Client sent an HTTP request to an HTTPS server.
+        < 
+        < 0
+        < 
+        < 
+        
+        
+    http.go:276: 2026-03-08T05:57:26.053910906Z: Response expectation failed for request: {URL: {Scheme:http Opaque: User: Host:192.168.8.240 Path:/backendtlspolicy-nonexistent-ca-certificate-ref RawPath: OmitHost:false ForceQuery:false RawQuery: Fragment: RawFragment:}, Host: abc.example.com, Protocol: HTTP, Method: GET, Headers: map[X-Echo-Set-Header:[]], UnfollowRedirect: false, Server: , CertPem: <truncated>, KeyPem: <truncated>}  not ready yet: expected status code to be one of [500 502 503], got 400. CRes: &{400 -1 HTTP/1.1 map[Date:[Sun, 08 Mar 2026 05:57:25 GMT] Server:[envoy] X-Envoy-Upstream-Service-Time:[0]] <nil> []} (after 12.072569706s)
+    roundtripper.go:234: 2026-03-08T05:57:27.054420982Z: Sending Request:
+        < GET /backendtlspolicy-nonexistent-ca-certificate-ref HTTP/1.1
+        < Host: abc.example.com
+        < User-Agent: Go-http-client/1.1
+        < X-Echo-Set-Header: 
+        < Accept-Encoding: gzip
+        < 
+        < 
+        
+        
+    roundtripper.go:262: 2026-03-08T05:57:27.059089482Z: Received Response:
+        < HTTP/1.1 400 Bad Request
+        < Connection: close
+        < Transfer-Encoding: chunked
+        < Date: Sun, 08 Mar 2026 05:57:26 GMT
+        < Server: envoy
+        < X-Envoy-Upstream-Service-Time: 0
+        < 
+        < 30
+        < Client sent an HTTP request to an HTTPS server.
+        < 
+        < 0
+        < 
+        < 
+        
+        
+    http.go:276: 2026-03-08T05:57:27.059301532Z: Response expectation failed for request: {URL: {Scheme:http Opaque: User: Host:192.168.8.240 Path:/backendtlspolicy-nonexistent-ca-certificate-ref RawPath: OmitHost:false ForceQuery:false RawQuery: Fragment: RawFragment:}, Host: abc.example.com, Protocol: HTTP, Method: GET, Headers: map[X-Echo-Set-Header:[]], UnfollowRedirect: false, Server: , CertPem: <truncated>, KeyPem: <truncated>}  not ready yet: expected status code to be one of [500 502 503], got 400. CRes: &{400 -1 HTTP/1.1 map[Date:[Sun, 08 Mar 2026 05:57:26 GMT] Server:[envoy] X-Envoy-Upstream-Service-Time:[0]] <nil> []} (after 13.077060243s)
+    roundtripper.go:234: 2026-03-08T05:57:28.059665418Z: Sending Request:
+        < GET /backendtlspolicy-nonexistent-ca-certificate-ref HTTP/1.1
+        < Host: abc.example.com
+        < User-Agent: Go-http-client/1.1
+        < X-Echo-Set-Header: 
+        < Accept-Encoding: gzip
+        < 
+        < 
+        
+        
+    roundtripper.go:262: 2026-03-08T05:57:28.063876927Z: Received Response:
+        < HTTP/1.1 400 Bad Request
+        < Connection: close
+        < Transfer-Encoding: chunked
+        < Date: Sun, 08 Mar 2026 05:57:27 GMT
+        < Server: envoy
+        < X-Envoy-Upstream-Service-Time: 0
+        < 
+        < 30
+        < Client sent an HTTP request to an HTTPS server.
+        < 
+        < 0
+        < 
+        < 
+        
+        
+    http.go:276: 2026-03-08T05:57:28.064076567Z: Response expectation failed for request: {URL: {Scheme:http Opaque: User: Host:192.168.8.240 Path:/backendtlspolicy-nonexistent-ca-certificate-ref RawPath: OmitHost:false ForceQuery:false RawQuery: Fragment: RawFragment:}, Host: abc.example.com, Protocol: HTTP, Method: GET, Headers: map[X-Echo-Set-Header:[]], UnfollowRedirect: false, Server: , CertPem: <truncated>, KeyPem: <truncated>}  not ready yet: expected status code to be one of [500 502 503], got 400. CRes: &{400 -1 HTTP/1.1 map[Date:[Sun, 08 Mar 2026 05:57:27 GMT] Server:[envoy] X-Envoy-Upstream-Service-Time:[0]] <nil> []} (after 14.082422489s)
+    roundtripper.go:234: 2026-03-08T05:57:29.064502923Z: Sending Request:
+        < GET /backendtlspolicy-nonexistent-ca-certificate-ref HTTP/1.1
+        < Host: abc.example.com
+        < User-Agent: Go-http-client/1.1
+        < X-Echo-Set-Header: 
+        < Accept-Encoding: gzip
+        < 
+        < 
+        
+        
+    roundtripper.go:262: 2026-03-08T05:57:29.069085843Z: Received Response:
+        < HTTP/1.1 400 Bad Request
+        < Connection: close
+        < Transfer-Encoding: chunked
+        < Date: Sun, 08 Mar 2026 05:57:28 GMT
+        < Server: envoy
+        < X-Envoy-Upstream-Service-Time: 0
+        < 
+        < 30
+        < Client sent an HTTP request to an HTTPS server.
+        < 
+        < 0
+        < 
+        < 
+        
+        
+    http.go:276: 2026-03-08T05:57:29.069255843Z: Response expectation failed for request: {URL: {Scheme:http Opaque: User: Host:192.168.8.240 Path:/backendtlspolicy-nonexistent-ca-certificate-ref RawPath: OmitHost:false ForceQuery:false RawQuery: Fragment: RawFragment:}, Host: abc.example.com, Protocol: HTTP, Method: GET, Headers: map[X-Echo-Set-Header:[]], UnfollowRedirect: false, Server: , CertPem: <truncated>, KeyPem: <truncated>}  not ready yet: expected status code to be one of [500 502 503], got 400. CRes: &{400 -1 HTTP/1.1 map[Date:[Sun, 08 Mar 2026 05:57:28 GMT] Server:[envoy] X-Envoy-Upstream-Service-Time:[0]] <nil> []} (after 15.087246044s)
+    roundtripper.go:234: 2026-03-08T05:57:30.069699109Z: Sending Request:
+        < GET /backendtlspolicy-nonexistent-ca-certificate-ref HTTP/1.1
+        < Host: abc.example.com
+        < User-Agent: Go-http-client/1.1
+        < X-Echo-Set-Header: 
+        < Accept-Encoding: gzip
+        < 
+        < 
+        
+        
+    roundtripper.go:262: 2026-03-08T05:57:30.074782449Z: Received Response:
+        < HTTP/1.1 400 Bad Request
+        < Connection: close
+        < Transfer-Encoding: chunked
+        < Date: Sun, 08 Mar 2026 05:57:29 GMT
+        < Server: envoy
+        < X-Envoy-Upstream-Service-Time: 0
+        < 
+        < 30
+        < Client sent an HTTP request to an HTTPS server.
+        < 
+        < 0
+        < 
+        < 
+        
+        
+    http.go:276: 2026-03-08T05:57:30.074920229Z: Response expectation failed for request: {URL: {Scheme:http Opaque: User: Host:192.168.8.240 Path:/backendtlspolicy-nonexistent-ca-certificate-ref RawPath: OmitHost:false ForceQuery:false RawQuery: Fragment: RawFragment:}, Host: abc.example.com, Protocol: HTTP, Method: GET, Headers: map[X-Echo-Set-Header:[]], UnfollowRedirect: false, Server: , CertPem: <truncated>, KeyPem: <truncated>}  not ready yet: expected status code to be one of [500 502 503], got 400. CRes: &{400 -1 HTTP/1.1 map[Date:[Sun, 08 Mar 2026 05:57:29 GMT] Server:[envoy] X-Envoy-Upstream-Service-Time:[0]] <nil> []} (after 16.09238024s)
+    roundtripper.go:234: 2026-03-08T05:57:31.075362935Z: Sending Request:
+        < GET /backendtlspolicy-nonexistent-ca-certificate-ref HTTP/1.1
+        < Host: abc.example.com
+        < User-Agent: Go-http-client/1.1
+        < X-Echo-Set-Header: 
+        < Accept-Encoding: gzip
+        < 
+        < 
+        
+        
+    roundtripper.go:262: 2026-03-08T05:57:31.079815665Z: Received Response:
+        < HTTP/1.1 400 Bad Request
+        < Connection: close
+        < Transfer-Encoding: chunked
+        < Date: Sun, 08 Mar 2026 05:57:30 GMT
+        < Server: envoy
+        < X-Envoy-Upstream-Service-Time: 0
+        < 
+        < 30
+        < Client sent an HTTP request to an HTTPS server.
+        < 
+        < 0
+        < 
+        < 
+        
+        
+    http.go:276: 2026-03-08T05:57:31.079920105Z: Response expectation failed for request: {URL: {Scheme:http Opaque: User: Host:192.168.8.240 Path:/backendtlspolicy-nonexistent-ca-certificate-ref RawPath: OmitHost:false ForceQuery:false RawQuery: Fragment: RawFragment:}, Host: abc.example.com, Protocol: HTTP, Method: GET, Headers: map[X-Echo-Set-Header:[]], UnfollowRedirect: false, Server: , CertPem: <truncated>, KeyPem: <truncated>}  not ready yet: expected status code to be one of [500 502 503], got 400. CRes: &{400 -1 HTTP/1.1 map[Date:[Sun, 08 Mar 2026 05:57:30 GMT] Server:[envoy] X-Envoy-Upstream-Service-Time:[0]] <nil> []} (after 17.098043426s)
+    roundtripper.go:234: 2026-03-08T05:57:32.080382911Z: Sending Request:
+        < GET /backendtlspolicy-nonexistent-ca-certificate-ref HTTP/1.1
+        < Host: abc.example.com
+        < User-Agent: Go-http-client/1.1
+        < X-Echo-Set-Header: 
+        < Accept-Encoding: gzip
+        < 
+        < 
+        
+        
+    roundtripper.go:262: 2026-03-08T05:57:32.084825061Z: Received Response:
+        < HTTP/1.1 400 Bad Request
+        < Connection: close
+        < Transfer-Encoding: chunked
+        < Date: Sun, 08 Mar 2026 05:57:31 GMT
+        < Server: envoy
+        < X-Envoy-Upstream-Service-Time: 0
+        < 
+        < 30
+        < Client sent an HTTP request to an HTTPS server.
+        < 
+        < 0
+        < 
+        < 
+        
+        
+    http.go:276: 2026-03-08T05:57:32.084942961Z: Response expectation failed for request: {URL: {Scheme:http Opaque: User: Host:192.168.8.240 Path:/backendtlspolicy-nonexistent-ca-certificate-ref RawPath: OmitHost:false ForceQuery:false RawQuery: Fragment: RawFragment:}, Host: abc.example.com, Protocol: HTTP, Method: GET, Headers: map[X-Echo-Set-Header:[]], UnfollowRedirect: false, Server: , CertPem: <truncated>, KeyPem: <truncated>}  not ready yet: expected status code to be one of [500 502 503], got 400. CRes: &{400 -1 HTTP/1.1 map[Date:[Sun, 08 Mar 2026 05:57:31 GMT] Server:[envoy] X-Envoy-Upstream-Service-Time:[0]] <nil> []} (after 18.103060442s)
+    roundtripper.go:234: 2026-03-08T05:57:33.085260427Z: Sending Request:
+        < GET /backendtlspolicy-nonexistent-ca-certificate-ref HTTP/1.1
+        < Host: abc.example.com
+        < User-Agent: Go-http-client/1.1
+        < X-Echo-Set-Header: 
+        < Accept-Encoding: gzip
+        < 
+        < 
+        
+        
+    roundtripper.go:262: 2026-03-08T05:57:33.090381697Z: Received Response:
+        < HTTP/1.1 400 Bad Request
+        < Connection: close
+        < Transfer-Encoding: chunked
+        < Date: Sun, 08 Mar 2026 05:57:32 GMT
+        < Server: envoy
+        < X-Envoy-Upstream-Service-Time: 0
+        < 
+        < 30
+        < Client sent an HTTP request to an HTTPS server.
+        < 
+        < 0
+        < 
+        < 
+        
+        
+    http.go:276: 2026-03-08T05:57:33.090552117Z: Response expectation failed for request: {URL: {Scheme:http Opaque: User: Host:192.168.8.240 Path:/backendtlspolicy-nonexistent-ca-certificate-ref RawPath: OmitHost:false ForceQuery:false RawQuery: Fragment: RawFragment:}, Host: abc.example.com, Protocol: HTTP, Method: GET, Headers: map[X-Echo-Set-Header:[]], UnfollowRedirect: false, Server: , CertPem: <truncated>, KeyPem: <truncated>}  not ready yet: expected status code to be one of [500 502 503], got 400. CRes: &{400 -1 HTTP/1.1 map[Date:[Sun, 08 Mar 2026 05:57:32 GMT] Server:[envoy] X-Envoy-Upstream-Service-Time:[0]] <nil> []} (after 19.108032618s)
+    roundtripper.go:234: 2026-03-08T05:57:34.090893693Z: Sending Request:
+        < GET /backendtlspolicy-nonexistent-ca-certificate-ref HTTP/1.1
+        < Host: abc.example.com
+        < User-Agent: Go-http-client/1.1
+        < X-Echo-Set-Header: 
+        < Accept-Encoding: gzip
+        < 
+        < 
+        
+        
+    roundtripper.go:262: 2026-03-08T05:57:34.095476073Z: Received Response:
+        < HTTP/1.1 400 Bad Request
+        < Connection: close
+        < Transfer-Encoding: chunked
+        < Date: Sun, 08 Mar 2026 05:57:34 GMT
+        < Server: envoy
+        < X-Envoy-Upstream-Service-Time: 0
+        < 
+        < 30
+        < Client sent an HTTP request to an HTTPS server.
+        < 
+        < 0
+        < 
+        < 
+        
+        
+    http.go:276: 2026-03-08T05:57:34.095625933Z: Response expectation failed for request: {URL: {Scheme:http Opaque: User: Host:192.168.8.240 Path:/backendtlspolicy-nonexistent-ca-certificate-ref RawPath: OmitHost:false ForceQuery:false RawQuery: Fragment: RawFragment:}, Host: abc.example.com, Protocol: HTTP, Method: GET, Headers: map[X-Echo-Set-Header:[]], UnfollowRedirect: false, Server: , CertPem: <truncated>, KeyPem: <truncated>}  not ready yet: expected status code to be one of [500 502 503], got 400. CRes: &{400 -1 HTTP/1.1 map[Date:[Sun, 08 Mar 2026 05:57:34 GMT] Server:[envoy] X-Envoy-Upstream-Service-Time:[0]] <nil> []} (after 20.113672604s)
+    roundtripper.go:234: 2026-03-08T05:57:35.095992878Z: Sending Request:
+        < GET /backendtlspolicy-nonexistent-ca-certificate-ref HTTP/1.1
+        < Host: abc.example.com
+        < User-Agent: Go-http-client/1.1
+        < X-Echo-Set-Header: 
+        < Accept-Encoding: gzip
+        < 
+        < 
+        
+        
+    roundtripper.go:262: 2026-03-08T05:57:35.099799109Z: Received Response:
+        < HTTP/1.1 400 Bad Request
+        < Connection: close
+        < Transfer-Encoding: chunked
+        < Date: Sun, 08 Mar 2026 05:57:35 GMT
+        < Server: envoy
+        < X-Envoy-Upstream-Service-Time: 0
+        < 
+        < 30
+        < Client sent an HTTP request to an HTTPS server.
+        < 
+        < 0
+        < 
+        < 
+        
+        
+    http.go:276: 2026-03-08T05:57:35.099948899Z: Response expectation failed for request: {URL: {Scheme:http Opaque: User: Host:192.168.8.240 Path:/backendtlspolicy-nonexistent-ca-certificate-ref RawPath: OmitHost:false ForceQuery:false RawQuery: Fragment: RawFragment:}, Host: abc.example.com, Protocol: HTTP, Method: GET, Headers: map[X-Echo-Set-Header:[]], UnfollowRedirect: false, Server: , CertPem: <truncated>, KeyPem: <truncated>}  not ready yet: expected status code to be one of [500 502 503], got 400. CRes: &{400 -1 HTTP/1.1 map[Date:[Sun, 08 Mar 2026 05:57:35 GMT] Server:[envoy] X-Envoy-Upstream-Service-Time:[0]] <nil> []} (after 21.118770499s)
+    roundtripper.go:234: 2026-03-08T05:57:36.100293965Z: Sending Request:
+        < GET /backendtlspolicy-nonexistent-ca-certificate-ref HTTP/1.1
+        < Host: abc.example.com
+        < User-Agent: Go-http-client/1.1
+        < X-Echo-Set-Header: 
+        < Accept-Encoding: gzip
+        < 
+        < 
+        
+        
+    roundtripper.go:262: 2026-03-08T05:57:36.105004714Z: Received Response:
+        < HTTP/1.1 400 Bad Request
+        < Connection: close
+        < Transfer-Encoding: chunked
+        < Date: Sun, 08 Mar 2026 05:57:36 GMT
+        < Server: envoy
+        < X-Envoy-Upstream-Service-Time: 0
+        < 
+        < 30
+        < Client sent an HTTP request to an HTTPS server.
+        < 
+        < 0
+        < 
+        < 
+        
+        
+    http.go:276: 2026-03-08T05:57:36.105146204Z: Response expectation failed for request: {URL: {Scheme:http Opaque: User: Host:192.168.8.240 Path:/backendtlspolicy-nonexistent-ca-certificate-ref RawPath: OmitHost:false ForceQuery:false RawQuery: Fragment: RawFragment:}, Host: abc.example.com, Protocol: HTTP, Method: GET, Headers: map[X-Echo-Set-Header:[]], UnfollowRedirect: false, Server: , CertPem: <truncated>, KeyPem: <truncated>}  not ready yet: expected status code to be one of [500 502 503], got 400. CRes: &{400 -1 HTTP/1.1 map[Date:[Sun, 08 Mar 2026 05:57:36 GMT] Server:[envoy] X-Envoy-Upstream-Service-Time:[0]] <nil> []} (after 22.123055805s)
+    roundtripper.go:234: 2026-03-08T05:57:37.105481861Z: Sending Request:
+        < GET /backendtlspolicy-nonexistent-ca-certificate-ref HTTP/1.1
+        < Host: abc.example.com
+        < User-Agent: Go-http-client/1.1
+        < X-Echo-Set-Header: 
+        < Accept-Encoding: gzip
+        < 
+        < 
+        
+        
+    roundtripper.go:262: 2026-03-08T05:57:37.109840061Z: Received Response:
+        < HTTP/1.1 400 Bad Request
+        < Connection: close
+        < Transfer-Encoding: chunked
+        < Date: Sun, 08 Mar 2026 05:57:37 GMT
+        < Server: envoy
+        < X-Envoy-Upstream-Service-Time: 0
+        < 
+        < 30
+        < Client sent an HTTP request to an HTTPS server.
+        < 
+        < 0
+        < 
+        < 
+        
+        
+    http.go:276: 2026-03-08T05:57:37.110001481Z: Response expectation failed for request: {URL: {Scheme:http Opaque: User: Host:192.168.8.240 Path:/backendtlspolicy-nonexistent-ca-certificate-ref RawPath: OmitHost:false ForceQuery:false RawQuery: Fragment: RawFragment:}, Host: abc.example.com, Protocol: HTTP, Method: GET, Headers: map[X-Echo-Set-Header:[]], UnfollowRedirect: false, Server: , CertPem: <truncated>, KeyPem: <truncated>}  not ready yet: expected status code to be one of [500 502 503], got 400. CRes: &{400 -1 HTTP/1.1 map[Date:[Sun, 08 Mar 2026 05:57:37 GMT] Server:[envoy] X-Envoy-Upstream-Service-Time:[0]] <nil> []} (after 23.128252192s)
+    roundtripper.go:234: 2026-03-08T05:57:38.110457757Z: Sending Request:
+        < GET /backendtlspolicy-nonexistent-ca-certificate-ref HTTP/1.1
+        < Host: abc.example.com
+        < User-Agent: Go-http-client/1.1
+        < X-Echo-Set-Header: 
+        < Accept-Encoding: gzip
+        < 
+        < 
+        
+        
+    roundtripper.go:262: 2026-03-08T05:57:38.115158716Z: Received Response:
+        < HTTP/1.1 400 Bad Request
+        < Connection: close
+        < Transfer-Encoding: chunked
+        < Date: Sun, 08 Mar 2026 05:57:38 GMT
+        < Server: envoy
+        < X-Envoy-Upstream-Service-Time: 0
+        < 
+        < 30
+        < Client sent an HTTP request to an HTTPS server.
+        < 
+        < 0
+        < 
+        < 
+        
+        
+    http.go:276: 2026-03-08T05:57:38.115301776Z: Response expectation failed for request: {URL: {Scheme:http Opaque: User: Host:192.168.8.240 Path:/backendtlspolicy-nonexistent-ca-certificate-ref RawPath: OmitHost:false ForceQuery:false RawQuery: Fragment: RawFragment:}, Host: abc.example.com, Protocol: HTTP, Method: GET, Headers: map[X-Echo-Set-Header:[]], UnfollowRedirect: false, Server: , CertPem: <truncated>, KeyPem: <truncated>}  not ready yet: expected status code to be one of [500 502 503], got 400. CRes: &{400 -1 HTTP/1.1 map[Date:[Sun, 08 Mar 2026 05:57:38 GMT] Server:[envoy] X-Envoy-Upstream-Service-Time:[0]] <nil> []} (after 24.133129277s)
+    roundtripper.go:234: 2026-03-08T05:57:39.115813153Z: Sending Request:
+        < GET /backendtlspolicy-nonexistent-ca-certificate-ref HTTP/1.1
+        < Host: abc.example.com
+        < User-Agent: Go-http-client/1.1
+        < X-Echo-Set-Header: 
+        < Accept-Encoding: gzip
+        < 
+        < 
+        
+        
+    roundtripper.go:262: 2026-03-08T05:57:39.120018762Z: Received Response:
+        < HTTP/1.1 400 Bad Request
+        < Connection: close
+        < Transfer-Encoding: chunked
+        < Date: Sun, 08 Mar 2026 05:57:39 GMT
+        < Server: envoy
+        < X-Envoy-Upstream-Service-Time: 0
+        < 
+        < 30
+        < Client sent an HTTP request to an HTTPS server.
+        < 
+        < 0
+        < 
+        < 
+        
+        
+    http.go:276: 2026-03-08T05:57:39.120161362Z: Response expectation failed for request: {URL: {Scheme:http Opaque: User: Host:192.168.8.240 Path:/backendtlspolicy-nonexistent-ca-certificate-ref RawPath: OmitHost:false ForceQuery:false RawQuery: Fragment: RawFragment:}, Host: abc.example.com, Protocol: HTTP, Method: GET, Headers: map[X-Echo-Set-Header:[]], UnfollowRedirect: false, Server: , CertPem: <truncated>, KeyPem: <truncated>}  not ready yet: expected status code to be one of [500 502 503], got 400. CRes: &{400 -1 HTTP/1.1 map[Date:[Sun, 08 Mar 2026 05:57:39 GMT] Server:[envoy] X-Envoy-Upstream-Service-Time:[0]] <nil> []} (after 25.138411674s)
+    roundtripper.go:234: 2026-03-08T05:57:40.120523269Z: Sending Request:
+        < GET /backendtlspolicy-nonexistent-ca-certificate-ref HTTP/1.1
+        < Host: abc.example.com
+        < User-Agent: Go-http-client/1.1
+        < X-Echo-Set-Header: 
+        < Accept-Encoding: gzip
+        < 
+        < 
+        
+        
+    roundtripper.go:262: 2026-03-08T05:57:40.124655969Z: Received Response:
+        < HTTP/1.1 400 Bad Request
+        < Connection: close
+        < Transfer-Encoding: chunked
+        < Date: Sun, 08 Mar 2026 05:57:40 GMT
+        < Server: envoy
+        < X-Envoy-Upstream-Service-Time: 0
+        < 
+        < 30
+        < Client sent an HTTP request to an HTTPS server.
+        < 
+        < 0
+        < 
+        < 
+        
+        
+    http.go:276: 2026-03-08T05:57:40.124798599Z: Response expectation failed for request: {URL: {Scheme:http Opaque: User: Host:192.168.8.240 Path:/backendtlspolicy-nonexistent-ca-certificate-ref RawPath: OmitHost:false ForceQuery:false RawQuery: Fragment: RawFragment:}, Host: abc.example.com, Protocol: HTTP, Method: GET, Headers: map[X-Echo-Set-Header:[]], UnfollowRedirect: false, Server: , CertPem: <truncated>, KeyPem: <truncated>}  not ready yet: expected status code to be one of [500 502 503], got 400. CRes: &{400 -1 HTTP/1.1 map[Date:[Sun, 08 Mar 2026 05:57:40 GMT] Server:[envoy] X-Envoy-Upstream-Service-Time:[0]] <nil> []} (after 26.14327851s)
+    roundtripper.go:234: 2026-03-08T05:57:41.125153355Z: Sending Request:
+        < GET /backendtlspolicy-nonexistent-ca-certificate-ref HTTP/1.1
+        < Host: abc.example.com
+        < User-Agent: Go-http-client/1.1
+        < X-Echo-Set-Header: 
+        < Accept-Encoding: gzip
+        < 
+        < 
+        
+        
+    roundtripper.go:262: 2026-03-08T05:57:41.129225825Z: Received Response:
+        < HTTP/1.1 400 Bad Request
+        < Connection: close
+        < Transfer-Encoding: chunked
+        < Date: Sun, 08 Mar 2026 05:57:41 GMT
+        < Server: envoy
+        < X-Envoy-Upstream-Service-Time: 0
+        < 
+        < 30
+        < Client sent an HTTP request to an HTTPS server.
+        < 
+        < 0
+        < 
+        < 
+        
+        
+    http.go:276: 2026-03-08T05:57:41.129345034Z: Response expectation failed for request: {URL: {Scheme:http Opaque: User: Host:192.168.8.240 Path:/backendtlspolicy-nonexistent-ca-certificate-ref RawPath: OmitHost:false ForceQuery:false RawQuery: Fragment: RawFragment:}, Host: abc.example.com, Protocol: HTTP, Method: GET, Headers: map[X-Echo-Set-Header:[]], UnfollowRedirect: false, Server: , CertPem: <truncated>, KeyPem: <truncated>}  not ready yet: expected status code to be one of [500 502 503], got 400. CRes: &{400 -1 HTTP/1.1 map[Date:[Sun, 08 Mar 2026 05:57:41 GMT] Server:[envoy] X-Envoy-Upstream-Service-Time:[0]] <nil> []} (after 27.147906836s)
+    roundtripper.go:234: 2026-03-08T05:57:42.129682691Z: Sending Request:
+        < GET /backendtlspolicy-nonexistent-ca-certificate-ref HTTP/1.1
+        < Host: abc.example.com
+        < User-Agent: Go-http-client/1.1
+        < X-Echo-Set-Header: 
+        < Accept-Encoding: gzip
+        < 
+        < 
+        
+        
+    roundtripper.go:262: 2026-03-08T05:57:42.134739831Z: Received Response:
+        < HTTP/1.1 400 Bad Request
+        < Connection: close
+        < Transfer-Encoding: chunked
+        < Date: Sun, 08 Mar 2026 05:57:42 GMT
+        < Server: envoy
+        < X-Envoy-Upstream-Service-Time: 0
+        < 
+        < 30
+        < Client sent an HTTP request to an HTTPS server.
+        < 
+        < 0
+        < 
+        < 
+        
+        
+    http.go:276: 2026-03-08T05:57:42.134863391Z: Response expectation failed for request: {URL: {Scheme:http Opaque: User: Host:192.168.8.240 Path:/backendtlspolicy-nonexistent-ca-certificate-ref RawPath: OmitHost:false ForceQuery:false RawQuery: Fragment: RawFragment:}, Host: abc.example.com, Protocol: HTTP, Method: GET, Headers: map[X-Echo-Set-Header:[]], UnfollowRedirect: false, Server: , CertPem: <truncated>, KeyPem: <truncated>}  not ready yet: expected status code to be one of [500 502 503], got 400. CRes: &{400 -1 HTTP/1.1 map[Date:[Sun, 08 Mar 2026 05:57:42 GMT] Server:[envoy] X-Envoy-Upstream-Service-Time:[0]] <nil> []} (after 28.152423752s)
+    roundtripper.go:234: 2026-03-08T05:57:43.135272277Z: Sending Request:
+        < GET /backendtlspolicy-nonexistent-ca-certificate-ref HTTP/1.1
+        < Host: abc.example.com
+        < User-Agent: Go-http-client/1.1
+        < X-Echo-Set-Header: 
+        < Accept-Encoding: gzip
+        < 
+        < 
+        
+        
+    roundtripper.go:262: 2026-03-08T05:57:43.139144317Z: Received Response:
+        < HTTP/1.1 400 Bad Request
+        < Connection: close
+        < Transfer-Encoding: chunked
+        < Date: Sun, 08 Mar 2026 05:57:43 GMT
+        < Server: envoy
+        < X-Envoy-Upstream-Service-Time: 0
+        < 
+        < 30
+        < Client sent an HTTP request to an HTTPS server.
+        < 
+        < 0
+        < 
+        < 
+        
+        
+    http.go:276: 2026-03-08T05:57:43.139357937Z: Response expectation failed for request: {URL: {Scheme:http Opaque: User: Host:192.168.8.240 Path:/backendtlspolicy-nonexistent-ca-certificate-ref RawPath: OmitHost:false ForceQuery:false RawQuery: Fragment: RawFragment:}, Host: abc.example.com, Protocol: HTTP, Method: GET, Headers: map[X-Echo-Set-Header:[]], UnfollowRedirect: false, Server: , CertPem: <truncated>, KeyPem: <truncated>}  not ready yet: expected status code to be one of [500 502 503], got 400. CRes: &{400 -1 HTTP/1.1 map[Date:[Sun, 08 Mar 2026 05:57:43 GMT] Server:[envoy] X-Envoy-Upstream-Service-Time:[0]] <nil> []} (after 29.157980248s)
+    http.go:257: 2026-03-08T05:57:43.977231777Z: timeout while waiting after 30 attempts, 0/3 successes
+=== RUN   TestConformance/BackendTLSPolicyInvalidCACertificateRef/BackendTLSPolicy_malformed-ca-certificate-ref
+=== RUN   TestConformance/BackendTLSPolicyInvalidCACertificateRef/BackendTLSPolicy_malformed-ca-certificate-ref/BackendTLSPolicy_with_a_single_invalid_CACertificateRef_has_a_Accepted_Condition_with_status_False_and_Reason_NoValidCACertificate
+=== RUN   TestConformance/BackendTLSPolicyInvalidCACertificateRef/BackendTLSPolicy_malformed-ca-certificate-ref/BackendTLSPolicy_with_a_single_invalid_CACertificateRef_has_a_ResolvedRefs_Condition_with_status_False_and_Reason_InvalidCACertificateRef
+=== RUN   TestConformance/BackendTLSPolicyInvalidCACertificateRef/BackendTLSPolicy_malformed-ca-certificate-ref/HTTP_Request_to_backend_targeted_by_an_invalid_BackendTLSPolicy_receive_a_5xx
+    backendtlspolicy-invalid-ca-certificate-ref.go:81: 2026-03-08T05:57:43.983857217Z: Making GET request to host abc.example.com via http://192.168.8.240/backendtlspolicy-malformed-ca-certificate-ref
+    roundtripper.go:234: 2026-03-08T05:57:43.984055717Z: Sending Request:
+        < GET /backendtlspolicy-malformed-ca-certificate-ref HTTP/1.1
+        < Host: abc.example.com
+        < User-Agent: Go-http-client/1.1
+        < X-Echo-Set-Header: 
+        < Accept-Encoding: gzip
+        < 
+        < 
+        
+        
+    roundtripper.go:262: 2026-03-08T05:57:43.989378867Z: Received Response:
+        < HTTP/1.1 400 Bad Request
+        < Connection: close
+        < Transfer-Encoding: chunked
+        < Date: Sun, 08 Mar 2026 05:57:43 GMT
+        < Server: envoy
+        < X-Envoy-Upstream-Service-Time: 0
+        < 
+        < 30
+        < Client sent an HTTP request to an HTTPS server.
+        < 
+        < 0
+        < 
+        < 
+        
+        
+    http.go:276: 2026-03-08T05:57:43.989507947Z: Response expectation failed for request: {URL: {Scheme:http Opaque: User: Host:192.168.8.240 Path:/backendtlspolicy-malformed-ca-certificate-ref RawPath: OmitHost:false ForceQuery:false RawQuery: Fragment: RawFragment:}, Host: abc.example.com, Protocol: HTTP, Method: GET, Headers: map[X-Echo-Set-Header:[]], UnfollowRedirect: false, Server: , CertPem: <truncated>, KeyPem: <truncated>}  not ready yet: expected status code to be one of [500 502 503], got 400. CRes: &{400 -1 HTTP/1.1 map[Date:[Sun, 08 Mar 2026 05:57:43 GMT] Server:[envoy] X-Envoy-Upstream-Service-Time:[0]] <nil> []} (after 2.72µs)
+    roundtripper.go:234: 2026-03-08T05:57:44.989876123Z: Sending Request:
+        < GET /backendtlspolicy-malformed-ca-certificate-ref HTTP/1.1
+        < Host: abc.example.com
+        < User-Agent: Go-http-client/1.1
+        < X-Echo-Set-Header: 
+        < Accept-Encoding: gzip
+        < 
+        < 
+        
+        
+    roundtripper.go:262: 2026-03-08T05:57:44.993605593Z: Received Response:
+        < HTTP/1.1 503 Service Unavailable
+        < Connection: close
+        < Content-Length: 166
+        < Content-Type: text/plain
+        < Date: Sun, 08 Mar 2026 05:57:44 GMT
+        < Server: envoy
+        < 
+        < upstream connect error or disconnect/reset before headers. reset reason: remote connection failure, transport failure reason: TLS error: Secret is not supplied by SDS
+        
+        
+    roundtripper.go:234: 2026-03-08T05:57:44.993867463Z: Sending Request:
+        < GET /backendtlspolicy-malformed-ca-certificate-ref HTTP/1.1
+        < Host: abc.example.com
+        < User-Agent: Go-http-client/1.1
+        < X-Echo-Set-Header: 
+        < Accept-Encoding: gzip
+        < 
+        < 
+        
+        
+    roundtripper.go:262: 2026-03-08T05:57:44.997180353Z: Received Response:
+        < HTTP/1.1 503 Service Unavailable
+        < Connection: close
+        < Content-Length: 166
+        < Content-Type: text/plain
+        < Date: Sun, 08 Mar 2026 05:57:44 GMT
+        < Server: envoy
+        < 
+        < upstream connect error or disconnect/reset before headers. reset reason: remote connection failure, transport failure reason: TLS error: Secret is not supplied by SDS
+        
+        
+    roundtripper.go:234: 2026-03-08T05:57:44.997387983Z: Sending Request:
+        < GET /backendtlspolicy-malformed-ca-certificate-ref HTTP/1.1
+        < Host: abc.example.com
+        < User-Agent: Go-http-client/1.1
+        < X-Echo-Set-Header: 
+        < Accept-Encoding: gzip
+        < 
+        < 
+        
+        
+    roundtripper.go:262: 2026-03-08T05:57:45.000672753Z: Received Response:
+        < HTTP/1.1 503 Service Unavailable
+        < Connection: close
+        < Content-Length: 166
+        < Content-Type: text/plain
+        < Date: Sun, 08 Mar 2026 05:57:44 GMT
+        < Server: envoy
+        < 
+        < upstream connect error or disconnect/reset before headers. reset reason: remote connection failure, transport failure reason: TLS error: Secret is not supplied by SDS
+        
+        
+    http.go:282: 2026-03-08T05:57:45.000764783Z: Request passed
+=== NAME  TestConformance/BackendTLSPolicyInvalidCACertificateRef
+    apply.go:283: 2026-03-08T05:57:45.000851763Z: Deleting malformed-ca-certificate ConfigMap
+    apply.go:283: 2026-03-08T05:57:45.007884963Z: Deleting malformed-ca-certificate-ref BackendTLSPolicy
+    apply.go:283: 2026-03-08T05:57:45.014213882Z: Deleting nonexistent-ca-certificate-ref BackendTLSPolicy
+    apply.go:283: 2026-03-08T05:57:45.020481992Z: Deleting backendtlspolicy-malformed-ca-certificate-ref-test Service
+    apply.go:283: 2026-03-08T05:57:45.032476142Z: Deleting backendtlspolicy-nonexistent-ca-certificate-ref-test Service
+    apply.go:283: 2026-03-08T05:57:45.045558952Z: Deleting backendtlspolicy-invalid-ca-certificate-ref HTTPRoute
+--- FAIL: TestConformance (55.31s)
+    --- FAIL: TestConformance/BackendTLSPolicyInvalidCACertificateRef (31.28s)
+        --- FAIL: TestConformance/BackendTLSPolicyInvalidCACertificateRef/BackendTLSPolicy_nonexistent-ca-certificate-ref (30.01s)
+            --- PASS: TestConformance/BackendTLSPolicyInvalidCACertificateRef/BackendTLSPolicy_nonexistent-ca-certificate-ref/BackendTLSPolicy_with_a_single_invalid_CACertificateRef_has_a_Accepted_Condition_with_status_False_and_Reason_NoValidCACertificate (0.00s)
+            --- PASS: TestConformance/BackendTLSPolicyInvalidCACertificateRef/BackendTLSPolicy_nonexistent-ca-certificate-ref/BackendTLSPolicy_with_a_single_invalid_CACertificateRef_has_a_ResolvedRefs_Condition_with_status_False_and_Reason_InvalidCACertificateRef (0.00s)
+            --- FAIL: TestConformance/BackendTLSPolicyInvalidCACertificateRef/BackendTLSPolicy_nonexistent-ca-certificate-ref/HTTP_Request_to_backend_targeted_by_an_invalid_BackendTLSPolicy_receive_a_5xx (30.00s)
+        --- PASS: TestConformance/BackendTLSPolicyInvalidCACertificateRef/BackendTLSPolicy_malformed-ca-certificate-ref (1.02s)
+            --- PASS: TestConformance/BackendTLSPolicyInvalidCACertificateRef/BackendTLSPolicy_malformed-ca-certificate-ref/BackendTLSPolicy_with_a_single_invalid_CACertificateRef_has_a_Accepted_Condition_with_status_False_and_Reason_NoValidCACertificate (0.00s)
+            --- PASS: TestConformance/BackendTLSPolicyInvalidCACertificateRef/BackendTLSPolicy_malformed-ca-certificate-ref/BackendTLSPolicy_with_a_single_invalid_CACertificateRef_has_a_ResolvedRefs_Condition_with_status_False_and_Reason_InvalidCACertificateRef (0.00s)
+            --- PASS: TestConformance/BackendTLSPolicyInvalidCACertificateRef/BackendTLSPolicy_malformed-ca-certificate-ref/HTTP_Request_to_backend_targeted_by_an_invalid_BackendTLSPolicy_receive_a_5xx (1.02s)
+FAIL
+FAIL	github.com/cilium/cilium/operator/pkg/gateway-api	55.438s
+FAIL
+make: *** [Makefile:602: gateway-api-conformance] Error 1

@@ -1,0 +1,375 @@
+apiVersion: v1
+items:
+- apiVersion: gateway.networking.k8s.io/v1
+  kind: Gateway
+  metadata:
+    creationTimestamp: "2026-03-08T08:15:05Z"
+    generation: 1
+    name: all-namespaces
+    namespace: gateway-conformance-infra
+    resourceVersion: "891"
+    uid: 83de1b73-c403-42e4-866d-e528d9338e40
+  spec:
+    gatewayClassName: cilium
+    listeners:
+    - allowedRoutes:
+        namespaces:
+          from: All
+      name: http
+      port: 80
+      protocol: HTTP
+  status:
+    conditions:
+    - lastTransitionTime: "1970-01-01T00:00:00Z"
+      message: Waiting for controller
+      reason: Pending
+      status: Unknown
+      type: Accepted
+    - lastTransitionTime: "1970-01-01T00:00:00Z"
+      message: Waiting for controller
+      reason: Pending
+      status: Unknown
+      type: Programmed
+- apiVersion: gateway.networking.k8s.io/v1
+  kind: Gateway
+  metadata:
+    creationTimestamp: "2026-03-08T08:15:05Z"
+    generation: 1
+    name: backend-namespaces
+    namespace: gateway-conformance-infra
+    resourceVersion: "894"
+    uid: 1252be86-a0ef-4576-b0a9-b16a8b44001d
+  spec:
+    gatewayClassName: cilium
+    listeners:
+    - allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              gateway-conformance: backend
+      name: http
+      port: 80
+      protocol: HTTP
+  status:
+    conditions:
+    - lastTransitionTime: "1970-01-01T00:00:00Z"
+      message: Waiting for controller
+      reason: Pending
+      status: Unknown
+      type: Accepted
+    - lastTransitionTime: "1970-01-01T00:00:00Z"
+      message: Waiting for controller
+      reason: Pending
+      status: Unknown
+      type: Programmed
+- apiVersion: gateway.networking.k8s.io/v1
+  kind: Gateway
+  metadata:
+    creationTimestamp: "2026-03-08T08:15:05Z"
+    generation: 1
+    name: same-namespace
+    namespace: gateway-conformance-infra
+    resourceVersion: "886"
+    uid: e7574be4-2b9a-4873-8f53-d70a6c9f5c89
+  spec:
+    gatewayClassName: cilium
+    listeners:
+    - allowedRoutes:
+        namespaces:
+          from: Same
+      name: http
+      port: 80
+      protocol: HTTP
+  status:
+    conditions:
+    - lastTransitionTime: "1970-01-01T00:00:00Z"
+      message: Waiting for controller
+      reason: Pending
+      status: Unknown
+      type: Accepted
+    - lastTransitionTime: "1970-01-01T00:00:00Z"
+      message: Waiting for controller
+      reason: Pending
+      status: Unknown
+      type: Programmed
+- apiVersion: gateway.networking.k8s.io/v1
+  kind: Gateway
+  metadata:
+    creationTimestamp: "2026-03-08T08:15:05Z"
+    generation: 1
+    name: same-namespace-with-https-listener
+    namespace: gateway-conformance-infra
+    resourceVersion: "887"
+    uid: 7ec9a83a-3bd2-4c3a-b172-9ef2f996f236
+  spec:
+    gatewayClassName: cilium
+    listeners:
+    - allowedRoutes:
+        namespaces:
+          from: Same
+      name: https
+      port: 443
+      protocol: HTTPS
+      tls:
+        certificateRefs:
+        - group: ""
+          kind: Secret
+          name: tls-validity-checks-certificate
+          namespace: gateway-conformance-infra
+        mode: Terminate
+    - allowedRoutes:
+        namespaces:
+          from: Same
+      hostname: second-example.org
+      name: https-with-hostname
+      port: 443
+      protocol: HTTPS
+      tls:
+        certificateRefs:
+        - group: ""
+          kind: Secret
+          name: tls-validity-checks-certificate
+          namespace: gateway-conformance-infra
+        mode: Terminate
+  status:
+    conditions:
+    - lastTransitionTime: "1970-01-01T00:00:00Z"
+      message: Waiting for controller
+      reason: Pending
+      status: Unknown
+      type: Accepted
+    - lastTransitionTime: "1970-01-01T00:00:00Z"
+      message: Waiting for controller
+      reason: Pending
+      status: Unknown
+      type: Programmed
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: "2026-03-08T08:13:51Z"
+    labels:
+      component: apiserver
+      provider: kubernetes
+    name: kubernetes
+    namespace: default
+    resourceVersion: "204"
+    uid: 68e0cb43-495e-43d5-b0b9-e94b4c637216
+  spec:
+    clusterIP: 10.245.0.1
+    clusterIPs:
+    - 10.245.0.1
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: 6443
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: "2026-03-08T08:15:05Z"
+    labels:
+      gateway.networking.k8s.io/gateway-name: same-namespace
+      io.cilium.gateway/owning-gateway: same-namespace
+    name: cilium-gateway-same-namespace
+    namespace: gateway-conformance-infra
+    ownerReferences:
+    - apiVersion: gateway.networking.k8s.io/v1
+      controller: true
+      kind: Gateway
+      name: same-namespace
+      uid: e7574be4-2b9a-4873-8f53-d70a6c9f5c89
+    resourceVersion: "892"
+    uid: 970a6c54-62b8-4dff-9a0c-8322d052864d
+  spec:
+    allocateLoadBalancerNodePorts: true
+    clusterIP: 10.245.19.190
+    clusterIPs:
+    - 10.245.19.190
+    externalTrafficPolicy: Cluster
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: port-80
+      nodePort: 31017
+      port: 80
+      protocol: TCP
+      targetPort: 80
+    sessionAffinity: None
+    type: LoadBalancer
+  status:
+    conditions:
+    - lastTransitionTime: "2026-03-08T08:15:05Z"
+      message: ""
+      reason: satisfied
+      status: "True"
+      type: cilium.io/IPAMRequestSatisfied
+    loadBalancer:
+      ingress:
+      - ip: 192.168.8.240
+        ipMode: VIP
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: "2026-03-08T08:15:05Z"
+    name: infra-backend-v1
+    namespace: gateway-conformance-infra
+    resourceVersion: "898"
+    uid: f4e6df70-a299-4b68-b089-73ccc918a389
+  spec:
+    clusterIP: 10.245.69.91
+    clusterIPs:
+    - 10.245.69.91
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: first-port
+      port: 8080
+      protocol: TCP
+      targetPort: 3000
+    - appProtocol: kubernetes.io/h2c
+      name: second-port
+      port: 8081
+      protocol: TCP
+      targetPort: 3001
+    - appProtocol: kubernetes.io/ws
+      name: third-port
+      port: 8082
+      protocol: TCP
+      targetPort: 3000
+    selector:
+      app: infra-backend-v1
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: cilium
+      meta.helm.sh/release-namespace: kube-system
+      prometheus.io/port: "9964"
+      prometheus.io/scrape: "true"
+    creationTimestamp: "2026-03-08T08:14:06Z"
+    labels:
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: cilium-envoy
+      app.kubernetes.io/part-of: cilium
+      io.cilium/app: proxy
+      k8s-app: cilium-envoy
+    name: cilium-envoy
+    namespace: kube-system
+    resourceVersion: "486"
+    uid: 099cc5cf-c8a4-493d-a26e-4b2cfbb166ad
+  spec:
+    clusterIP: None
+    clusterIPs:
+    - None
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: envoy-metrics
+      port: 9964
+      protocol: TCP
+      targetPort: 9964
+    selector:
+      k8s-app: cilium-envoy
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: cilium
+      meta.helm.sh/release-namespace: kube-system
+    creationTimestamp: "2026-03-08T08:14:06Z"
+    labels:
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: hubble-peer
+      app.kubernetes.io/part-of: cilium
+      k8s-app: cilium
+    name: hubble-peer
+    namespace: kube-system
+    resourceVersion: "490"
+    uid: 75ae8eee-c1c1-4f8d-bfc4-bb6bfa8b013f
+  spec:
+    clusterIP: 10.245.179.21
+    clusterIPs:
+    - 10.245.179.21
+    internalTrafficPolicy: Local
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: peer-service
+      port: 443
+      protocol: TCP
+      targetPort: 4244
+    selector:
+      k8s-app: cilium
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      prometheus.io/port: "9153"
+      prometheus.io/scrape: "true"
+    creationTimestamp: "2026-03-08T08:13:52Z"
+    labels:
+      k8s-app: kube-dns
+      kubernetes.io/cluster-service: "true"
+      kubernetes.io/name: CoreDNS
+    name: kube-dns
+    namespace: kube-system
+    resourceVersion: "232"
+    uid: 1cee6fd0-0839-47f3-8e96-bfea7e0062a5
+  spec:
+    clusterIP: 10.245.0.10
+    clusterIPs:
+    - 10.245.0.10
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: dns
+      port: 53
+      protocol: UDP
+      targetPort: 53
+    - name: dns-tcp
+      port: 53
+      protocol: TCP
+      targetPort: 53
+    - name: metrics
+      port: 9153
+      protocol: TCP
+      targetPort: 9153
+    selector:
+      k8s-app: kube-dns
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+kind: List
+metadata:
+  resourceVersion: ""
