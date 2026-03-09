@@ -17,6 +17,7 @@ cilium connectivity test [flags]
       --assume-cilium-version string                          Assume Cilium version for connectivity tests
       --chart-directory string                                Helm chart directory
       --cilium-pod-selector string                            Label selector matching all cilium-related pods (default "app.kubernetes.io/part-of=cilium")
+      --cleanup                                               Cleanup all connectivity test artifacts (namespaces, deployments, services) without running tests
       --collect-sysdump-on-failure                            Collect sysdump after a test fails
       --conn-disrupt-dispatch-interval duration               TCP packet dispatch interval
       --conn-disrupt-test-restarts-path string                Conn disrupt test temporary result file (used internally) (default "/tmp/cilium-conn-disrupt-restarts")
@@ -28,7 +29,7 @@ cilium connectivity test [flags]
       --curl-parallel uint                                    Number of parallel requests in curl commands (0 to disable)
   -d, --debug                                                 Show debug messages
       --dns-test-server-image string                          Image path to use for CoreDNS (default "registry.k8s.io/coredns/coredns:v1.14.1@sha256:82b57287b29beb757c740dbbe68f2d4723da94715b563fffad5c13438b71b14a")
-      --echo-image string                                     Image path to use for echo server (default "gcr.io/k8s-staging-gateway-api/echo-advanced:v20240412-v1.0.0-394-g40c666fd")
+      --echo-image string                                     Image path to use for echo server (default "gcr.io/k8s-staging-gateway-api/echo-advanced:v20251204-v1.4.1")
       --external-cidr string                                  IPv4 CIDR to use as external target in connectivity tests (default "1.0.0.0/8")
       --external-cidrv6 string                                IPv6 CIDR to use as external target in connectivity tests (default "2606:4700:4700::/96")
       --external-ip string                                    IPv4 to use as external target in connectivity tests (default "1.1.1.1")
@@ -70,7 +71,7 @@ cilium connectivity test [flags]
       --secondary-network-iface string                        Secondary network iface name (e.g., to test NodePort BPF on multiple networks)
       --service-type string                                   Type of Kubernetes Services created for connectivity tests (default "NodePort")
       --single-node                                           Limit to tests able to run on a single node
-      --socat-image string                                    Image path to use for multicast tests (default "docker.io/alpine/socat:1.8.0.3@sha256:9a44e2731464d8eeb1c1d36fb25c0335fb166ce1064534a2ac53556c4dcd8fb5")
+      --socat-image string                                    Image path to use for multicast tests (default "docker.io/alpine/socat:1.8.0.3@sha256:4faaec291d6193614d02c24185842e4cea76b5d86679c6d4d156d0c96dee9752")
       --sysdump-cilium-bugtool-flags stringArray              Optional set of flags to pass to cilium-bugtool command.
       --sysdump-cilium-daemon-set-label-selector string       The labels used to target Cilium daemon set (default "k8s-app=cilium")
       --sysdump-cilium-envoy-label-selector string            The labels used to target Cilium Envoy pods (default "k8s-app=cilium-envoy")

@@ -355,13 +355,13 @@ func TestEgressCIDRTCPPort(t *testing.T) {
 				Revision: repo.GetRevision(),
 				Egress: L4DirectionPolicy{PortRules: NewL4PolicyMapWithValues(map[string]*L4Filter{
 					"80/TCP": {
-						Tier:     1,
+						Tier:     types.Normal,
 						Port:     80,
 						Protocol: api.ProtoTCP,
 						U8Proto:  0x6,
 						Ingress:  false,
 						PerSelectorPolicies: L7DataMap{
-							td.cachedSelectorCIDR: &PerSelectorPolicy{Priority: 1000},
+							td.cachedSelectorCIDR: nil,
 						},
 						RuleOrigin: OriginForTest(map[CachedSelector]labels.LabelArrayList{td.cachedSelectorCIDR: {nil}}),
 					},
@@ -432,13 +432,13 @@ func TestEgressWildcardCIDRMatchesWorld(t *testing.T) {
 			Revision: repo.GetRevision(),
 			Egress: L4DirectionPolicy{PortRules: NewL4PolicyMapWithValues(map[string]*L4Filter{
 				"80/TCP": {
-					Tier:     1,
+					Tier:     types.Normal,
 					Port:     80,
 					Protocol: api.ProtoTCP,
 					U8Proto:  0x6,
 					Ingress:  false,
 					PerSelectorPolicies: L7DataMap{
-						td.cachedSelectorCIDR0: &PerSelectorPolicy{Priority: 1000},
+						td.cachedSelectorCIDR0: nil,
 					},
 					RuleOrigin: OriginForTest(map[CachedSelector]labels.LabelArrayList{td.cachedSelectorCIDR0: {nil}}),
 				},
@@ -517,7 +517,7 @@ func TestL7WithIngressWildcard(t *testing.T) {
 				Revision: repo.GetRevision(),
 				Ingress: L4DirectionPolicy{PortRules: NewL4PolicyMapWithValues(map[string]*L4Filter{
 					"80/TCP": {
-						Tier:     1,
+						Tier:     types.Normal,
 						Port:     80,
 						Protocol: api.ProtoTCP,
 						U8Proto:  0x6,
@@ -526,7 +526,6 @@ func TestL7WithIngressWildcard(t *testing.T) {
 							td.wildcardCachedSelector: &PerSelectorPolicy{
 								Verdict:          types.Allow,
 								L7Parser:         ParserTypeHTTP,
-								Priority:         1000,
 								ListenerPriority: ListenerPriorityHTTP,
 								L7Rules: api.L7Rules{
 									HTTP: []api.PortRuleHTTP{{Method: "GET", Path: "/good"}},
@@ -607,7 +606,7 @@ func TestL7WithLocalHostWildcard(t *testing.T) {
 				Revision: repo.GetRevision(),
 				Ingress: L4DirectionPolicy{PortRules: NewL4PolicyMapWithValues(map[string]*L4Filter{
 					"80/TCP": {
-						Tier:     1,
+						Tier:     types.Normal,
 						Port:     80,
 						Protocol: api.ProtoTCP,
 						U8Proto:  0x6,
@@ -617,7 +616,6 @@ func TestL7WithLocalHostWildcard(t *testing.T) {
 							td.wildcardCachedSelector: &PerSelectorPolicy{
 								Verdict:          types.Allow,
 								L7Parser:         ParserTypeHTTP,
-								Priority:         1000,
 								ListenerPriority: ListenerPriorityHTTP,
 								L7Rules: api.L7Rules{
 									HTTP: []api.PortRuleHTTP{{Method: "GET", Path: "/good"}},
@@ -681,7 +679,7 @@ func TestMapStateWithIngressWildcard(t *testing.T) {
 	policy := selPolicy.DistillPolicy(logger, DummyOwner{logger: logger}, testRedirects)
 	policy.Ready()
 
-	rule1MapStateEntry := newAllowEntryWithLabels(ruleLabel).withLevel(1000)
+	rule1MapStateEntry := newAllowEntryWithLabels(ruleLabel)
 	allowEgressMapStateEntry := newAllowEntryWithLabels(ruleLabelAllowAnyEgress)
 
 	expectedEndpointPolicy := EndpointPolicy{
@@ -693,15 +691,13 @@ func TestMapStateWithIngressWildcard(t *testing.T) {
 				Revision: repo.GetRevision(),
 				Ingress: L4DirectionPolicy{PortRules: NewL4PolicyMapWithValues(map[string]*L4Filter{
 					"80/TCP": {
-						Tier:     1,
+						Tier:     types.Normal,
 						Port:     80,
 						Protocol: api.ProtoTCP,
 						U8Proto:  0x6,
 						Ingress:  true,
 						PerSelectorPolicies: L7DataMap{
-							td.wildcardCachedSelector: &PerSelectorPolicy{
-								Priority: 1000,
-							},
+							td.wildcardCachedSelector: nil,
 						},
 						RuleOrigin: OriginForTest(map[CachedSelector]labels.LabelArrayList{td.wildcardCachedSelector: {ruleLabel}}),
 					},
@@ -828,7 +824,7 @@ func TestMapStateWithIngress(t *testing.T) {
 	cachedSelectorTest := td.sc.findCachedIdentitySelector(api.NewESFromLabels(lblTest))
 	require.NotNil(t, cachedSelectorTest)
 
-	rule1MapStateEntry := newAllowEntryWithLabels(ruleLabel).withLevel(1000)
+	rule1MapStateEntry := newAllowEntryWithLabels(ruleLabel)
 	allowEgressMapStateEntry := newAllowEntryWithLabels(ruleLabelAllowAnyEgress)
 
 	expectedEndpointPolicy := EndpointPolicy{
@@ -840,18 +836,17 @@ func TestMapStateWithIngress(t *testing.T) {
 				Revision: repo.GetRevision(),
 				Ingress: L4DirectionPolicy{PortRules: NewL4PolicyMapWithValues(map[string]*L4Filter{
 					"80/TCP": {
-						Tier:     1,
+						Tier:     types.Normal,
 						Port:     80,
 						Protocol: api.ProtoTCP,
 						U8Proto:  0x6,
 						Ingress:  true,
 						PerSelectorPolicies: L7DataMap{
-							cachedSelectorWorld:   &PerSelectorPolicy{Priority: 1000},
-							cachedSelectorWorldV4: &PerSelectorPolicy{Priority: 1000},
-							cachedSelectorWorldV6: &PerSelectorPolicy{Priority: 1000},
+							cachedSelectorWorld:   nil,
+							cachedSelectorWorldV4: nil,
+							cachedSelectorWorldV6: nil,
 							cachedSelectorTest: &PerSelectorPolicy{
-								Priority: 1000,
-								Verdict:  types.Allow,
+								Verdict: types.Allow,
 								Authentication: &api.Authentication{
 									Mode: api.AuthenticationModeDisabled,
 								},

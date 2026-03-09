@@ -18,6 +18,8 @@ func lxcLoadPermutations() iter.Seq[*config.BPFLXC] {
 			cfg.AllowICMPFragNeeded = true
 			cfg.EnableICMPRule = true
 			cfg.EnableConntrackAccounting = true
+			cfg.EnableIPv4Fragments = true
+			cfg.EnableIPv6Fragments = true
 
 			cfg.Node.PolicyDenyResponseEnabled = permutation[0]
 			cfg.EnableLRP = permutation[1]
@@ -41,6 +43,8 @@ func hostLoadPermutations() iter.Seq[*config.BPFHost] {
 			cfg.AllowICMPFragNeeded = true
 			cfg.EnableICMPRule = true
 			cfg.EnableConntrackAccounting = true
+			cfg.EnableIPv4Fragments = true
+			cfg.EnableIPv6Fragments = true
 
 			cfg.EnableRemoteNodeMasquerade = permutation[0]
 			if permutation[1] {
@@ -54,16 +58,6 @@ func hostLoadPermutations() iter.Seq[*config.BPFHost] {
 			if !yield(cfg) {
 				return
 			}
-		}
-	}
-}
-
-func networkLoadPermutations() iter.Seq[*config.BPFNetwork] {
-	return func(yield func(*config.BPFNetwork) bool) {
-		cfg := config.NewBPFNetwork(*config.NewNode())
-		cfg.Node.TracingIPOptionType = 1
-		if !yield(cfg) {
-			return
 		}
 	}
 }
@@ -86,6 +80,8 @@ func sockLoadPermutations() iter.Seq[*config.BPFSock] {
 		for permutation := range permute(1) {
 			cfg := config.NewBPFSock(*config.NewNode())
 			cfg.Node.DebugLB = true
+			cfg.EnableIPv4Fragments = true
+			cfg.EnableIPv6Fragments = true
 
 			cfg.EnableLRP = permutation[0]
 
@@ -102,6 +98,8 @@ func wireguardLoadPermutations() iter.Seq[*config.BPFWireguard] {
 		cfg.Node.TracingIPOptionType = 1
 		cfg.Node.DebugLB = true
 		cfg.EnableConntrackAccounting = true
+		cfg.EnableIPv4Fragments = true
+		cfg.EnableIPv6Fragments = true
 
 		if !yield(cfg) {
 			return
@@ -116,6 +114,8 @@ func xdpLoadPermutations() iter.Seq[*config.BPFXDP] {
 			cfg.Node.TracingIPOptionType = 1
 			cfg.Node.DebugLB = true
 			cfg.EnableConntrackAccounting = true
+			cfg.EnableIPv4Fragments = true
+			cfg.EnableIPv6Fragments = true
 
 			cfg.EnableXDPPrefilter = permutation[0]
 

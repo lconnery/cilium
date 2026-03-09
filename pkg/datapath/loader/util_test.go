@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io"
 	"net"
+	"net/netip"
 	"path/filepath"
 	"testing"
 
@@ -25,6 +26,7 @@ import (
 	datapath "github.com/cilium/cilium/pkg/datapath/types"
 	"github.com/cilium/cilium/pkg/endpointstate"
 	"github.com/cilium/cilium/pkg/hive"
+	"github.com/cilium/cilium/pkg/maps/registry"
 	"github.com/cilium/cilium/pkg/node/manager"
 	"github.com/cilium/cilium/pkg/option"
 	"github.com/cilium/cilium/pkg/promise"
@@ -32,11 +34,11 @@ import (
 
 var (
 	localNodeConfig = datapath.LocalNodeConfiguration{
-		NodeIPv4:            templateIPv4[:],
-		CiliumInternalIPv4:  templateIPv4[:],
+		NodeIPv4:            netip.AddrFrom4([4]byte(templateIPv4)),
+		CiliumInternalIPv4:  netip.AddrFrom4([4]byte(templateIPv4)),
 		AllocCIDRIPv4:       cidr.MustParseCIDR("10.147.0.0/16"),
-		ServiceLoopbackIPv4: templateIPv4[:],
-		ServiceLoopbackIPv6: templateIPv6[:],
+		ServiceLoopbackIPv4: netip.AddrFrom4(templateIPv4),
+		ServiceLoopbackIPv6: netip.AddrFrom16(templateIPv6),
 		HostEndpointID:      1,
 		EnableIPv4:          true,
 	}
@@ -66,7 +68,7 @@ func newTestLoader(tb testing.TB) *loader {
 	setupCompilationDirectories(tb)
 
 	var l *loader
-	err := hive.New(
+	h := hive.New(
 		cell.Invoke(func(ld datapath.Loader) {
 			l = ld.(*loader)
 		}),
@@ -77,6 +79,7 @@ func newTestLoader(tb testing.TB) *loader {
 			return nil
 		}),
 		cell.Provide(tables.NewDeviceTable), cell.Provide(statedb.RWTable[*tables.Device].ToTable),
+		registry.Cell,
 		cell.Provide(func() (
 			sysctl.Sysctl,
 			datapath.ConfigWriter,
@@ -95,10 +98,20 @@ func newTestLoader(tb testing.TB) *loader {
 		cell.Provide(func() *bigtcp.Configuration {
 			return &bigtcp.Configuration{}
 		}),
-	).Populate(hivetest.Logger(tb))
-	if err != nil {
+	)
+	log := hivetest.Logger(tb)
+	if err := h.Populate(log); err != nil {
 		tb.Fatal(err)
 	}
+
+	if err := h.Start(log, context.Background()); err != nil {
+		tb.Fatal(err)
+	}
+	tb.Cleanup(func() {
+		if err := h.Stop(log, context.Background()); err != nil {
+			tb.Fatal(err)
+		}
+	})
 
 	return l
 }

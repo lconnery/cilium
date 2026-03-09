@@ -14,7 +14,6 @@ import (
 
 	"github.com/cilium/hive/hivetest"
 	cilium "github.com/cilium/proxy/go/cilium/api"
-	"github.com/cilium/proxy/pkg/policy/api/kafka"
 	"github.com/stretchr/testify/require"
 	k8sTypes "k8s.io/apimachinery/pkg/types"
 
@@ -182,11 +181,33 @@ func (td *testData) addIdentitySelector(sel api.EndpointSelector) bool {
 	return added
 }
 
+// tiersWithRules returns the list of non-empty tiers in a given
+// PolicyMaps. This is used for comparing equality, as a missing
+// and an empty policy map are equivalent
+func tiersWithRules(l4pms L4PolicyMaps) []int {
+	out := make([]int, 0, len(l4pms))
+	for tier, l4pm := range l4pms {
+		if l4pm.Len() > 0 {
+			out = append(out, tier)
+		}
+	}
+	return out
+}
+
 func (td *testData) verifyL4PolicyMapEqual(t *testing.T, expected, actual L4PolicyMaps, availableIDs ...identity.NumericIdentity) {
 	t.Helper()
 
-	require.Len(t, actual, len(expected))
+	// Validate that the set of tiers with rules is identical.
+	// This makes it more ergonomic to write policy map literals by omitting empty tiers
+	require.Equal(t, tiersWithRules(expected), tiersWithRules(actual), "set of non-empty tiers must be the same")
+
+	// Compare policy maps
 	for i := range expected {
+		// it is OK if expected[i] is empty and actual[i] doesn't exist.
+		if i >= len(actual) && expected[i].Len() == 0 {
+			continue
+		}
+
 		require.Equal(t, expected[i].Len(), actual[i].Len())
 		expected[i].ForEach(func(l4 *L4Filter) bool {
 			port := l4.PortName
@@ -938,74 +959,12 @@ func TestMergeIdenticalAllowAllL3AndRestrictedL7HTTP(t *testing.T) {
 	td.policyMapEquals(t, expected, nil, &identicalHTTPRule)
 }
 
-// Case 4: identical allow all at L3 with identical restrictions on Kafka.
-func TestMergeIdenticalAllowAllL3AndRestrictedL7Kafka(t *testing.T) {
-	td := newTestData(t, hivetest.Logger(t))
-
-	identicalKafkaRule := api.Rule{
-		EndpointSelector: endpointSelectorA,
-		Ingress: []api.IngressRule{
-			{
-				IngressCommonRule: api.IngressCommonRule{
-					FromEndpoints: api.EndpointSelectorSlice{api.WildcardEndpointSelector},
-				},
-				ToPorts: []api.PortRule{{
-					Ports: []api.PortProtocol{
-						{Port: "9092", Protocol: api.ProtoTCP},
-					},
-					Rules: &api.L7Rules{
-						Kafka: []kafka.PortRule{
-							{Topic: "foo"},
-						},
-					},
-				}},
-			},
-			{
-				IngressCommonRule: api.IngressCommonRule{
-					FromEndpoints: api.EndpointSelectorSlice{api.WildcardEndpointSelector},
-				},
-				ToPorts: []api.PortRule{{
-					Ports: []api.PortProtocol{
-						{Port: "9092", Protocol: api.ProtoTCP},
-					},
-					Rules: &api.L7Rules{
-						Kafka: []kafka.PortRule{
-							{Topic: "foo"},
-						},
-					},
-				}},
-			},
-		},
-	}
-
-	expected := NewL4PolicyMapWithValues(map[string]*L4Filter{"9092/TCP": {
-		Port:     9092,
-		Protocol: api.ProtoTCP,
-		U8Proto:  6,
-		wildcard: td.wildcardCachedSelector,
-		PerSelectorPolicies: L7DataMap{
-			td.wildcardCachedSelector: &PerSelectorPolicy{
-				Verdict:          types.Allow,
-				L7Parser:         ParserTypeKafka,
-				ListenerPriority: ListenerPriorityKafka,
-				L7Rules: api.L7Rules{
-					Kafka: []kafka.PortRule{{Topic: "foo"}},
-				},
-			},
-		},
-		Ingress:    true,
-		RuleOrigin: OriginForTest(map[CachedSelector]labels.LabelArrayList{td.wildcardCachedSelector: {nil}}),
-	}})
-
-	td.policyMapEquals(t, expected, nil, &identicalKafkaRule)
-}
-
 // Case 5: use conflicting protocols on the same port in different rules. This
 // is not supported, so return an error.
 func TestMergeIdenticalAllowAllL3AndMismatchingParsers(t *testing.T) {
 	td := newTestData(t, hivetest.Logger(t))
 
-	// Case 5A: Kafka first, HTTP second.
+	// Case 5A: custom L7 first, HTTP second.
 	conflictingParsersRule := api.Rule{
 		EndpointSelector: endpointSelectorA,
 		Ingress: []api.IngressRule{
@@ -1018,9 +977,8 @@ func TestMergeIdenticalAllowAllL3AndMismatchingParsers(t *testing.T) {
 						{Port: "80", Protocol: api.ProtoTCP},
 					},
 					Rules: &api.L7Rules{
-						Kafka: []kafka.PortRule{
-							{Topic: "foo"},
-						},
+						L7Proto: "testing",
+						L7:      []api.PortRuleL7{{"key": "val"}},
 					},
 				}},
 			},
@@ -1044,7 +1002,7 @@ func TestMergeIdenticalAllowAllL3AndMismatchingParsers(t *testing.T) {
 
 	td.policyInvalid(t, "cannot merge conflicting L7 parsers", &conflictingParsersRule)
 
-	// Case 5B: HTTP first, Kafka second.
+	// Case 5B: HTTP first, custom L7 second.
 	conflictingParsersRule = api.Rule{
 		EndpointSelector: endpointSelectorA,
 		Ingress: []api.IngressRule{
@@ -1072,9 +1030,8 @@ func TestMergeIdenticalAllowAllL3AndMismatchingParsers(t *testing.T) {
 						{Port: "80", Protocol: api.ProtoTCP},
 					},
 					Rules: &api.L7Rules{
-						Kafka: []kafka.PortRule{
-							{Topic: "foo"},
-						},
+						L7Proto: "testing",
+						L7:      []api.PortRuleL7{{"key": "val"}},
 					},
 				}},
 			},
@@ -2045,7 +2002,7 @@ func TestL3RuleWithL7RuleShadowedByL3AllowAll(t *testing.T) {
 func TestL3SelectingEndpointAndL3AllowAllMergeConflictingL7(t *testing.T) {
 	td := newTestData(t, hivetest.Logger(t))
 
-	// Case 9A: Kafka first, then HTTP.
+	// Case 9A: custom L7 first, then HTTP.
 	conflictingL7Rule := api.Rule{
 		EndpointSelector: endpointSelectorA,
 		Ingress: []api.IngressRule{
@@ -2058,9 +2015,8 @@ func TestL3SelectingEndpointAndL3AllowAllMergeConflictingL7(t *testing.T) {
 						{Port: "80", Protocol: api.ProtoTCP},
 					},
 					Rules: &api.L7Rules{
-						Kafka: []kafka.PortRule{
-							{Topic: "foo"},
-						},
+						L7Proto: "testing",
+						L7:      []api.PortRuleL7{{"key": "val"}},
 					},
 				}},
 			},
@@ -2084,7 +2040,7 @@ func TestL3SelectingEndpointAndL3AllowAllMergeConflictingL7(t *testing.T) {
 
 	td.policyInvalid(t, "cannot merge conflicting L7 parsers", &conflictingL7Rule)
 
-	// Case 9B: HTTP first, then Kafka.
+	// Case 9B: HTTP first, then custom L7.
 	conflictingL7Rule = api.Rule{
 		EndpointSelector: endpointSelectorA,
 		Ingress: []api.IngressRule{
@@ -2112,9 +2068,8 @@ func TestL3SelectingEndpointAndL3AllowAllMergeConflictingL7(t *testing.T) {
 						{Port: "80", Protocol: api.ProtoTCP},
 					},
 					Rules: &api.L7Rules{
-						Kafka: []kafka.PortRule{
-							{Topic: "foo"},
-						},
+						L7Proto: "testing",
+						L7:      []api.PortRuleL7{{"key": "val"}},
 					},
 				}},
 			},
@@ -2130,7 +2085,7 @@ func TestL3SelectingEndpointAndL3AllowAllMergeConflictingL7(t *testing.T) {
 func TestL3SelectingEndpointAndL3AllowAllMergeDifferentL7(t *testing.T) {
 	td := newTestData(t, hivetest.Logger(t))
 
-	// Case 9A: Kafka first, then HTTP.
+	// Case 9A: custom L7 first, then HTTP.
 	conflictingL7Rule := api.Rule{
 		EndpointSelector: endpointSelectorA,
 		Ingress: []api.IngressRule{
@@ -2143,9 +2098,8 @@ func TestL3SelectingEndpointAndL3AllowAllMergeDifferentL7(t *testing.T) {
 						{Port: "80", Protocol: api.ProtoTCP},
 					},
 					Rules: &api.L7Rules{
-						Kafka: []kafka.PortRule{
-							{Topic: "foo"},
-						},
+						L7Proto: "testing",
+						L7:      []api.PortRuleL7{{"key": "val"}},
 					},
 				}},
 			},
@@ -2169,7 +2123,7 @@ func TestL3SelectingEndpointAndL3AllowAllMergeDifferentL7(t *testing.T) {
 
 	td.policyValid(t, &conflictingL7Rule)
 
-	// Case 9B: HTTP first, then Kafka.
+	// Case 9B: HTTP first, then custom L7.
 	conflictingL7Rule = api.Rule{
 		EndpointSelector: endpointSelectorA,
 		Ingress: []api.IngressRule{
@@ -2197,9 +2151,8 @@ func TestL3SelectingEndpointAndL3AllowAllMergeDifferentL7(t *testing.T) {
 						{Port: "80", Protocol: api.ProtoTCP},
 					},
 					Rules: &api.L7Rules{
-						Kafka: []kafka.PortRule{
-							{Topic: "foo"},
-						},
+						L7Proto: "testing",
+						L7:      []api.PortRuleL7{{"key": "val"}},
 					},
 				}},
 			},
@@ -2583,75 +2536,6 @@ func TestHTTPWildcardInDefaultAllow(t *testing.T) {
 	td.policyMapEquals(t, expected, nil, &rule)
 }
 
-// Case 16: Test that Kafka L7 rules in default-allow mode add an empty topic rule
-func TestKafkaWildcardInDefaultAllow(t *testing.T) {
-	logger := hivetest.Logger(t)
-	td := newTestData(t, logger)
-
-	rule := api.Rule{
-		EndpointSelector: endpointSelectorA,
-		// Set EnableDefaultDeny.Ingress to false to ensure default-allow mode
-		EnableDefaultDeny: api.DefaultDenyConfig{Ingress: &falseValue},
-		Ingress: []api.IngressRule{
-			{
-				IngressCommonRule: api.IngressCommonRule{
-					FromEndpoints: []api.EndpointSelector{api.WildcardEndpointSelector},
-				},
-				ToPorts: []api.PortRule{{
-					Ports: []api.PortProtocol{
-						{Port: "9092", Protocol: api.ProtoTCP},
-					},
-					Rules: &api.L7Rules{
-						Kafka: []kafka.PortRule{{
-							Topic: "important-topic",
-						}},
-					},
-				}},
-			},
-		},
-	}
-
-	expected := NewL4PolicyMapWithValues(map[string]*L4Filter{
-		"9092/TCP": {
-			Port:     9092,
-			Protocol: api.ProtoTCP,
-			U8Proto:  6,
-			wildcard: td.wildcardCachedSelector,
-			PerSelectorPolicies: L7DataMap{
-				td.wildcardCachedSelector: &PerSelectorPolicy{
-					Verdict: types.Allow,
-					L7Rules: api.L7Rules{
-						Kafka: []kafka.PortRule{{
-							Topic: "important-topic",
-						}, {
-							// Empty topic rule should be added
-							Topic: "",
-						}},
-					},
-					L7Parser:         ParserTypeKafka,
-					ListenerPriority: ListenerPriorityKafka,
-				},
-			},
-			Ingress:    true,
-			RuleOrigin: OriginForTest(map[CachedSelector]labels.LabelArrayList{td.wildcardCachedSelector: {nil}}),
-		},
-		// L3 wildcard rule is also added
-		"0/ANY": {
-			Port:     0,
-			Protocol: api.ProtoAny,
-			U8Proto:  0,
-			wildcard: td.wildcardCachedSelector,
-			PerSelectorPolicies: L7DataMap{
-				td.wildcardCachedSelector: nil,
-			},
-			Ingress:    true,
-			RuleOrigin: OriginForTest(map[CachedSelector]labels.LabelArrayList{td.wildcardCachedSelector: {LabelsAllowAnyIngress}}),
-		},
-	})
-
-	td.policyMapEquals(t, expected, nil, &rule)
-}
-
 // Case 17: Test that DNS L7 rules with L3 filtering in default-allow mode add a wildcard
 func TestDNSWildcardWithL3FilterInDefaultAllow(t *testing.T) {
 	logger := hivetest.Logger(t)
@@ -2829,27 +2713,6 @@ func TestDefaultAllowL7Rules(t *testing.T) {
 					}
 				}
 				require.True(t, found, "HTTP wildcard rule should be added in default-allow mode")
-			},
-		},
-		{
-			name: "Kafka rules with default-allow",
-			l7Rules: &api.L7Rules{
-				Kafka: []kafka.PortRule{{
-					Topic: "important-topic",
-				}},
-			},
-			l7Parser: ParserTypeKafka,
-			port:     "9092",
-			proto:    api.ProtoTCP,
-			verifyWildcard: func(t *testing.T, policy *PerSelectorPolicy) {
-				found := false
-				for _, kafkaRule := range policy.L7Rules.Kafka {
-					if kafkaRule.Topic == "" {
-						found = true
-						break
-					}
-				}
-				require.True(t, found, "Kafka wildcard rule should be added in default-allow mode")
 			},
 		},
 		{

@@ -60,12 +60,10 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  # renovate: datasource=golang-version depName=go
-  go_version: 1.26.0
   # renovate: datasource=docker depName=google/cloud-sdk
-  gcloud_version: 557.0.0
+  gcloud_version: 559.0.0
   # renovate: datasource=git-refs depName=https://github.com/cilium/scaffolding branch=main
-  cmapisrv_mock_ref: ef3bbdc8c688e65afe41aa43d23b24656d30d02b
+  cmapisrv_mock_ref: 35760e90020f58d81ff956f081470a4f68150e9e
 
   test_name: scale-clustermesh
   cluster_name: ${{ github.run_id }}-${{ github.run_attempt }}
@@ -127,9 +125,10 @@ jobs:
           images: cilium-ci operator-generic-ci clustermesh-apiserver-ci cilium-cli-ci
 
       - name: Install Go
-        uses: actions/setup-go@7a3fe6cf4cb3a834922a1244abfce67bcef6a0c5 # v6.2.0
+        uses: actions/setup-go@4b73464bb391d4059bd26b0524d20df3927bd417 # v6.3.0
         with:
-          go-version: ${{ env.go_version }}
+          # renovate: datasource=golang-version depName=go
+          go-version: 1.26.1
 
       - name: Install Kops
         uses: cilium/scale-tests-action/install-kops@8535f579142fa598c3b2a895cfb248cd492d7c5a # main
@@ -187,7 +186,7 @@ jobs:
           kube_proxy_enabled: false
 
       - name: Install Cilium CLI
-        uses: cilium/cilium-cli@e3a20f4df0e49da32a381e8c91748f311d404134 # v0.19.1
+        uses: cilium/cilium-cli@3ce83aa3b4ea3ce6d97023c4d83c22b73a4ed3b4 # v0.19.2
         with:
           skip-build: ${{ env.CILIUM_CLI_SKIP_BUILD }}
           image-repo: ${{ env.CILIUM_CLI_IMAGE_REPO }}

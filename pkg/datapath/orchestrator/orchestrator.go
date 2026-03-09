@@ -173,7 +173,7 @@ func (o *orchestrator) reconciler(ctx context.Context, health cell.Health) error
 		stream.Filter(o.params.LocalNodeStore,
 			func(n node.LocalNode) bool {
 				if agentConfig.EnableIPv4 {
-					loopback := n.Local.ServiceLoopbackIPv4 != nil
+					loopback := n.Local.ServiceLoopbackIPv4.IsValid()
 					ipv4GW := n.GetCiliumInternalIP(false) != nil
 					ipv4Range := n.IPv4AllocCIDR != nil
 					if !ipv4GW || !ipv4Range || !loopback {
@@ -181,7 +181,7 @@ func (o *orchestrator) reconciler(ctx context.Context, health cell.Health) error
 					}
 				}
 				if agentConfig.EnableIPv6 {
-					loopback := n.Local.ServiceLoopbackIPv6 != nil
+					loopback := n.Local.ServiceLoopbackIPv6.IsValid()
 					ipv6GW := n.GetCiliumInternalIP(true) != nil
 					if !ipv6GW || !loopback {
 						return false
@@ -353,7 +353,8 @@ func (o *orchestrator) reinitialize(ctx context.Context, req reinitializeRequest
 	// the devices and addresses. It's guaranteed that it will use a LoaderContext
 	// equal to or newer than what we saw here.
 	regenRequest := &regeneration.ExternalRegenerationMetadata{
-		Reason:            "Configuration or devices changed",
+		Reason:            regeneration.ReasonDeviceConfigurationChanged,
+		Message:           "Configuration or devices changed",
 		RegenerationLevel: regeneration.RegenerateWithDatapath,
 		ParentContext:     ctx,
 	}

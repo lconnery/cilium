@@ -11,6 +11,7 @@ import (
 	"path/filepath"
 	"sync"
 	"sync/atomic"
+	"time"
 
 	"github.com/cilium/hive/cell"
 	"github.com/cilium/hive/shell"
@@ -19,9 +20,10 @@ import (
 	"google.golang.org/grpc"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/rand"
+	"k8s.io/client-go/kubernetes"
+	"k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/leaderelection"
 	"k8s.io/client-go/tools/leaderelection/resourcelock"
-	"k8s.io/client-go/util/workqueue"
 
 	operatorApi "github.com/cilium/cilium/api/v1/operator/server"
 	"github.com/cilium/cilium/cilium-dbg/cmd/troubleshoot"
@@ -121,17 +123,6 @@ var (
 
 		// Provides the modular metrics registry, metric HTTP server and legacy metrics cell.
 		operatorMetrics.Cell,
-		cell.Provide(func(
-			operatorCfg *operatorOption.OperatorConfig,
-		) operatorMetrics.SharedConfig {
-			return operatorMetrics.SharedConfig{
-				// Cloud provider specific allocators needs to read operatorCfg.EnableMetrics
-				// to add their metrics when it's set to true. Therefore, we leave the flag as global
-				// instead of declaring it as part of the metrics cell.
-				// This should be changed once the IPAM allocator is modularized.
-				EnableMetrics: operatorCfg.EnableMetrics,
-			}
-		}),
 
 		// Shell for inspecting the operator. Listens on the 'shell.sock' UNIX socket.
 		shell.ServerCell(defaults.ShellSockPath),
@@ -245,6 +236,10 @@ var (
 		endpointslicesync.Cell,
 		mcsapi.Cell,
 		locksweeper.Cell,
+
+		// Garbage collects stale CiliumNode custom resources.
+		operatorWatchers.CiliumNodeGCCell,
+
 		legacyCell,
 
 		// When running in kvstore mode, the start hook of the identity GC
@@ -545,16 +540,28 @@ func runOperator(log *slog.Logger, lc *LeaderLifecycle, clientset k8sClient.Clie
 		ns = metav1.NamespaceDefault
 	}
 
-	leResourceLock, err := resourcelock.NewFromKubeconfig(
+	// Create the resource lock for leader election with a configurable HTTP timeout.
+	// By default, the timeout is max(1s, RenewDeadline/2), matching the upstream
+	// NewFromKubeconfig behavior. Users with high-latency control planes can
+	// override this with --leader-election-resource-lock-timeout.
+	rlConfig := *clientset.RestConfig()
+	rlTimeout := operatorOption.Config.LeaderElectionResourceLockTimeout
+	if rlTimeout == 0 {
+		rlTimeout = max(time.Second, operatorOption.Config.LeaderElectionRenewDeadline/2)
+	}
+	rlConfig.Timeout = rlTimeout
+	leaderElectionClient := kubernetes.NewForConfigOrDie(rest.AddUserAgent(&rlConfig, "leader-election"))
+	leResourceLock, err := resourcelock.New(
 		resourcelock.LeasesResourceLock,
 		ns,
 		leaderElectionResourceLockName,
+		leaderElectionClient.CoreV1(),
+		leaderElectionClient.CoordinationV1(),
 		resourcelock.ResourceLockConfig{
 			// Identity name of the lock holder
 			Identity: operatorID,
 		},
-		clientset.RestConfig(),
-		operatorOption.Config.LeaderElectionRenewDeadline)
+	)
 	if err != nil {
 		logging.Fatal(log, "Failed to create resource lock for leader election", logfields.Error, err)
 	}
@@ -610,27 +617,18 @@ var legacyCell = cell.Module(
 
 type params struct {
 	cell.In
-	Lifecycle                cell.Lifecycle
-	Clientset                k8sClient.Clientset
-	Resources                operatorK8s.Resources
-	SvcResolver              dial.Resolver
-	CfgClusterMeshPolicy     cmtypes.PolicyConfig
-	MetricsRegistry          *metrics.Registry
-	Logger                   *slog.Logger
-	WorkQueueMetricsProvider workqueue.MetricsProvider
+	Lifecycle cell.Lifecycle
+	Clientset k8sClient.Clientset
+	Logger    *slog.Logger
 }
 
 func registerLegacyOnLeader(p params) {
 	ctx, cancel := context.WithCancel(context.Background())
 	legacy := &legacyOnLeader{
-		ctx:                      ctx,
-		cancel:                   cancel,
-		clientset:                p.Clientset,
-		resources:                p.Resources,
-		cfgClusterMeshPolicy:     p.CfgClusterMeshPolicy,
-		workqueueMetricsProvider: p.WorkQueueMetricsProvider,
-		metricsRegistry:          p.MetricsRegistry,
-		logger:                   p.Logger,
+		ctx:       ctx,
+		cancel:    cancel,
+		clientset: p.Clientset,
+		logger:    p.Logger,
 	}
 	p.Lifecycle.Append(cell.Hook{
 		OnStart: legacy.onStart,
@@ -639,15 +637,11 @@ func registerLegacyOnLeader(p params) {
 }
 
 type legacyOnLeader struct {
-	ctx                      context.Context
-	cancel                   context.CancelFunc
-	clientset                k8sClient.Clientset
-	wg                       sync.WaitGroup
-	resources                operatorK8s.Resources
-	cfgClusterMeshPolicy     cmtypes.PolicyConfig
-	metricsRegistry          *metrics.Registry
-	workqueueMetricsProvider workqueue.MetricsProvider
-	logger                   *slog.Logger
+	ctx       context.Context
+	cancel    context.CancelFunc
+	clientset k8sClient.Clientset
+	wg        sync.WaitGroup
+	logger    *slog.Logger
 }
 
 func (legacy *legacyOnLeader) onStop(_ cell.HookContext) error {
@@ -679,13 +673,6 @@ func (legacy *legacyOnLeader) onStart(ctx cell.HookContext) error {
 
 		operatorWatchers.HandleNodeTolerationAndTaints(&legacy.wg, legacy.clientset, legacy.ctx.Done(),
 			watcherLogger)
-	}
-
-	if legacy.clientset.IsEnabled() {
-		if operatorOption.Config.NodesGCInterval != 0 {
-			operatorWatchers.RunCiliumNodeGC(legacy.ctx, &legacy.wg, legacy.clientset, legacy.resources.CiliumNodes,
-				operatorOption.Config.NodesGCInterval, watcherLogger, legacy.workqueueMetricsProvider)
-		}
 	}
 
 	if option.Config.IdentityAllocationMode == option.IdentityAllocationModeCRD ||

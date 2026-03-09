@@ -18,7 +18,6 @@ import (
 
 	"github.com/cilium/cilium/pkg/bpf"
 	"github.com/cilium/cilium/pkg/datapath/alignchecker"
-	"github.com/cilium/cilium/pkg/datapath/linux/ethtool"
 	"github.com/cilium/cilium/pkg/datapath/linux/linux_defaults"
 	"github.com/cilium/cilium/pkg/datapath/linux/route"
 	"github.com/cilium/cilium/pkg/datapath/linux/safenetlink"
@@ -29,6 +28,7 @@ import (
 	ipamOption "github.com/cilium/cilium/pkg/ipam/option"
 	"github.com/cilium/cilium/pkg/logging"
 	"github.com/cilium/cilium/pkg/logging/logfields"
+	"github.com/cilium/cilium/pkg/maps/registry"
 	"github.com/cilium/cilium/pkg/option"
 	"github.com/cilium/cilium/pkg/socketlb"
 	wgTypes "github.com/cilium/cilium/pkg/wireguard/types"
@@ -175,82 +175,8 @@ func cleanCallsMaps(mapNamePattern string) error {
 	return err
 }
 
-// reinitializeEncryption is used to recompile and load encryption network programs.
-func (l *loader) reinitializeEncryption(ctx context.Context, lnc *datapath.LocalNodeConfiguration) error {
-	// We need to take care not to load bpf_network and bpf_host onto the same
-	// device. If devices are required, we load bpf_host and hence don't need
-	// the code below, specific to EncryptInterface. Specifically, we will load
-	// bpf_host code in reloadHostDatapath onto the physical devices as selected
-	// by configuration.
-	if !lnc.EnableIPSec || option.Config.AreDevicesRequired(lnc.KPRConfig, lnc.EnableWireguard, lnc.EnableIPSec) {
-		os.RemoveAll(bpfStateDeviceDir(networkConfig))
-
-		return nil
-	}
-
-	l.ipsecMu.Lock()
-	defer l.ipsecMu.Unlock()
-
-	var attach []netlink.Link
-	if option.Config.IPAM == ipamOption.IPAMENI {
-		// IPAMENI mode supports multiple network facing interfaces that
-		// will all need Encrypt logic applied in order to decrypt any
-		// received encrypted packets. This logic will attach to all
-		// !veth devices.
-		//
-		// Regenerate the list of interfaces to attach to on every call.
-		links, err := safenetlink.LinkList()
-		if err != nil {
-			return err
-		}
-
-		// Always attach to all physical devices in ENI mode.
-		attach = physicalDevs(links)
-		option.Config.UnsafeDaemonConfigOption.EncryptInterface = linkNames(attach)
-	} else {
-		// In other modes, attach only to the interfaces explicitly specified by the
-		// user. Resolve links by name.
-		for _, iface := range option.Config.UnsafeDaemonConfigOption.EncryptInterface {
-			link, err := safenetlink.LinkByName(iface)
-			if err != nil {
-				return fmt.Errorf("retrieving device %s: %w", iface, err)
-			}
-			attach = append(attach, link)
-		}
-	}
-
-	// No interfaces is valid in tunnel disabled case
-	if len(attach) == 0 {
-		return nil
-	}
-
-	if err := replaceEncryptionDatapath(ctx, l.logger, lnc, attach); err != nil {
-		return fmt.Errorf("failed to replace encryption datapath: %w", err)
-	}
-
-	return nil
-}
-
-func physicalDevs(links []netlink.Link) []netlink.Link {
-	var phys []netlink.Link
-	for _, link := range links {
-		isVirtual, err := ethtool.IsVirtualDriver(link.Attrs().Name)
-		if err == nil && !isVirtual {
-			phys = append(phys, link)
-		}
-	}
-	return phys
-}
-
-func linkNames(links []netlink.Link) []string {
-	var names []string
-	for _, link := range links {
-		names = append(names, link.Attrs().Name)
-	}
-	return names
-}
-
-func reinitializeOverlay(ctx context.Context, logger *slog.Logger, lnc *datapath.LocalNodeConfiguration, tunnelConfig tunnel.Config) error {
+func reinitializeOverlay(ctx context.Context, logger *slog.Logger, reg *registry.MapRegistry,
+	lnc *datapath.LocalNodeConfiguration, tunnelConfig tunnel.Config) error {
 	// tunnelConfig.EncapProtocol() can be one of tunnel.[Disabled, VXLAN, Geneve]
 	// if it is disabled, the overlay network programs don't have to be (re)initialized
 	if tunnelConfig.EncapProtocol() == tunnel.Disabled {
@@ -268,14 +194,14 @@ func reinitializeOverlay(ctx context.Context, logger *slog.Logger, lnc *datapath
 		return fmt.Errorf("failed to retrieve link for interface %s: %w", iface, err)
 	}
 
-	if err := replaceOverlayDatapath(ctx, logger, lnc, link); err != nil {
+	if err := replaceOverlayDatapath(ctx, logger, reg, lnc, link); err != nil {
 		return fmt.Errorf("failed to load overlay programs: %w", err)
 	}
 
 	return nil
 }
 
-func reinitializeWireguard(ctx context.Context, logger *slog.Logger, lnc *datapath.LocalNodeConfiguration) (err error) {
+func reinitializeWireguard(ctx context.Context, logger *slog.Logger, reg *registry.MapRegistry, lnc *datapath.LocalNodeConfiguration) (err error) {
 	if !lnc.EnableWireguard {
 		cleanCallsMaps("cilium_calls_wireguard*")
 
@@ -289,13 +215,14 @@ func reinitializeWireguard(ctx context.Context, logger *slog.Logger, lnc *datapa
 		return fmt.Errorf("failed to retrieve link for interface %s: %w", wgTypes.IfaceName, err)
 	}
 
-	if err := replaceWireguardDatapath(ctx, logger, lnc, link); err != nil {
+	if err := replaceWireguardDatapath(ctx, logger, reg, lnc, link); err != nil {
 		return fmt.Errorf("failed to load wireguard programs: %w", err)
 	}
 	return
 }
 
-func reinitializeXDPLocked(ctx context.Context, logger *slog.Logger, lnc *datapath.LocalNodeConfiguration, devices []string) error {
+func reinitializeXDPLocked(ctx context.Context, logger *slog.Logger, reg *registry.MapRegistry,
+	lnc *datapath.LocalNodeConfiguration, devices []string) error {
 	xdpConfig := lnc.XDPConfig
 	maybeUnloadObsoleteXDPPrograms(logger, devices, xdpConfig.Mode(), bpf.CiliumPath())
 	if xdpConfig.Disabled() {
@@ -310,7 +237,7 @@ func reinitializeXDPLocked(ctx context.Context, logger *slog.Logger, lnc *datapa
 			continue
 		}
 
-		if err := compileAndLoadXDPProg(ctx, logger, lnc, dev, xdpConfig.Mode()); err != nil {
+		if err := compileAndLoadXDPProg(ctx, logger, reg, lnc, dev, xdpConfig.Mode()); err != nil {
 			if option.Config.NodePortAcceleration == option.XDPModeBestEffort {
 				logger.Info("Failed to attach XDP program, ignoring due to best-effort mode",
 					logfields.Error, err,
@@ -357,10 +284,10 @@ func (l *loader) Reinitialize(ctx context.Context, lnc *datapath.LocalNodeConfig
 
 	var internalIPv4, internalIPv6 net.IP
 	if option.Config.EnableIPv4 {
-		internalIPv4 = lnc.CiliumInternalIPv4
+		internalIPv4 = net.IP(lnc.CiliumInternalIPv4.AsSlice())
 	}
 	if option.Config.EnableIPv6 {
-		internalIPv6 = lnc.CiliumInternalIPv6
+		internalIPv6 = net.IP(lnc.CiliumInternalIPv6.AsSlice())
 		// Docker <17.05 has an issue which causes IPv6 to be disabled in the initns for all
 		// interface (https://github.com/docker/libnetwork/issues/1720)
 		// Enable IPv6 for now
@@ -445,10 +372,10 @@ func (l *loader) Reinitialize(ctx context.Context, lnc *datapath.LocalNodeConfig
 
 	if lnc.KPRConfig.EnableSocketLB {
 		// compile bpf_sock.c and attach/detach progs for socketLB
-		if err := compileWithOptions(ctx, l.logger, "bpf_sock.c", "bpf_sock.o", nil); err != nil {
+		if err := compileWithOptions(ctx, l.logger, socketProg, socketObj, nil); err != nil {
 			logging.Fatal(l.logger, "failed to compile bpf_sock.c", logfields.Error, err)
 		}
-		if err := socketlb.Enable(l.logger, l.sysctl, lnc); err != nil {
+		if err := socketlb.Enable(l.logger, l.registry, l.sysctl, lnc); err != nil {
 			return err
 		}
 	} else {
@@ -457,7 +384,7 @@ func (l *loader) Reinitialize(ctx context.Context, lnc *datapath.LocalNodeConfig
 		}
 	}
 
-	if err := reinitializeXDPLocked(ctx, l.logger, lnc, devices); err != nil {
+	if err := reinitializeXDPLocked(ctx, l.logger, l.registry, lnc, devices); err != nil {
 		logging.Fatal(l.logger, "Failed to compile XDP program", logfields.Error, err)
 	}
 
@@ -470,15 +397,11 @@ func (l *loader) Reinitialize(ctx context.Context, lnc *datapath.LocalNodeConfig
 		logging.Fatal(l.logger, "C and Go structs alignment check failed", logfields.Error, err)
 	}
 
-	if err := l.reinitializeEncryption(ctx, lnc); err != nil {
+	if err := reinitializeWireguard(ctx, l.logger, l.registry, lnc); err != nil {
 		return err
 	}
 
-	if err := reinitializeWireguard(ctx, l.logger, lnc); err != nil {
-		return err
-	}
-
-	if err := reinitializeOverlay(ctx, l.logger, lnc, tunnelConfig); err != nil {
+	if err := reinitializeOverlay(ctx, l.logger, l.registry, lnc, tunnelConfig); err != nil {
 		return err
 	}
 

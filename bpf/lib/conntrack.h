@@ -42,11 +42,7 @@ struct ct_state {
 	union v6addr nat_addr;
 	__be16 nat_port;
 	__u16 rev_nat_index;
-#ifdef USE_LOOPBACK_LB
 	__u16 loopback:1,
-#else
-	__u16 loopback_disabled:1,
-#endif
 	      node_port:1,
 	      dsr_internal:1,   /* DSR is k8s service related, cluster internal */
 	      syn:1,
@@ -675,10 +671,8 @@ __ct_lookup6(const void *map, struct ipv6_ct_tuple *tuple, struct __ctx_buff *ct
 	enum ct_action action;
 	enum ct_status ret;
 
-#ifdef ENABLE_IPV6_FRAGMENTS
-	if (unlikely(ipfrag_is_fragment(fraginfo)))
+	if (CONFIG(enable_ipv6_fragments) && ipfrag_is_fragment(fraginfo))
 		update_metrics(ctx_full_len(ctx), ct_to_metrics_dir(dir), REASON_FRAG_PACKET);
-#endif
 
 	if (is_tcp && ipfrag_has_l4_header(fraginfo)) {
 		if (l4_load_tcp_flags(ctx, l4_off, &tcp_flags) < 0)
@@ -935,10 +929,8 @@ __ct_lookup4(const void *map, struct ipv4_ct_tuple *tuple, struct __ctx_buff *ct
 	enum ct_action action;
 	enum ct_status ret;
 
-#ifdef ENABLE_IPV4_FRAGMENTS
-	if (unlikely(ipfrag_is_fragment(fraginfo)))
+	if (CONFIG(enable_ipv4_fragments) && ipfrag_is_fragment(fraginfo))
 		update_metrics(ctx_full_len(ctx), ct_to_metrics_dir(dir), REASON_FRAG_PACKET);
-#endif
 
 	if (is_tcp && ipfrag_has_l4_header(fraginfo)) {
 		if (l4_load_tcp_flags(ctx, l4_off, &tcp_flags) < 0)

@@ -3350,14 +3350,6 @@
                 }
               },
               "type": "object"
-            },
-            "kafka": {
-              "properties": {
-                "apiKey": {
-                  "type": "boolean"
-                }
-              },
-              "type": "object"
             }
           },
           "type": "object"
@@ -3640,6 +3632,9 @@
                     }
                   },
                   "type": "object"
+                },
+                "readOnlyRootFilesystem": {
+                  "type": "boolean"
                 },
                 "runAsGroup": {
                   "type": "integer"
@@ -4707,6 +4702,9 @@
             }
           },
           "type": "object"
+        },
+        "serviceTopology": {
+          "type": "boolean"
         }
       },
       "type": "object"

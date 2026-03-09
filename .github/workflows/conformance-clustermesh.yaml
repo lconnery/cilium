@@ -68,7 +68,7 @@ env:
   contextName2: kind-cluster2-${{ github.run_id }}
 
   # renovate: datasource=github-releases depName=cert-manager/cert-manager
-  CERT_MANAGER_VERSION: v1.19.3
+  CERT_MANAGER_VERSION: v1.19.4
 
 jobs:
   echo-inputs:
@@ -331,6 +331,7 @@ jobs:
             --helm-set=extraConfig.clustermesh-sync-timeout=5m \
             --helm-set=extraConfig.lb-init-wait-timeout=4m \
             --helm-set=clustermesh.defaultGlobalNamespace=${{ matrix.defaultGlobalNamespace }} \
+            --helm-set=clustermesh.disableKubernetesHostAliases=true \
             "
 
           CILIUM_INSTALL_TUNNEL=" \
@@ -479,7 +480,7 @@ jobs:
           wait: 0 # The control-plane never becomes ready, since no CNI is present
 
       - name: Install Cilium CLI
-        uses: cilium/cilium-cli@e3a20f4df0e49da32a381e8c91748f311d404134 # v0.19.1
+        uses: cilium/cilium-cli@3ce83aa3b4ea3ce6d97023c4d83c22b73a4ed3b4 # v0.19.2
         with:
           skip-build: ${{ env.CILIUM_CLI_SKIP_BUILD }}
           image-repo: ${{ env.CILIUM_CLI_IMAGE_REPO }}

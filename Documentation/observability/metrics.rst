@@ -475,9 +475,10 @@ Endpoint
 Name                                         Labels                                             Default    Description
 ============================================ ================================================== ========== ========================================================
 ``endpoint``                                                                                    Enabled    Number of endpoints managed by this agent
+``endpoint_component_status``                ``type``, ``status``                               Enabled    Number of endpoints tagged by different endpoint components type and their status
 ``endpoint_restoration_endpoints``           ``phase``, ``outcome``                             Enabled    Number of restored endpoints labeled by phase and outcome
 ``endpoint_restoration_duration_seconds``    ``phase``                                          Enabled    Duration of restoration phases in seconds
-``endpoint_regenerations_total``             ``outcome``                                        Enabled    Count of all endpoint regenerations that have completed
+``endpoint_regenerations_total``             ``reason``, ``outcome``, ``error``                 Enabled    Count of all endpoint regenerations that have completed, tagged by reason, outcome and error
 ``endpoint_regeneration_time_stats_seconds`` ``scope``                                          Enabled    Endpoint regeneration time stats
 ``endpoint_state``                           ``state``                                          Enabled    Count of all endpoints
 ============================================ ================================================== ========== ========================================================
@@ -595,15 +596,16 @@ Name                                       Labels                               
 ========================================== ================================================== ========== ========================================================
 ``policy``                                                                                    Enabled    Number of policies currently loaded
 ``policy_max_revision``                                                                       Enabled    Highest policy revision number in the agent
-``policy_change_total``                                                                       Enabled    Number of policy changes by outcome
+``policy_change_total``                    ``source``, ``operation``, ``outcome``             Enabled    Number of policy changes by source, operation and outcome
 ``policy_endpoint_enforcement_status``                                                        Enabled    Number of endpoints labeled by policy enforcement status
 ``policy_implementation_delay``            ``source``                                         Enabled    Time in seconds between a policy change and it being fully deployed into the datapath, labeled by the policy's source
 ``policy_selector_match_count_max``        ``class``                                          Enabled    The maximum number of identities selected by a network policy selector
 ``policy_incremental_update_duration``     ``scope``                                          Enabled    The time taken for newly learned identities to be added to the policy system, including BPF policy maps and L7 proxies.
+``policy_missing_proxy_redirects``                                                            Enabled    Total number of proxy redirects missing in endpoint policies
 ========================================== ================================================== ========== ========================================================
 
-Policy L7 (HTTP/Kafka/FQDN)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Policy L7 (HTTP/FQDN)
+~~~~~~~~~~~~~~~~~~~~~
 
 ======================================== ================================================== ========== ========================================================
 Name                                     Labels                                             Default    Description
@@ -1340,21 +1342,6 @@ Options
 
 This metric supports :ref:`Context Options<hubble_context_options>`.
 
-``kafka``
-~~~~~~~~~
-
-=================================== ===================================================== ========== ==============================================
-Name                                Labels                                                Default    Description
-=================================== ===================================================== ========== ==============================================
-``kafka_requests_total``            ``topic``, ``api_key``, ``error_code``, ``reporter``  Disabled   Count of Kafka requests by topic
-``kafka_request_duration_seconds``  ``topic``, ``api_key``, ``reporter``                  Disabled   Histogram of Kafka request duration by topic
-=================================== ===================================================== ========== ==============================================
-
-Options
-"""""""
-
-This metric supports :ref:`Context Options<hubble_context_options>`.
-
 ``port-distribution``
 ~~~~~~~~~~~~~~~~~~~~~
 
@@ -1676,4 +1663,3 @@ Name                                          Labels                            
 ============================================= ======================================== ========== ==========================================================================================================================================
 ``controller_duration_seconds``                                                         Enabled    Histogram of processing times for local redirect policies
 ============================================= ======================================== ========== ==========================================================================================================================================
-

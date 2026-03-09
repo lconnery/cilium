@@ -64,9 +64,6 @@ TEST_LDFLAGS=-ldflags "-X github.com/cilium/cilium/pkg/kvstore.etcdDummyAddress=
 
 TEST_UNITTEST_LDFLAGS=
 
-BPF_SOURCE_INFO ?= "bpf/lib/source_info.h"
-GO_SOURCE_INFO ?= "pkg/monitor/api/files.go"
-
 build: $(SUBDIRS) ## Builds all the components for Cilium by executing make in the respective sub directories.
 
 build-container: ## Builds components required for cilium-agent container.
@@ -510,7 +507,7 @@ endif
 	@$(ECHO_CHECK) contrib/scripts/check-go-testdata.sh
 	$(QUIET) contrib/scripts/check-go-testdata.sh
 	@$(ECHO_CHECK) contrib/scripts/check-source-info.sh
-	$(QUIET) BPF_SOURCE_INFO=$(BPF_SOURCE_INFO) GO_SOURCE_INFO=$(GO_SOURCE_INFO) contrib/scripts/check-source-info.sh
+	$(QUIET) contrib/scripts/check-source-info.sh
 	@$(ECHO_CHECK) contrib/scripts/check-xfrmstate.sh
 	$(QUIET) contrib/scripts/check-xfrmstate.sh
 	@$(ECHO_CHECK) contrib/scripts/check-legacy-header-guard.sh
@@ -590,7 +587,7 @@ help: ## Display help for the Makefile, from https://www.thapaliya.com/en/writin
 	$(call print_help_line,"docker-*-image-unstripped","Build unstripped version of above docker images(cilium, hubble-relay, operator etc.)")
 	$(call print_help_line,"docker-standalone-dns-proxy-image","Build standalone DNS proxy docker image")
 
-.PHONY: help clean clean-container dev-doctor force generate-api generate-health-api generate-operator-api generate-kvstoremesh-api generate-hubble-api generate-sdp-api install licenses-all veryclean run_bpf_tests run-builder gateway-api-conformance
+.PHONY: help clean clean-container dev-doctor force generate-api generate-health-api generate-operator-api generate-kvstoremesh-api generate-hubble-api generate-sdp-api install licenses-all veryclean run_bpf_tests run-builder gateway-api-conformance mcs-api-conformance
 force :;
 
 KIND_NET_CIDR ?= $(shell docker network inspect kind-cilium -f '{{json .IPAM.Config}}' | jq -r '.[] | select(.Subnet | test("^[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+")) | .Subnet')
@@ -608,6 +605,15 @@ gateway-api-conformance: ## Run Gateway API conformance tests.
 		--all-features \
 		--allow-crds-mismatch\
 		--cleanup-base-resources=false \
+	| $(GOTEST_FORMATTER)
+
+MCS_API_CONFORMANCE_TEST_NAME ?= TestConformance
+mcs-api-conformance: ## Run MCS-API conformance tests.
+	@$(ECHO_CHECK) running MCS-API conformance tests...
+	MCS_API_CONFORMANCE_TESTS=1 \
+	$(GO_TEST) $(GO_TEST_FLAGS) -p 4 -v ./pkg/clustermesh/mcsapi/conformance \
+		$(MCS_API_TEST_FLAGS) \
+		-test.run $(MCS_API_CONFORMANCE_TEST_NAME) \
 	| $(GOTEST_FORMATTER)
 
 BPF_TEST ?= ""

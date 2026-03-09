@@ -298,6 +298,13 @@ Informational Notes
 Changes to Features
 ~~~~~~~~~~~~~~~~~~~
 
+* When using the ``KubeProxyReplacement`` for Service Loadbalancing with ``SocketLB`` either
+  disabled or configured with ``socketLB.hostNamespaceOnly=true``, in-cluster connections to
+  NodePort services by regular pods are now immediately load-balanced when network traffic leaves
+  the client pod (and not at the targeted node). This matches the behavior when SocketLB is enabled.
+  The client pod's NetworkPolicy consequently needs to allow egress traffic towards the service's
+  backends, and the backends' NetworkPolicy needs to allow ingress traffic by the client pod.
+
 New Options
 ###########
 
@@ -337,6 +344,15 @@ from Cilium.
 
 * The previously deprecated Helm value ``clustermesh.enableMCSAPISupport`` was
   removed in favor of the ``clustermesh.mcsapi.enabled`` Helm value.
+* The ``encryption.ipsec.interface`` Helm flag (the ``--encrypt-interface``
+  agent flag) was a no-op since Cilium 1.18 and has now been removed.
+
+* Support for Envoy Go Extensions (proxylib) and Kafka-aware network policies
+  has been removed. These features were deprecated in v1.18.
+
+* The Helm value ``hubble.redact.kafka.apiKey`` and the corresponding
+  ``hubble-redact-kafka-apikey`` agent flag have been removed as part of
+  dropping Kafka support.
 
 Changes to Metrics
 ~~~~~~~~~~~~~~~~~~
@@ -344,12 +360,19 @@ Changes to Metrics
 Added Metrics
 #############
 
-* TODO
+* ``cilium_policy_missing_proxy_redirects`` was added and reports the total number of
+  proxy redirects that were missing during endpoint policy calculation.
+* ``cilium_endpoint_component_status`` was added and reports the number of endpoints
+  tagged by the status (``OK``, ``Warning``, ``Failure``) of each component (``BPF``, ``Policy``).
 
 Changed Metrics
 ###############
 
-* TODO
+* The ``cilium_feature_np_other_l7_policies_total`` metric no longer counts
+  Kafka policies, as Kafka-aware network policy support has been removed.
+* The metric ``policy_change_total`` now reports additional ``source`` (directory, k8s, custom, generated)
+  and ``operation`` (update, delete) dimensions.
+* The metric ``endpoint_regeneration_total`` now reports additional ``reason`` and ``error`` dimensions.
 
 Deprecated Metrics
 ##################

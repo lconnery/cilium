@@ -70,11 +70,10 @@ func setupRedirectSuite(tb testing.TB) *RedirectSuite {
 
 	s.rsp = &RedirectSuiteProxy{
 		parserProxyPortMap: map[string]uint16{
-			policy.ParserTypeHTTP.String():  httpPort,
-			policy.ParserTypeDNS.String():   dnsPort,
-			policy.ParserTypeKafka.String(): kafkaPort,
-			"crd/cec1/listener1":            crd1Port,
-			"crd/cec2/listener2":            crd2Port,
+			policy.ParserTypeHTTP.String(): httpPort,
+			policy.ParserTypeDNS.String():  dnsPort,
+			"crd/cec1/listener1":           crd1Port,
+			"crd/cec2/listener2":           crd2Port,
 		},
 		redirects: make(map[string]uint16),
 	}
@@ -158,11 +157,10 @@ func (d *DummyOwner) UpdateIdentities(added, deleted identity.IdentityMap) <-cha
 }
 
 const (
-	httpPort  = uint16(19001)
-	dnsPort   = uint16(19002)
-	kafkaPort = uint16(19003)
-	crd1Port  = uint16(19004)
-	crd2Port  = uint16(19005)
+	httpPort = uint16(19001)
+	dnsPort  = uint16(19002)
+	crd1Port = uint16(19004)
+	crd2Port = uint16(19005)
 )
 
 func (s *RedirectSuite) createTestEndpointParams(tb testing.TB) EndpointParams {
@@ -374,8 +372,8 @@ func TestRedirectWithDeny(t *testing.T) {
 
 	expected := policy.MapStateMap{
 		mapKeyAllowAllE: policyTypes.AllowEntry(),
-		mapKeyAllL7:     policyTypes.AllowEntry().WithPriority(1000).WithProxyPort(httpPort).WithListenerPriority(policy.ListenerPriorityHTTP),
-		mapKeyFoo:       policyTypes.DenyEntry().WithPriority(1000),
+		mapKeyAllL7:     policyTypes.AllowEntry().WithProxyPort(httpPort).WithListenerPriority(policy.ListenerPriorityHTTP),
+		mapKeyFoo:       policyTypes.DenyEntry(),
 	}
 
 	ep.ValidateRuleLabels(t, LabelArrayListMap{
@@ -503,8 +501,8 @@ func TestRedirectWithPriority(t *testing.T) {
 
 	expected := policy.MapStateMap{
 		mapKeyAllowAllE: policyTypes.AllowEntry(),
-		mapKeyFooL7:     policyTypes.AllowEntry().WithPriority(1000).WithProxyPort(crd2Port).WithListenerPriority(1),
-		mapKeyAllL7:     policyTypes.AllowEntry().WithPriority(1000),
+		mapKeyFooL7:     policyTypes.AllowEntry().WithProxyPort(crd2Port).WithListenerPriority(1),
+		mapKeyAllL7:     policyTypes.AllowEntry(),
 	}
 	ep.ValidateRuleLabels(t, LabelArrayListMap{
 		mapKeyAllowAllE: labels.LabelArrayList{AllowAnyEgressLabels},
@@ -556,8 +554,8 @@ func TestRedirectWithEqualPriority(t *testing.T) {
 
 	expected := policy.MapStateMap{
 		mapKeyAllowAllE: policyTypes.AllowEntry(),
-		mapKeyFooL7:     policyTypes.AllowEntry().WithPriority(1000).WithProxyPort(crd1Port).WithListenerPriority(1),
-		mapKeyAllL7:     policyTypes.AllowEntry().WithPriority(1000),
+		mapKeyFooL7:     policyTypes.AllowEntry().WithProxyPort(crd1Port).WithListenerPriority(1),
+		mapKeyAllL7:     policyTypes.AllowEntry(),
 	}
 	ep.ValidateRuleLabels(t, LabelArrayListMap{
 		mapKeyAllowAllE: labels.LabelArrayList{AllowAnyEgressLabels},

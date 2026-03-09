@@ -145,8 +145,7 @@
 #   of policy / datapath constructs, serialization and restore from disk.
 # - @cilium/envoy:
 #   Maintain the L7 proxy integration with Envoy. This includes the
-#   configurations for Envoy via xDS protocols as well as the extensible
-#   proxylib framework for Go-based layer 7 filters.
+#   configurations for Envoy via xDS protocols.
 # - @cilium/egress-gateway:
 #   Maintain the egress gateway control plane and datapath logic.
 # - @cilium/fqdn:
@@ -261,6 +260,7 @@
 /.github/workflows/auto-approve.yaml @cilium/cilium-maintainers
 /.github/workflows/*cilium-cli*.yaml @cilium/cli @cilium/github-sec @cilium/ci-structure
 /.github/workflows/*clustermesh*.yaml @cilium/sig-clustermesh @cilium/github-sec @cilium/ci-structure
+/.github/workflows/*mcs-api*.yaml @cilium/sig-clustermesh @cilium/github-sec @cilium/ci-structure
 /.github/workflows/*datapath*.yaml @cilium/sig-datapath @cilium/github-sec @cilium/ci-structure
 /.github/workflows/*gateway-api*.yaml @cilium/sig-servicemesh @cilium/github-sec @cilium/ci-structure
 /.github/workflows/*hubble*.yaml @cilium/sig-hubble @cilium/github-sec @cilium/ci-structure
@@ -721,7 +721,6 @@ Makefile* @cilium/build
 /test/runtime/monitor.go @cilium/sig-hubble @cilium/ci-structure
 # L7 proxy tests
 /test/k8s/fqdn.go @cilium/fqdn @cilium/ci-structure
-/test/k8s/kafka_policies.go @cilium/envoy @cilium/ci-structure
 # BIG TCP tests
 /test/bigtcp @cilium/sig-datapath @cilium/ci-structure
 # Misc. tests

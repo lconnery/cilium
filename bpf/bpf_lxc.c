@@ -104,8 +104,8 @@ lxc_redirect_to_host(struct __ctx_buff *ctx, __u32 src_sec_identity,
 # define ENABLE_PER_PACKET_LB 1
 #endif
 
-#if defined(ENABLE_PER_PACKET_LB) && defined(ENABLE_DSR)
-struct dsr_nat_info {
+#if defined(ENABLE_PER_PACKET_LB) && defined(ENABLE_NODEPORT)
+struct nodeport_nat_info {
 	union v6addr nat_addr;
 	__be16 nat_port;
 };
@@ -113,10 +113,10 @@ struct dsr_nat_info {
 struct {
 	__uint(type, BPF_MAP_TYPE_PERCPU_ARRAY);
 	__type(key, __u32);
-	__type(value, struct dsr_nat_info);
+	__type(value, struct nodeport_nat_info);
 	__uint(max_entries, 1);
-} cilium_dsr_nat_buffer __section_maps_btf;
-#endif /* ENABLE_PER_PACKET_LB && ENABLE_DSR */
+} cilium_nodeport_nat_buffer __section_maps_btf;
+#endif /* ENABLE_PER_PACKET_LB && ENABLE_NODEPORT */
 
 #ifdef ENABLE_IPV4
 static __always_inline void
@@ -187,7 +187,8 @@ static __always_inline int __per_packet_lb_svc_xlate_4(void *ctx, struct iphdr *
 	lb4_fill_key(&key, &tuple);
 
 	svc = lb4_lookup_service(&key, is_defined(ENABLE_NODEPORT));
-#if defined(ENABLE_DSR)
+
+#if defined(ENABLE_NODEPORT)
 	if (!svc) {
 		struct ipv4_ct_tuple tmp = tuple;
 
@@ -201,20 +202,19 @@ static __always_inline int __per_packet_lb_svc_xlate_4(void *ctx, struct iphdr *
 		 */
 		if (!ct_has_egress_entry4(get_ct_map4(&tmp), &tmp)) {
 			svc = lb4_lookup_wildcard_nodeport_service(&key);
-			if (svc && !nodeport_uses_dsr4(svc))
-				svc = NULL;
-
 			if (svc) {
-				struct dsr_nat_info nat_info = {};
+				struct nodeport_nat_info nat_info = {};
 				__u32 zero = 0;
 
 				nat_info.nat_addr.p4 = tuple.daddr;
 				nat_info.nat_port = tuple.sport;
-				map_update_elem(&cilium_dsr_nat_buffer, &zero, &nat_info, 0);
+				map_update_elem(&cilium_nodeport_nat_buffer,
+						&zero, &nat_info, 0);
 			}
 		}
 	}
-#endif /* ENABLE_DSR */
+#endif /* ENABLE_NODEPORT */
+
 	if (svc) {
 		const struct lb4_backend *backend;
 
@@ -365,7 +365,8 @@ static __always_inline int __per_packet_lb_svc_xlate_6(void *ctx, struct ipv6hdr
 	 * state in the address.
 	 */
 	svc = lb6_lookup_service(&key, is_defined(ENABLE_NODEPORT));
-#if defined(ENABLE_DSR)
+
+#if defined(ENABLE_NODEPORT)
 	if (!svc) {
 		struct ipv6_ct_tuple tmp = tuple;
 
@@ -379,20 +380,19 @@ static __always_inline int __per_packet_lb_svc_xlate_6(void *ctx, struct ipv6hdr
 		 */
 		if (!ct_has_egress_entry6(get_ct_map6(&tmp), &tmp)) {
 			svc = lb6_lookup_wildcard_nodeport_service(&key);
-			if (svc && !nodeport_uses_dsr6(svc))
-				svc = NULL;
-
 			if (svc) {
-				struct dsr_nat_info nat_info = {};
+				struct nodeport_nat_info nat_info = {};
 				__u32 zero = 0;
 
 				ipv6_addr_copy(&nat_info.nat_addr, &tuple.daddr);
 				nat_info.nat_port = tuple.sport;
-				map_update_elem(&cilium_dsr_nat_buffer, &zero, &nat_info, 0);
+				map_update_elem(&cilium_nodeport_nat_buffer,
+						&zero, &nat_info, 0);
 			}
 		}
 	}
-#endif /* ENABLE_DSR */
+#endif /* ENABLE_NODEPORT */
+
 	if (svc) {
 		const struct lb6_backend *backend;
 
@@ -836,7 +836,7 @@ static __always_inline int handle_ipv6_from_lxc(struct __ctx_buff *ctx, __u32 *d
 		.reason = TRACE_REASON_UNKNOWN,
 		.monitor = 0,
 	};
-	struct dsr_nat_info *nat_info __maybe_unused;
+	struct nodeport_nat_info *nat_info __maybe_unused;
 	bool __maybe_unused skip_tunnel = false;
 	bool hairpin_flow = false;
 	enum ct_status ct_status;
@@ -882,8 +882,8 @@ static __always_inline int handle_ipv6_from_lxc(struct __ctx_buff *ctx, __u32 *d
 	lb6_ctx_restore_state(ctx, &ct_state_new, &proxy_port, true);
 	hairpin_flow = ct_state_new.loopback;
 
-#if defined(ENABLE_DSR)
-	nat_info = map_lookup_elem(&cilium_dsr_nat_buffer, &zero);
+#if defined(ENABLE_NODEPORT)
+	nat_info = map_lookup_elem(&cilium_nodeport_nat_buffer, &zero);
 	if (nat_info) {
 		ipv6_addr_copy(&ct_state_new.nat_addr, &nat_info->nat_addr);
 		ct_state_new.nat_port = nat_info->nat_port;
@@ -891,7 +891,7 @@ static __always_inline int handle_ipv6_from_lxc(struct __ctx_buff *ctx, __u32 *d
 		memset(&nat_info->nat_addr, 0, sizeof(nat_info->nat_addr));
 		nat_info->nat_port = 0;
 	}
-#endif /* ENABLE_DSR */
+#endif /* ENABLE_NODEPORT */
 #endif /* ENABLE_PER_PACKET_LB */
 
 	ct_buffer = map_lookup_elem(&cilium_tail_call_buffer6, &zero);
@@ -1068,19 +1068,19 @@ static __always_inline int __tail_handle_ipv6(struct __ctx_buff *ctx,
 {
 	void *data, *data_end;
 	struct ipv6hdr *ip6;
-	fraginfo_t fraginfo __maybe_unused;
 	bool from_l7lb = false;
 
 	if (!revalidate_data_pull(ctx, &data, &data_end, &ip6))
 		return DROP_INVALID;
 
-#ifndef ENABLE_IPV6_FRAGMENTS
-	fraginfo = ipv6_get_fraginfo(ctx, ip6);
-	if (fraginfo < 0)
-		return (int)fraginfo;
-	if (ipfrag_is_fragment(fraginfo))
-		return DROP_FRAG_NOSUPPORT;
-#endif
+	if (!CONFIG(enable_ipv6_fragments)) {
+		fraginfo_t fraginfo = ipv6_get_fraginfo(ctx, ip6);
+
+		if (fraginfo < 0)
+			return (int)fraginfo;
+		if (ipfrag_is_fragment(fraginfo))
+			return DROP_FRAG_NOSUPPORT;
+	}
 
 	/* Handle special ICMPv6 NDP messages, and all remaining packets
 	 * are subjected to forwarding into the container.
@@ -1256,15 +1256,13 @@ ipv4_forward_to_destination(struct __ctx_buff *ctx, struct iphdr *ip4,
 	 */
 #if defined(ENABLE_VTEP)
 	{
-		struct vtep_key vkey = {};
-		struct vtep_value *vtep;
+		struct vtep_key vkey = {
+			.vtep_ip = ip4->daddr & CONFIG(vtep_mask),
+		};
+		const struct vtep_value *vtep;
 
-		vkey.vtep_ip = ip4->daddr & CONFIG(vtep_mask);
 		vtep = map_lookup_elem(&cilium_vtep_map, &vkey);
-		if (!vtep)
-			goto skip_vtep;
-
-		if (vtep->vtep_mac && vtep->tunnel_endpoint) {
+		if (vtep && vtep->vtep_mac && vtep->tunnel_endpoint) {
 			if (eth_store_daddr(ctx, (__u8 *)&vtep->vtep_mac, 0) < 0)
 				return DROP_WRITE_ERROR;
 			fake_info.tunnel_endpoint.ip4 = vtep->tunnel_endpoint;
@@ -1275,7 +1273,6 @@ ipv4_forward_to_destination(struct __ctx_buff *ctx, struct iphdr *ip4,
 								bpf_htons(ETH_P_IP));
 		}
 	}
-skip_vtep:
 #endif
 
 #if defined(TUNNEL_MODE)
@@ -1380,7 +1377,7 @@ static __always_inline int handle_ipv4_from_lxc(struct __ctx_buff *ctx, __u32 *d
 		.reason = TRACE_REASON_UNKNOWN,
 		.monitor = 0,
 	};
-	struct dsr_nat_info *nat_info __maybe_unused;
+	struct nodeport_nat_info *nat_info __maybe_unused;
 	bool __maybe_unused skip_tunnel = false;
 	bool hairpin_flow = false; /* endpoint wants to access itself via service IP */
 	__u8 policy_match_type = POLICY_MATCH_NONE;
@@ -1403,8 +1400,8 @@ static __always_inline int handle_ipv4_from_lxc(struct __ctx_buff *ctx, __u32 *d
 	lb4_ctx_restore_state(ctx, &ct_state_new, &proxy_port, &cluster_id, true);
 	hairpin_flow = ct_state_new.loopback;
 
-#if defined(ENABLE_DSR)
-	nat_info = map_lookup_elem(&cilium_dsr_nat_buffer, &zero);
+#if defined(ENABLE_NODEPORT)
+	nat_info = map_lookup_elem(&cilium_nodeport_nat_buffer, &zero);
 	if (nat_info) {
 		ipv6_addr_copy(&ct_state_new.nat_addr, &nat_info->nat_addr);
 		ct_state_new.nat_port = nat_info->nat_port;
@@ -1412,7 +1409,7 @@ static __always_inline int handle_ipv4_from_lxc(struct __ctx_buff *ctx, __u32 *d
 		memset(&nat_info->nat_addr, 0, sizeof(nat_info->nat_addr));
 		nat_info->nat_port = 0;
 	}
-#endif /* ENABLE_DSR */
+#endif /* ENABLE_NODEPORT */
 #endif /* ENABLE_PER_PACKET_LB */
 
 	bool same_subnet_id = false;
@@ -1645,21 +1642,20 @@ static __always_inline int __tail_handle_ipv4(struct __ctx_buff *ctx,
 {
 	void *data, *data_end;
 	struct iphdr *ip4;
-	fraginfo_t fraginfo __maybe_unused;
 	bool from_l7lb = false;
 
 	if (!revalidate_data_pull(ctx, &data, &data_end, &ip4))
 		return DROP_INVALID;
 
-/* If IPv4 fragmentation is disabled
- * AND a IPv4 fragmented packet is received,
- * then drop the packet.
- */
-#ifndef ENABLE_IPV4_FRAGMENTS
-	fraginfo = ipfrag_encode_ipv4(ip4);
-	if (ipfrag_is_fragment(fraginfo))
-		return DROP_FRAG_NOSUPPORT;
-#endif
+	/* If IPv4 fragmentation is disabled AND an IPv4 fragmented packet is
+	 * received, then drop the packet.
+	 */
+	if (!CONFIG(enable_ipv4_fragments)) {
+		fraginfo_t fraginfo = ipfrag_encode_ipv4(ip4);
+
+		if (ipfrag_is_fragment(fraginfo))
+			return DROP_FRAG_NOSUPPORT;
+	}
 
 #ifdef ENABLE_L7_LB
 	from_l7lb = ctx_load_meta(ctx, CB_FROM_HOST) == FROM_HOST_L7_LB;
@@ -1819,7 +1815,7 @@ ipv6_policy(struct __ctx_buff *ctx, struct ipv6hdr *ip6, __u32 src_label,
 	struct ct_state *ct_state, ct_state_new = {};
 	int ifindex = CONFIG(interface_ifindex);
 	struct ipv6_ct_tuple *tuple;
-	bool is_untracked_fragment = false;
+	bool is_untracked_fragment;
 	fraginfo_t fraginfo;
 	int ret, verdict, l4_off, zero = 0;
 	struct ct_buffer6 *ct_buffer;
@@ -1848,12 +1844,10 @@ ipv6_policy(struct __ctx_buff *ctx, struct ipv6hdr *ip6, __u32 src_label,
 	l4_off = ct_buffer->l4_off;
 	fraginfo = ct_buffer->fraginfo;
 
-#ifndef ENABLE_IPV6_FRAGMENTS
 	/* Indicate that this is a datagram fragment for which we cannot
 	 * retrieve L4 ports. Do not set flag if we support fragmentation.
 	 */
-	is_untracked_fragment = ipfrag_is_fragment(fraginfo);
-#endif
+	is_untracked_fragment = !CONFIG(enable_ipv6_fragments) && ipfrag_is_fragment(fraginfo);
 
 	switch (ret) {
 	case CT_REPLY:
@@ -2018,7 +2012,7 @@ int tail_ipv6_policy(struct __ctx_buff *ctx)
 
 		if (do_redirect)
 			ret = redirect_ep(ctx, CONFIG(interface_ifindex),
-					  should_fast_redirect(ctx, from_host),
+					  should_redirect_peer(from_host),
 					  from_tunnel);
 		break;
 	default:
@@ -2124,7 +2118,7 @@ ipv4_policy(struct __ctx_buff *ctx, struct iphdr *ip4, __u32 src_label,
 	int ifindex = CONFIG(interface_ifindex);
 	struct ipv4_ct_tuple *tuple;
 	fraginfo_t fraginfo;
-	bool is_untracked_fragment = false;
+	bool is_untracked_fragment;
 	struct ct_buffer4 *ct_buffer;
 	struct trace_ctx trace;
 	int ret, verdict, l4_off;
@@ -2139,12 +2133,10 @@ ipv4_policy(struct __ctx_buff *ctx, struct iphdr *ip4, __u32 src_label,
 
 	orig_sip = ip4->saddr;
 
-#ifndef ENABLE_IPV4_FRAGMENTS
 	/* Indicate that this is a datagram fragment for which we cannot
 	 * retrieve L4 ports. Do not set flag if we support fragmentation.
 	 */
-	is_untracked_fragment = ipfrag_is_fragment(fraginfo);
-#endif
+	is_untracked_fragment = !CONFIG(enable_ipv4_fragments) && ipfrag_is_fragment(fraginfo);
 
 	ct_buffer = map_lookup_elem(&cilium_tail_call_buffer4, &zero);
 	if (!ct_buffer)
@@ -2342,7 +2334,7 @@ int tail_ipv4_policy(struct __ctx_buff *ctx)
 
 		if (do_redirect)
 			ret = redirect_ep(ctx, CONFIG(interface_ifindex),
-					  should_fast_redirect(ctx, from_host),
+					  should_redirect_peer(from_host),
 					  from_tunnel);
 		break;
 	default:
@@ -2550,7 +2542,7 @@ out:
 
 	return ret;
 #else
-	return 0;
+	return CTX_ACT_OK;
 #endif
 }
 

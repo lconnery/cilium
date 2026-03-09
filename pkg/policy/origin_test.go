@@ -11,6 +11,7 @@ import (
 
 	"github.com/cilium/cilium/pkg/labels"
 	"github.com/cilium/cilium/pkg/policy/api"
+	"github.com/cilium/cilium/pkg/policy/types"
 	"github.com/cilium/cilium/pkg/policy/utils"
 )
 
@@ -98,10 +99,10 @@ func TestOriginMerge(t *testing.T) {
 
 	// Expected incorrectly has rule origin from both rules!
 	expected := NewL4PolicyMapWithValues(map[string]*L4Filter{"80/TCP": {
-		Tier: 1, Port: 80, Protocol: api.ProtoTCP, U8Proto: 6,
+		Tier: types.Normal, Port: 80, Protocol: api.ProtoTCP, U8Proto: 6,
 		Ingress: false,
 		PerSelectorPolicies: L7DataMap{
-			td.cachedSelectorB: &PerSelectorPolicy{Priority: 1000},
+			td.cachedSelectorB: nil,
 		},
 		RuleOrigin: OriginLogsForTest(map[CachedSelector]string{
 			td.cachedSelectorB: "rule2",

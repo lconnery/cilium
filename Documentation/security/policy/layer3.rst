@@ -486,7 +486,7 @@ DNS requests themselves, see :ref:`l7_policy`.
 	In order to associate domain names with IP addresses, Cilium intercepts
 	DNS responses per-Endpoint using a `DNS Proxy`. This requires Cilium
 	to be configured with ``--enable-l7-proxy=true`` and an L7 policy allowing
-	DNS requests. For more details, see :ref:`DNS Obtaining Data`.
+	DNS requests (``rules.dns`` YAML block). For more details, see :ref:`DNS Obtaining Data`.
 
 An L3 `CIDR based`_ rule is generated for every ``toFQDNs``
 rule and applies to the same endpoints. The IP information is selected for
@@ -502,7 +502,7 @@ a single egress rule.
 ``toFQDNs`` egress rules cannot contain any other L3 rules, such as
 ``toEndpoints`` (under `Endpoints Based`_) and ``toCIDRs`` (under `CIDR Based`_).
 They may contain L4/L7 rules, such as ``toPorts`` (see :ref:`l4_policy`)
-with, optionally, ``HTTP`` and ``Kafka`` sections (see :ref:`l7_policy`).
+with, optionally, ``HTTP`` section (see :ref:`l7_policy`).
 
 .. note:: DNS based rules are intended for external connections and behave
           similarly to `CIDR based`_ rules. See `Services based`_ and

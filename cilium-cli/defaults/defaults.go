@@ -177,12 +177,12 @@ var (
 		// renovate: datasource=docker
 		"ConnectivityTestFRRImage": "quay.io/frrouting/frr:10.5.1@sha256:848482643a8d6f56452b659ea68f6138472bb57414a4f295a7c4107a0416269c",
 		// renovate: datasource=docker
-		"ConnectivityTestSocatImage": "docker.io/alpine/socat:1.8.0.3@sha256:9a44e2731464d8eeb1c1d36fb25c0335fb166ce1064534a2ac53556c4dcd8fb5",
+		"ConnectivityTestSocatImage": "docker.io/alpine/socat:1.8.0.3@sha256:4faaec291d6193614d02c24185842e4cea76b5d86679c6d4d156d0c96dee9752",
 	}
 
 	ConnectivityCheckOptionalImagesTest = map[string]string{
 		// renovate: datasource=docker
-		"ConnectivityTestEchoImage": "gcr.io/k8s-staging-gateway-api/echo-advanced:v20240412-v1.0.0-394-g40c666fd",
+		"ConnectivityTestEchoImage": "gcr.io/k8s-staging-gateway-api/echo-advanced:v20251204-v1.4.1",
 	}
 
 	ConnectivityCheckImagesPerf = map[string]string{
